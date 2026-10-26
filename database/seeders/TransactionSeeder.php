@@ -20,7 +20,8 @@ class TransactionSeeder extends Seeder
     {
         $admin = User::where('email', 'admin@hijabsociety.com')->first() 
             ?? User::where('role', 'admin')->first();
-        $staffGudang = User::where('email', 'budi.staff@hijabsociety.com')->first() 
+        $staffGudang = User::where('email', 'cecep.staff@hijabsociety.com')->first() 
+            ?? User::where('name', 'like', '%Cecep%')->first()
             ?? $admin;
         $kasir = User::where('email', 'staff@hijabsociety.com')->first() 
             ?? $admin;

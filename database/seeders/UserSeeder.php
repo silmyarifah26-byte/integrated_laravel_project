@@ -31,8 +31,8 @@ class UserSeeder extends Seeder
                 'address' => 'Jl. Buah Batu Raya No. 120, Bandung',
             ],
             [
-                'name' => 'Budi Santoso (Staff Gudang & Inventori)',
-                'email' => 'budi.staff@hijabsociety.com',
+                'name' => 'Cecep (Staff Gudang & Inventori)',
+                'email' => 'cecep.staff@hijabsociety.com',
                 'role' => 'staff',
                 'password' => Hash::make('password123'),
                 'phone' => '081234567892',
@@ -72,8 +72,8 @@ class UserSeeder extends Seeder
                 'address' => 'Bandung',
             ],
             [
-                'name' => 'Staff Gudang Legacy',
-                'email' => 'budi.staff@bonekaku.test',
+                'name' => 'Staff Gudang Legacy (Cecep)',
+                'email' => 'cecep.staff@bonekaku.test',
                 'role' => 'staff',
                 'password' => Hash::make('password123'),
                 'phone' => '081234567897',
