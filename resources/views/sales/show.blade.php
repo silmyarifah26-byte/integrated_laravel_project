@@ -143,7 +143,7 @@
                                 </td>
                                 <td class="px-5 py-3.5">
                                     <div class="flex items-center space-x-3">
-                                        <img src="{{ asset($item->product->image_url ?? 'images/hijab/pashmina-ceruty.svg') }}" 
+                                        <img src="{{ asset($item->product->image_path ?? 'images/hijab/pashmina-ceruty.svg') }}" 
                                              alt="{{ $item->product->name ?? 'Hijab' }}" 
                                              class="w-12 h-12 object-cover rounded-xl border border-pink-100 flex-shrink-0 shadow-xs">
                                         <div>

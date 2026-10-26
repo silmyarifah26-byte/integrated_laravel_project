@@ -482,7 +482,7 @@
                         <div>
                             <!-- Foto Hijab Pilihan -->
                             <div class="w-full h-52 rounded-2xl overflow-hidden mb-3 relative group-hover:scale-[1.02] transition-transform duration-200 bg-slate-100 border border-pink-100">
-                                <img src="{{ asset($item->image_url ?? 'images/hijab/pashmina-ceruty.svg') }}" 
+                                <img src="{{ asset($item->image_path) }}" 
                                      alt="{{ $item->name }}" 
                                      class="object-cover object-center w-full h-52 rounded-2xl">
                                 

@@ -138,7 +138,8 @@ class ProductController extends Controller
 
         $validated['stock'] = $validated['stock'] ?? 0;
         if (empty($validated['image_url'])) {
-            $validated['image_url'] = '/images/hijab/pashmina-ceruty.svg';
+            $temp = new Product($validated);
+            $validated['image_url'] = $temp->getDefaultPlaceholderImage();
         }
 
         Product::create($validated);
@@ -215,7 +216,7 @@ class ProductController extends Controller
         }
 
         if (empty($validated['image_url'])) {
-            $validated['image_url'] = $product->image_url ?: '/images/hijab/pashmina-ceruty.svg';
+            $validated['image_url'] = $product->image_url ?: $product->getDefaultPlaceholderImage();
         }
 
         $product->update($validated);

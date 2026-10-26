@@ -4,7 +4,7 @@
 [![PHP Version](https://img.shields.io/badge/PHP-%3E%3D8.2-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
 [![MySQL Database](https://img.shields.io/badge/MySQL-8.x%20%2F%20XAMPP-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-CDN-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-[![Tests Passing](https://img.shields.io/badge/Automated_Tests-71_Passed_(100%25)-success?style=for-the-badge&logo=checkmarx&logoColor=white)](#8-panduan-pengujian-otomatis-automated-testing-guide)
+[![Tests Passing](https://img.shields.io/badge/Automated_Tests-72_Passed_(100%25)-success?style=for-the-badge&logo=checkmarx&logoColor=white)](#9-panduan-pengujian-otomatis-automated-testing-guide)
 
 Aplikasi Web Terintegrasi untuk **Sistem Manajemen Inventaris & Transaksi Penjualan Toko Hijab "HijabSociety" (Modern, Chic & Syar'i Hijab Store)**, dibangun dengan tema visual **Soft Rose & Neutral Aesthetic yang elegan, bersih, dan modern** sebagai pemenuhan **Tugas Ujian Tengah Semester (UTS) Mata Kuliah Web Programming 2**.
 
@@ -352,12 +352,14 @@ Controller [`app/Http/Controllers/DashboardController.php`](app/Http/Controllers
    - Pembatalan transaksi penjualan oleh Admin mengembalikan stok produk ke gudang secara otomatis (*restoration*).
 5. **Pencegahan N+1 Query**:
    Semua relasi produk dan kategori pada katalog dan tabel master dioptimalkan dengan Eager Loading (`with('category')`).
+6. **Penyimpanan Gambar Produk Otomatis via Database Seeder & Helper `asset()`**:
+   Setiap produk hijab dilengkapi dengan gambar placeholder/dummy vektor estetik (SVG) sesuai kategori (Pashmina Ceruty, Silk, Rayon, Segi Empat Voal, Paris, Motif, Bergo Hamidah, Sport, Khimar French, dan Inner Ciput). Sistem secara otomatis mengalokasikan placeholder yang tepat saat seeding maupun saat pembuatan produk baru tanpa admin harus menginput manual satu per satu, dan seluruh Blade view merendernya secara otomatis menggunakan helper bawaan `asset($product->image_path)`.
 
 ---
 
 ## 9. Panduan Pengujian Otomatis (Automated Testing Guide)
 
-Aplikasi memiliki rangkaian pengujian otomatis lengkap yang mencakup autentikasi multi-portal, pembagian hak akses (*authorization*), master data, mutasi produk, transaksi pembelian (Stock-In), transaksi kasir penjualan (Stock-Out), dan kontrol konkurensi database.
+Aplikasi memiliki rangkaian pengujian otomatis lengkap yang mencakup autentikasi multi-portal, pembagian hak akses (*authorization*), master data, mutasi produk, alokasi gambar placeholder estetik, transaksi pembelian (Stock-In), transaksi kasir penjualan (Stock-Out), dan kontrol konkurensi database.
 
 ### Menjalankan Automated Test
 Jalankan perintah berikut pada terminal project:
@@ -365,7 +367,7 @@ Jalankan perintah berikut pada terminal project:
 php artisan test
 ```
 
-### Hasil Verifikasi Pengujian (71 Passed, 399 Assertions - 100% Green):
+### Hasil Verifikasi Pengujian (72 Passed, 411 Assertions - 100% Green):
 ```text
    PASS  Tests\Unit\ExampleTest
   ✓ that true is true                                                              0.01s
@@ -380,20 +382,20 @@ php artisan test
   ✓ customer cannot access admin or staff routes                                   0.02s
   ✓ customer can access dashboard                                                  0.03s
   ✓ user can login with valid credentials                                          0.04s
-  ✓ user cannot login with invalid password                                        0.23s
+  ✓ user cannot login with invalid password                                        0.25s
   ✓ login with mismatched portal role is rejected                                  0.04s
-  ✓ login with matching portal role succeeds                                       0.05s
+  ✓ login with matching portal role succeeds                                       0.04s
   ✓ customer login requires name                                                   0.03s
-  ✓ customer login with new name updates account and isolates orders               0.05s
-  ✓ customer can login without password                                            0.04s
+  ✓ customer login with new name updates account and isolates orders               0.04s
+  ✓ customer can login without password                                            0.03s
   ✓ staff and admin portals still require password                                 0.03s
-  ✓ csrf token mismatch redirects back with friendly message                       0.02s
-  ✓ gates differentiate roles and permissions                                     0.03s
+  ✓ csrf token mismatch redirects back with friendly message                       0.03s
+  ✓ gates differentiate roles and permissions                                     0.02s
   ✓ logout clears authenticated session                                           0.03s
 
    PASS  Tests\Feature\DashboardTest (3 tests)
   ✓ admin dashboard displays aggregate metrics and low stock table                 0.05s
-  ✓ staff dashboard displays operational metrics and low stock monitoring          0.03s
+  ✓ staff dashboard displays operational metrics and low stock monitoring          0.04s
   ✓ customer dashboard displays order history and doll recommendations             0.05s
 
    PASS  Tests\Feature\ExampleTest (1 test)
@@ -405,25 +407,26 @@ php artisan test
   ✓ admin can create category with validation                                      0.03s
   ✓ category cannot be deleted if has products                                     0.03s
   ✓ supplier cannot be deleted if has purchases                                    0.03s
-  ✓ admin can create product with validation                                       0.04s
+  ✓ admin can create product with validation                                       0.03s
   ✓ admin can upload product photo                                                 0.04s
-  ✓ product soft delete preserves transaction integrity                            0.03s
+  ✓ product soft delete preserves transaction integrity                            0.04s
   ✓ admin cannot delete self in user management                                    0.03s
   ✓ admin can update category with unique validation                               0.03s
   ✓ admin can delete category without products                                     0.03s
-  ✓ admin can crud supplier successfully                                           0.03s
+  ✓ admin can crud supplier successfully                                           0.05s
   ✓ admin can crud user in user management                                         0.04s
   ✓ admin cannot delete user with transaction history                             0.03s
   ✓ user management search and role filter                                         0.03s
 
-   PASS  Tests\Feature\ProductModuleTest (7 tests)
-  ✓ product index eager loads category preventing n plus one                       0.05s
-  ✓ product index search by name and sku                                           0.04s
+   PASS  Tests\Feature\ProductModuleTest (8 tests)
+  ✓ product index eager loads category preventing n plus one                       0.06s
+  ✓ product index search by name and sku                                           0.05s
   ✓ product index filter by category                                               0.03s
-  ✓ product index pagination                                                       0.04s
+  ✓ product index pagination                                                       0.05s
   ✓ product create strict server side validation                                   0.04s
   ✓ product update strict validation                                               0.04s
   ✓ customer role catalog view and mutation protection                             0.04s
+  ✓ product automatically assigned aesthetic placeholder and renders via asset helper 0.04s
 
    PASS  Tests\Feature\PurchaseTest (8 tests)
   ✓ staff and admin can access purchases index and create                          0.05s
@@ -437,27 +440,27 @@ php artisan test
 
    PASS  Tests\Feature\SaleTest (10 tests)
   ✓ all roles can access sales index and create                                    0.05s
-  ✓ customer can create self order and stock is decremented                        0.03s
+  ✓ customer can create self order and stock is decremented                        0.04s
   ✓ insufficient stock causes transaction rollback                                 0.03s
   ✓ customer cannot view other customers receipt                                   0.05s
   ✓ staff cannot cancel sale but admin can and stock is restored                   0.04s
   ✓ sale persists payment method and payment status                                0.03s
   ✓ customer sales index does not show new order button and syncs with dashboard   0.04s
-  ✓ sales create with product id preselects product in cart                        0.03s
-  ✓ server enforces selling price from database ignoring browser input             0.04s
-  ✓ reject sale when quantity is less than one                                     0.04s
+  ✓ sales create with product id preselects product in cart                        0.04s
+  ✓ server enforces selling price from database ignoring browser input             0.03s
+  ✓ reject sale when quantity is less than one                                     0.03s
 
    PASS  Tests\Feature\UtsInventorySalesTest (7 tests)
   ✓ guest cannot access dashboard                                                  0.03s
-  ✓ admin cannot create product with duplicate sku or negative price               0.03s
+  ✓ admin cannot create product with duplicate sku or negative price               0.04s
   ✓ purchase transaction increases product stock                                   0.03s
   ✓ sale transaction decreases product stock                                       0.04s
   ✓ sale with insufficient stock is rejected and stock unchanged                   0.03s
   ✓ sale atomicity rolls back all items if second item fails                       0.03s
   ✓ authorization prevents staff and customer from accessing admin routes          0.06s
 
-  Tests:    71 passed (399 assertions)
-  Duration: 4.13s
+  Tests:    72 passed (411 assertions)
+  Duration: 3.50s
 ```
 
 ---

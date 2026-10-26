@@ -97,8 +97,15 @@
                                     {{ $index + 1 }}
                                 </td>
                                 <td class="px-5 py-3.5">
-                                    <div class="font-extrabold text-slate-900">{{ $item->product->name ?? 'Produk Dihapus' }}</div>
-                                    <div class="text-[11px] text-slate-400 font-mono">{{ $item->product->sku ?? '-' }}</div>
+                                    <div class="flex items-center space-x-3">
+                                        <img src="{{ asset($item->product->image_path ?? 'images/hijab/pashmina-ceruty.svg') }}" 
+                                             alt="{{ $item->product->name ?? 'Hijab' }}" 
+                                             class="w-10 h-10 object-cover rounded-xl border border-blue-100 flex-shrink-0 shadow-xs">
+                                        <div>
+                                            <div class="font-extrabold text-slate-900">{{ $item->product->name ?? 'Produk Dihapus' }}</div>
+                                            <div class="text-[11px] text-slate-400 font-mono">{{ $item->product->sku ?? '-' }}</div>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td class="px-5 py-3.5 text-xs">
                                     <span class="font-semibold text-slate-700">{{ $item->product->category->name ?? '-' }}</span>

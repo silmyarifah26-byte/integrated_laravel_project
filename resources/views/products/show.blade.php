@@ -19,7 +19,7 @@
         <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
             <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-5">
                 <div class="w-36 h-36 sm:w-48 sm:h-48 rounded-3xl overflow-hidden border border-pink-100 flex-shrink-0 shadow-sm bg-slate-100">
-                    <img src="{{ asset($product->image_url ?? 'images/hijab/pashmina-ceruty.svg') }}" 
+                    <img src="{{ asset($product->image_path) }}" 
                          alt="{{ $product->name }}" 
                          class="w-full h-full object-cover object-center">
                 </div>

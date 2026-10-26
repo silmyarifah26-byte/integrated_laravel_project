@@ -352,4 +352,45 @@ class ProductModuleTest extends TestCase
             'name' => 'Produk Ilegal',
         ])->assertStatus(403);
     }
+
+    public function test_product_automatically_assigned_aesthetic_placeholder_and_renders_via_asset_helper(): void
+    {
+        // 1. Admin creates product via POST without providing image_url or image_file
+        $response = $this->actingAs($this->admin)->post('/products', [
+            'category_id' => $this->categoryHijab->id,
+            'sku' => 'HJB-AUTO-IMG',
+            'name' => 'Pashmina Silk Auto Placeholder',
+            'purchase_price' => 40000,
+            'selling_price' => 75000,
+            'stock' => 15,
+            'minimum_stock' => 5,
+            // image_url and image_file omitted
+        ]);
+
+        $response->assertRedirect('/products');
+        $this->assertDatabaseHas('products', [
+            'sku' => 'HJB-AUTO-IMG',
+        ]);
+
+        $product = Product::where('sku', 'HJB-AUTO-IMG')->firstOrFail();
+
+        // 2. Assert automatic placeholder assignment
+        $this->assertNotEmpty($product->image_url);
+        $this->assertStringContainsString('images/hijab/', $product->image_url);
+        $this->assertStringContainsString('pashmina-silk.jpg', $product->image_url);
+
+        // 3. Assert asset helper returns valid web path
+        $this->assertEquals(asset($product->image_path), $product->image_asset_url);
+
+        // 4. Assert rendered correctly in catalog view using asset()
+        $catalogResponse = $this->actingAs($this->customer)->get('/products');
+        $catalogResponse->assertStatus(200);
+        $catalogResponse->assertSee($product->image_path);
+        $catalogResponse->assertSee('Pashmina Silk Auto Placeholder');
+
+        // 5. Assert rendered correctly in admin product index
+        $indexResponse = $this->actingAs($this->admin)->get('/products');
+        $indexResponse->assertStatus(200);
+        $indexResponse->assertSee($product->image_path);
+    }
 }

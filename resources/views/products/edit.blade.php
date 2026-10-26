@@ -148,7 +148,7 @@
                 </label>
 
                 <div class="flex items-center space-x-4 mb-2">
-                    <img src="{{ asset($product->image_url ?? 'images/hijab/pashmina-ceruty.svg') }}" 
+                    <img src="{{ asset($product->image_path) }}" 
                          alt="{{ $product->name }}" 
                          id="current_image_preview"
                          class="w-16 h-16 object-cover rounded-2xl bg-pink-50 border border-pink-100 shadow-xs flex-shrink-0">
@@ -186,16 +186,16 @@
                         <span class="text-[11px] font-bold text-slate-500">Pilih Cepat Koleksi Asli:</span>
                         @php
                             $presets = [
-                                ['label' => '🧕 Pashmina Ceruty', 'path' => 'images/hijab/pashmina-ceruty.svg'],
-                                ['label' => '✨ Pashmina Silk', 'path' => 'images/hijab/pashmina-silk.svg'],
-                                ['label' => '🌿 Pashmina Rayon', 'path' => 'images/hijab/pashmina-rayon.svg'],
-                                ['label' => '🌸 Segi Empat Voal', 'path' => 'images/hijab/segiempat-voal.svg'],
-                                ['label' => '🎀 Segi Empat Paris', 'path' => 'images/hijab/segiempat-paris.svg'],
-                                ['label' => '🎨 Segi Empat Motif', 'path' => 'images/hijab/segiempat-motif.svg'],
-                                ['label' => '⚡ Bergo Hamidah', 'path' => 'images/hijab/bergo-hamidah.svg'],
-                                ['label' => '🏃‍♀️ Bergo Sport', 'path' => 'images/hijab/bergo-sport.svg'],
-                                ['label' => '🕊️ Khimar French', 'path' => 'images/hijab/khimar-french.svg'],
-                                ['label' => '👑 Inner Ciput Rajut', 'path' => 'images/hijab/inner-ciput.svg'],
+                                ['label' => '🧕 Pashmina Ceruty', 'path' => 'images/hijab/pashmina-ceruty.jpg'],
+                                ['label' => '✨ Pashmina Silk', 'path' => 'images/hijab/pashmina-silk.jpg'],
+                                ['label' => '🌿 Pashmina Rayon', 'path' => 'images/hijab/pashmina-rayon.jpg'],
+                                ['label' => '🌸 Segi Empat Voal', 'path' => 'images/hijab/segiempat-voal.jpg'],
+                                ['label' => '🎀 Segi Empat Paris', 'path' => 'images/hijab/segiempat-paris.jpg'],
+                                ['label' => '🎨 Segi Empat Motif', 'path' => 'images/hijab/segiempat-motif.jpg'],
+                                ['label' => '⚡ Bergo Hamidah', 'path' => 'images/hijab/bergo-hamidah.jpg'],
+                                ['label' => '🏃‍♀️ Bergo Sport', 'path' => 'images/hijab/bergo-sport.jpg'],
+                                ['label' => '🕊️ Khimar French', 'path' => 'images/hijab/khimar-french.jpg'],
+                                ['label' => '👑 Inner Ciput Rajut', 'path' => 'images/hijab/inner-ciput.jpg'],
                             ];
                         @endphp
                         @foreach($presets as $pr)

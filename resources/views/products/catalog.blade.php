@@ -55,9 +55,9 @@
         @forelse($products as $item)
             <div class="bg-white rounded-3xl border border-pink-100 p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-200 flex flex-col justify-between group">
                 <div>
-                    <!-- Real Plushie Photo -->
+                    <!-- Foto Hijab Otomatis -->
                     <div class="w-full h-52 rounded-2xl overflow-hidden mb-3 relative group-hover:scale-[1.02] transition-transform duration-200 bg-slate-100 border border-pink-100">
-                        <img src="{{ asset($item->image_url ?? 'images/hijab/pashmina-ceruty.svg') }}" 
+                        <img src="{{ asset($item->image_path) }}" 
                              alt="{{ $item->name }}" 
                              class="object-cover object-center w-full h-52 rounded-2xl">
                         

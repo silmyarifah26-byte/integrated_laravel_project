@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
 
 class ProductSeeder extends Seeder
 {
@@ -13,6 +14,9 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
+        // Ensure image asset directory exists
+        File::ensureDirectoryExists(public_path('images/hijab'));
+
         $categories = Category::pluck('id', 'name');
 
         $products = [
@@ -22,7 +26,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Pashmina Ceruty Babydoll Premium Rose Dust',
                 'size' => '175 x 75 cm',
                 'material' => 'Ceruty Babydoll Armani Original (Jatuh & Flowy)',
-                'image_url' => 'images/hijab/pashmina-ceruty.svg',
+                'image_url' => 'images/hijab/pashmina-ceruty.jpg',
                 'purchase_price' => 25000.00,
                 'selling_price' => 45000.00,
                 'stock' => 25,
@@ -34,7 +38,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Pashmina Silk Cradenza Shimmer Champagne',
                 'size' => '180 x 75 cm',
                 'material' => 'Silk Cradenza Shimmering Glossy Lux',
-                'image_url' => 'images/hijab/pashmina-silk.svg',
+                'image_url' => 'images/hijab/pashmina-silk.jpg',
                 'purchase_price' => 35000.00,
                 'selling_price' => 65000.00,
                 'stock' => 3, // Low stock alert (3 <= 5)
@@ -46,7 +50,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Pashmina Kaos Modal Rayon Soft Beige',
                 'size' => '180 x 70 cm',
                 'material' => 'Kaos Modal Rayon Super Adem & Elastis',
-                'image_url' => 'images/hijab/pashmina-rayon.svg',
+                'image_url' => 'images/hijab/pashmina-rayon.jpg',
                 'purchase_price' => 28000.00,
                 'selling_price' => 49000.00,
                 'stock' => 18,
@@ -58,7 +62,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Segi Empat Voal Ultrafine Laser Cut Sage',
                 'size' => '115 x 115 cm',
                 'material' => 'Voal Ultrafine Tryspan Anti Letoy (Tegak Paripurna)',
-                'image_url' => 'images/hijab/segiempat-voal.svg',
+                'image_url' => 'images/hijab/segiempat-voal.jpg',
                 'purchase_price' => 30000.00,
                 'selling_price' => 55000.00,
                 'stock' => 30,
@@ -70,7 +74,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Segi Empat Paris Premium Jadul Lavender',
                 'size' => '110 x 110 cm',
                 'material' => 'Katun Paris Premium Serat Halus & Ringan',
-                'image_url' => 'images/hijab/segiempat-paris.svg',
+                'image_url' => 'images/hijab/segiempat-paris.jpg',
                 'purchase_price' => 18000.00,
                 'selling_price' => 35000.00,
                 'stock' => 2, // Low stock alert (2 <= 5)
@@ -82,7 +86,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Segi Empat Motif Silk Eksklusif Botanical Royal',
                 'size' => '120 x 120 cm',
                 'material' => 'Velvet Silk Digital Printing Non-Slip',
-                'image_url' => 'images/hijab/segiempat-motif.svg',
+                'image_url' => 'images/hijab/segiempat-motif.jpg',
                 'purchase_price' => 45000.00,
                 'selling_price' => 85000.00,
                 'stock' => 12,
@@ -94,7 +98,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Bergo Hamidah Daily Jersey Instan Peach',
                 'size' => 'Size M (PD 70cm, PB 80cm)',
                 'material' => 'Jersey Premium Spandex Tebal & Tidak Menerawang',
-                'image_url' => 'images/hijab/bergo-hamidah.svg',
+                'image_url' => 'images/hijab/bergo-hamidah.jpg',
                 'purchase_price' => 20000.00,
                 'selling_price' => 38000.00,
                 'stock' => 40,
@@ -106,7 +110,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Bergo Sporty Aerobic Dry-Fit Slate',
                 'size' => 'Size S (PD 60cm, PB 70cm)',
                 'material' => 'Dry-Fit Breathable Cepat Kering & Ringan',
-                'image_url' => 'images/hijab/bergo-sport.svg',
+                'image_url' => 'images/hijab/bergo-sport.jpg',
                 'purchase_price' => 17000.00,
                 'selling_price' => 32000.00,
                 'stock' => 4, // Low stock alert (4 <= 5)
@@ -118,7 +122,7 @@ class ProductSeeder extends Seeder
                 'name' => 'French Khimar 2 Layer Syar\'i Dusty Mauve',
                 'size' => 'Jumbo (PD 110cm, PB 135cm)',
                 'material' => 'Wollpeach Silky Jetblack Jatuh & Menutup Dada',
-                'image_url' => 'images/hijab/khimar-french.svg',
+                'image_url' => 'images/hijab/khimar-french.jpg',
                 'purchase_price' => 65000.00,
                 'selling_price' => 119000.00,
                 'stock' => 15,
@@ -130,7 +134,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Inner Ciput Ninja 4in1 Anti-Pusing Nude',
                 'size' => 'All Size Elastic',
                 'material' => 'Rayon Spandex Cooling Antibakteri & Anti Gerah',
-                'image_url' => 'images/hijab/inner-ciput.svg',
+                'image_url' => 'images/hijab/inner-ciput.jpg',
                 'purchase_price' => 12000.00,
                 'selling_price' => 25000.00,
                 'stock' => 50,
