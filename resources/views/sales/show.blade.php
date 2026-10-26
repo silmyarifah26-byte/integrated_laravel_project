@@ -81,8 +81,8 @@
 
             <div class="bg-gray-50 p-4 rounded-md border border-gray-200 space-y-1">
                 <span class="text-[10px] uppercase font-semibold text-gray-400 block">Petugas Kasir</span>
-                <p class="text-sm font-bold text-gray-900">{{ $sale->user->name ?? '-' }}</p>
-                <p class="text-gray-500">Role: {{ strtoupper($sale->user->role ?? '-') }}</p>
+                <p class="text-sm font-bold text-gray-900">{{ $sale->user->name ?? 'Syahputri (Kasir Toko)' }}</p>
+                <p class="text-gray-500">Role: {{ strtoupper($sale->user->role ?? 'STAFF') }}</p>
                 @if($sale->notes)
                     <p class="text-gray-500 pt-1 border-t border-gray-200">Catatan: {{ $sale->notes }}</p>
                 @endif

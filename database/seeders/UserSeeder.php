@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
                 'address' => 'HijabSociety Flagship Store Lt. 2, Jl. Riau No. 45, Bandung',
             ],
             [
-                'name' => 'Siti Aisyah (Kasir & Staff Toko)',
+                'name' => 'Syahputri (Kasir & Staff Toko)',
                 'email' => 'staff@hijabsociety.com',
                 'role' => 'staff',
                 'password' => Hash::make('password123'),

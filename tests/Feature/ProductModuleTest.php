@@ -39,7 +39,7 @@ class ProductModuleTest extends TestCase
         ]);
 
         $this->customer = User::create([
-            'name' => 'Siti Aisyah',
+            'name' => 'Syahputri',
             'email' => 'siti@customer.test',
             'password' => Hash::make('password123'),
             'role' => 'customer',

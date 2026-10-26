@@ -387,4 +387,67 @@ class AuthAndRoleTest extends TestCase
         $response->assertRedirect('/login');
         $this->assertGuest();
     }
+
+    public function test_visiting_different_login_portal_flushes_old_session_and_renders_target_portal(): void
+    {
+        $customer = User::where('role', 'customer')->first();
+        $staff = User::where('role', 'staff')->first();
+        $admin = User::where('role', 'admin')->first();
+
+        // 1. Customer visits Staff portal -> session is flushed, Staff login rendered
+        $response1 = $this->actingAs($customer)->get('/staff/login');
+        $response1->assertStatus(200);
+        $response1->assertSee('Portal Staff Operasional');
+        $this->assertGuest();
+
+        // 2. Staff visits Admin portal -> session is flushed, Admin login rendered
+        $response2 = $this->actingAs($staff)->get('/admin/login');
+        $response2->assertStatus(200);
+        $response2->assertSee('Portal Administrator & Owner', false);
+        $this->assertGuest();
+
+        // 3. Admin visits Customer portal -> session is flushed, Customer login rendered
+        $response3 = $this->actingAs($admin)->get('/login');
+        $response3->assertStatus(200);
+        $response3->assertSee('Masuk Pelanggan HijabSociety', false);
+        $this->assertGuest();
+    }
+
+    public function test_visiting_own_portal_when_already_logged_in_redirects_to_dashboard(): void
+    {
+        $customer = User::where('role', 'customer')->first();
+        $staff = User::where('role', 'staff')->first();
+        $admin = User::where('role', 'admin')->first();
+
+        // Customer visits Customer portal -> stays logged in, redirects to dashboard
+        $this->actingAs($customer)->get('/login')->assertRedirect(route('dashboard'));
+
+        // Staff visits Staff portal -> stays logged in, redirects to dashboard
+        $this->actingAs($staff)->get('/staff/login')->assertRedirect(route('dashboard'));
+
+        // Admin visits Admin portal -> stays logged in, redirects to dashboard
+        $this->actingAs($admin)->get('/admin/login')->assertRedirect(route('dashboard'));
+    }
+
+    public function test_submitting_login_from_different_portal_flushes_previous_session_and_authenticates_fresh(): void
+    {
+        $staff = User::where('role', 'staff')->first();
+        $admin = User::where('role', 'admin')->first();
+
+        // Start authenticated as Staff
+        $this->actingAs($staff);
+        $this->assertEquals('staff', auth()->user()->role);
+
+        // Submit login on Admin portal with Admin credentials
+        $response = $this->post('/login', [
+            'email' => $admin->email,
+            'password' => 'password123',
+            'portal_role' => 'admin',
+        ]);
+
+        $response->assertRedirect('/dashboard');
+        $this->assertAuthenticated();
+        $this->assertEquals('admin', auth()->user()->role);
+        $this->assertEquals($admin->id, auth()->id());
+    }
 }

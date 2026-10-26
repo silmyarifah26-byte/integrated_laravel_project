@@ -17,10 +17,6 @@ class AuthController extends Controller
      */
     public function showLoginForm(Request $request): View|RedirectResponse
     {
-        if (Auth::check()) {
-            return redirect()->route('dashboard');
-        }
-
         // Backward compatibility: redirect portal query params to separate routes
         if ($request->query('portal') === 'staff') {
             return redirect()->route('login.staff');
@@ -29,16 +25,45 @@ class AuthController extends Controller
             return redirect()->route('login.admin');
         }
 
+        // Check if an existing session is active
+        if (Auth::check()) {
+            /** @var User $currentUser */
+            $currentUser = Auth::user();
+
+            // If user is already a customer, redirect to dashboard
+            if ($currentUser->isCustomer()) {
+                return redirect()->route('dashboard');
+            }
+
+            // User is currently logged in as Staff or Admin, but explicitly
+            // opened the Customer portal. Flush old session to guarantee portal separation.
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
+
         return view('auth.login');
     }
 
     /**
      * Show the dedicated Staff login form (/staff/login).
      */
-    public function showStaffLoginForm(): View|RedirectResponse
+    public function showStaffLoginForm(Request $request): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            /** @var User $currentUser */
+            $currentUser = Auth::user();
+
+            // If user is already staff, redirect to dashboard
+            if ($currentUser->isStaff()) {
+                return redirect()->route('dashboard');
+            }
+
+            // User is currently logged in as Customer or Admin, but explicitly
+            // opened the Staff portal. Flush old session to guarantee portal separation.
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
         }
 
         return view('auth.login-staff');
@@ -47,10 +72,22 @@ class AuthController extends Controller
     /**
      * Show the dedicated Administrator login form (/admin/login).
      */
-    public function showAdminLoginForm(): View|RedirectResponse
+    public function showAdminLoginForm(Request $request): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            /** @var User $currentUser */
+            $currentUser = Auth::user();
+
+            // If user is already admin, redirect to dashboard
+            if ($currentUser->isAdmin()) {
+                return redirect()->route('dashboard');
+            }
+
+            // User is currently logged in as Customer or Staff, but explicitly
+            // opened the Admin portal. Flush old session to guarantee portal separation.
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
         }
 
         return view('auth.login-admin');
@@ -62,6 +99,13 @@ class AuthController extends Controller
     public function login(Request $request): RedirectResponse
     {
         $portalRole = $request->input('portal_role');
+
+        // Flush any active session before authenticating credentials to guarantee portal isolation
+        if (Auth::check()) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
 
         // 1. Passwordless Customer Login Flow
         if ($portalRole === 'customer') {
@@ -104,8 +148,8 @@ class AuthController extends Controller
             Auth::login($user, $request->boolean('remember'));
             $request->session()->regenerate();
 
-            return redirect()->intended(route('dashboard'))
-                ->with('success', "Halo {$user->name}! 💕 Selamat datang di HijabSociety, silakan jelajahi koleksi hijab cantik kami!");
+            return redirect()->route('dashboard')
+                ->with('success', "Halo {$user->name}! Selamat datang di HijabSociety, silakan jelajahi koleksi hijab cantik kami!");
         }
 
         // 2. Standard Password Login Flow (Staff, Admin, or Automated Tests without portal_role)
@@ -165,11 +209,11 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             if ($user->isAdmin() || $user->isStaff()) {
-                return redirect()->intended(route('dashboard'))
+                return redirect()->route('dashboard')
                     ->with('success', "Selamat datang kembali, {$user->name}! Anda masuk sebagai " . strtoupper($user->role) . '.');
             }
 
-            return redirect()->intended(route('dashboard'))
+            return redirect()->route('dashboard')
                 ->with('success', "Selamat datang di HijabSociety, {$user->name}! Silakan jelajahi koleksi hijab kami.");
         }
 
@@ -181,10 +225,20 @@ class AuthController extends Controller
     /**
      * Show the customer registration form.
      */
-    public function showRegisterForm(): View|RedirectResponse
+    public function showRegisterForm(Request $request): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            /** @var User $currentUser */
+            $currentUser = Auth::user();
+
+            if ($currentUser->isCustomer()) {
+                return redirect()->route('dashboard');
+            }
+
+            // Flush admin/staff session when visiting customer registration
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
         }
 
         return view('auth.register');

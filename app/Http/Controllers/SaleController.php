@@ -89,15 +89,47 @@ class SaleController extends Controller
 
         // Load customers for staff / admin dropdown
         $customers = [];
+        $cashiers = [];
         if ($user->isAdmin() || $user->isStaff()) {
             $customers = User::where('role', 'customer')
                 ->orderBy('name', 'asc')
                 ->get(['id', 'name', 'email', 'phone']);
+
+            $cashiers = User::whereIn('role', ['staff', 'admin'])
+                ->orderBy('name', 'asc')
+                ->get(['id', 'name', 'role', 'email']);
         }
 
         $selectedProductId = $request->query('product_id');
 
-        return view('sales.create', compact('products', 'customers', 'user', 'selectedProductId'));
+        return view('sales.create', compact('products', 'customers', 'cashiers', 'user', 'selectedProductId'));
+    }
+
+    /**
+     * Resolve the active staff cashier user ID for a sale transaction.
+     * Ensures sales always record an active store staff cashier (e.g. 'Syahputri') rather than the customer.
+     */
+    protected function resolveCashierId(User $user, ?int $selectedCashierId = null): int
+    {
+        // 1. If an explicit valid staff/admin cashier ID is provided by an admin
+        if ($selectedCashierId && ($user->isAdmin() || $user->isStaff())) {
+            $cashierUser = User::whereIn('role', ['staff', 'admin'])->find($selectedCashierId);
+            if ($cashierUser) {
+                return $cashierUser->id;
+            }
+        }
+
+        // 2. If logged-in user is a staff or admin, they are the active cashier
+        if ($user->isStaff() || $user->isAdmin()) {
+            return $user->id;
+        }
+
+        // 3. For customer self-orders, assign to active store cashier staff (Syahputri)
+        $cashier = User::where('role', 'staff')->orderBy('id', 'asc')->first()
+            ?? User::where('role', 'admin')->orderBy('id', 'asc')->first()
+            ?? $user;
+
+        return $cashier->id;
     }
 
     /**
@@ -114,6 +146,7 @@ class SaleController extends Controller
             'items.*.quantity' => ['required', 'integer', 'min:1'],
             'customer_id' => ['nullable', 'exists:users,id'],
             'customer_name' => ['nullable', 'string', 'max:150'],
+            'cashier_id' => ['nullable', 'exists:users,id'],
             'payment_method' => ['nullable', 'string', 'in:QRIS,Transfer Bank,E-Wallet,Tunai / COD'],
             'notes' => ['nullable', 'string', 'max:500'],
         ], [
@@ -140,8 +173,11 @@ class SaleController extends Controller
             }
         }
 
+        // Determine Cashier ID (Must be staff/admin cashier, never customer)
+        $cashierId = $this->resolveCashierId($user, $request->cashier_id ? (int) $request->cashier_id : null);
+
         try {
-            $sale = DB::transaction(function () use ($request, $customerId, $customerName) {
+            $sale = DB::transaction(function () use ($request, $customerId, $customerName, $cashierId) {
                 // Generate Invoice Number format: INV-YYYYMMDD-XXXX
                 $datePart = now()->format('Ymd');
                 $prefix = "INV-{$datePart}-";
@@ -158,9 +194,9 @@ class SaleController extends Controller
 
                 $saleNumber = sprintf("INV-%s-%04d", $datePart, $sequence);
 
-                // Create Sale Header
+                // Create Sale Header with verified cashier staff
                 $sale = Sale::create([
-                    'user_id' => Auth::id(),
+                    'user_id' => $cashierId,
                     'customer_id' => $customerId,
                     'customer_name' => $customerName,
                     'sale_number' => $saleNumber,

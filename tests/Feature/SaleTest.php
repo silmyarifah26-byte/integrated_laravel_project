@@ -107,6 +107,8 @@ class SaleTest extends TestCase
         $this->assertNotNull($sale);
         $this->assertEquals($this->customer1->id, $sale->customer_id);
         $this->assertEquals($this->customer1->name, $sale->customer_name);
+        $this->assertEquals($this->staff->id, $sale->user_id); // Kasir adalah staff toko bertugas, bukan customer!
+        $this->assertEquals($this->staff->name, $sale->user->name);
         $this->assertEquals(180000, $sale->total);
         $this->assertEquals('completed', $sale->status);
         $this->assertStringStartsWith('INV-', $sale->sale_number);
@@ -312,4 +314,57 @@ class SaleTest extends TestCase
         $this->assertEquals($initialStock, $this->product1->fresh()->stock);
         $this->assertEquals(0, Sale::count());
     }
+
+    /**
+     * Requirement: Kolom kasir harus selalu mengambil data dari akun staff kasir toko
+     * yang aktif memproses transaksi, bukan nama customer yang memesan (e.g. 'caca' atau 'tari').
+     */
+    public function test_cashier_column_records_active_staff_cashier_instead_of_ordering_customer_name(): void
+    {
+        // 1. Create a customer named 'caca'
+        $caca = User::create([
+            'name' => 'caca',
+            'email' => 'caca@test.com',
+            'password' => Hash::make('password123'),
+            'role' => 'customer',
+        ]);
+
+        // 2. Customer 'caca' places a sale order
+        $response = $this->actingAs($caca)->post('/sales', [
+            'items' => [
+                [
+                    'product_id' => $this->product1->id,
+                    'quantity' => 1,
+                ],
+            ],
+            'payment_method' => 'QRIS',
+            'notes' => 'Pesanan hijab oleh caca',
+        ]);
+
+        $response->assertRedirect();
+        $sale = Sale::latest()->first();
+
+        // 3. Verify user_id is the staff cashier, NOT caca
+        $this->assertNotEquals($caca->id, $sale->user_id, 'Kolom kasir tidak boleh mencatat ID customer pemesan.');
+        $this->assertEquals($this->staff->id, $sale->user_id, 'Kolom kasir wajib mencatat akun staff kasir toko.');
+        $this->assertEquals($this->staff->name, $sale->user->name);
+
+        // 4. Verify customer_id & customer_name are accurately caca
+        $this->assertEquals($caca->id, $sale->customer_id);
+        $this->assertEquals('caca', $sale->customer_name);
+
+        // 5. Staff views the sales index table and verifies cashier displays staff name
+        $indexResponse = $this->actingAs($this->staff)->get('/sales');
+        $indexResponse->assertStatus(200);
+        $indexResponse->assertSee($sale->sale_number);
+        $indexResponse->assertSee('caca');
+        $indexResponse->assertSee($this->staff->name);
+
+        // 6. Detailed invoice view shows staff as cashier and caca as customer
+        $showResponse = $this->actingAs($this->staff)->get("/sales/{$sale->id}");
+        $showResponse->assertStatus(200);
+        $showResponse->assertSee($this->staff->name);
+        $showResponse->assertSee('caca');
+    }
 }
+

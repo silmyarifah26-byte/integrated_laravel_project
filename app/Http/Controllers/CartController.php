@@ -189,8 +189,18 @@ class CartController extends Controller
         $customerId = $user->isCustomer() ? $user->id : null;
         $customerName = $user->name;
 
+        // Assign active store staff cashier (e.g. Syahputri) for orders made by customers
+        if ($user->isCustomer()) {
+            $cashier = User::where('role', 'staff')->orderBy('id', 'asc')->first()
+                ?? User::where('role', 'admin')->orderBy('id', 'asc')->first()
+                ?? $user;
+            $cashierId = $cashier->id;
+        } else {
+            $cashierId = $user->id;
+        }
+
         try {
-            $sale = DB::transaction(function () use ($request, $user, $customerId, $customerName, $cart) {
+            $sale = DB::transaction(function () use ($request, $cashierId, $customerId, $customerName, $cart) {
                 // Generate Invoice Number format: INV-YYYYMMDD-XXXX
                 $datePart = now()->format('Ymd');
                 $prefix = "INV-{$datePart}-";
@@ -207,9 +217,9 @@ class CartController extends Controller
 
                 $saleNumber = sprintf("INV-%s-%04d", $datePart, $sequence);
 
-                // Create Sale Header
+                // Create Sale Header with active staff cashier
                 $sale = Sale::create([
-                    'user_id' => $user->id,
+                    'user_id' => $cashierId,
                     'customer_id' => $customerId,
                     'customer_name' => $customerName,
                     'sale_number' => $saleNumber,

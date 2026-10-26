@@ -15,6 +15,7 @@ class CartTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected User $staff;
     protected User $customer;
     protected Category $category;
     protected Product $productPashmina;
@@ -23,6 +24,13 @@ class CartTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->staff = User::create([
+            'name' => 'Syahputri Kasir',
+            'email' => 'staff@hijabsociety.test',
+            'password' => Hash::make('password123'),
+            'role' => 'staff',
+        ]);
 
         $this->customer = User::create([
             'name' => 'Aisyah Pelanggan',
@@ -232,6 +240,8 @@ class CartTest extends TestCase
         $this->assertEquals(210000, $sale->total); // 130000 + 80000
         $this->assertEquals($this->customer->id, $sale->customer_id);
         $this->assertEquals($this->customer->name, $sale->customer_name);
+        $this->assertEquals($this->staff->id, $sale->user_id); // Kolom kasir mencatat staff kasir toko, bukan customer
+        $this->assertEquals('Syahputri Kasir', $sale->user->name);
         $this->assertEquals('QRIS', $sale->payment_method);
         $this->assertEquals('completed', $sale->status);
         $this->assertEquals('Tolong packing rapi ya kak', $sale->notes);

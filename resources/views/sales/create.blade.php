@@ -29,18 +29,55 @@
             <!-- Customer & Transaction Information -->
             <div class="bg-gray-50 p-4 rounded-md border border-gray-200 space-y-4">
                 @if($user->isCustomer())
-                    <!-- Fixed Customer Info -->
+                    <!-- Customer Self-Order Info -->
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3.5 rounded-md border border-gray-200">
                         <div>
                             <span class="text-xs font-semibold text-gray-400 block uppercase">Pemesan</span>
                             <div class="text-sm font-bold text-gray-900">{{ $user->name }}</div>
                             <div class="text-xs text-gray-500">{{ $user->email }} &bull; {{ $user->phone ?: '-' }}</div>
                         </div>
-                        <span class="px-2.5 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200">
-                            Akun Customer Terdaftar
-                        </span>
+                        <div class="text-left sm:text-right">
+                            <span class="text-[10px] uppercase font-bold text-gray-400 block tracking-wider">Kasir Toko Pemroses</span>
+                            <span class="text-xs font-semibold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200 inline-block mt-0.5">
+                                Syahputri (Staff Kasir)
+                            </span>
+                        </div>
                     </div>
                 @else
+                    <!-- Kasir Toko Bertugas & Pemilihan Pelanggan -->
+                    <div class="bg-white p-3.5 rounded-md border border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-9 h-9 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-sm">
+                                <i class="fa-solid fa-cash-register"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-gray-400 block tracking-wider">Petugas Kasir Toko (Aktif)</span>
+                                <div class="text-sm font-bold text-gray-900">{{ $user->name }}</div>
+                                <div class="text-xs text-gray-500">Peran: {{ strtoupper($user->role) }} Toko HijabSociety</div>
+                            </div>
+                        </div>
+                        @if($user->isAdmin() && !empty($cashiers) && count($cashiers) > 1)
+                            <div class="w-full sm:w-64">
+                                <label for="cashier_id" class="block text-[11px] font-semibold text-gray-600 mb-1">
+                                    Pilih Kasir Bertugas
+                                </label>
+                                <select name="cashier_id" id="cashier_id"
+                                    class="w-full px-2.5 py-1.5 rounded-md border border-gray-300 text-xs focus:outline-none focus:ring-1 focus:ring-rose-500 focus:border-rose-500 bg-white">
+                                    @foreach($cashiers as $c)
+                                        <option value="{{ $c->id }}" {{ (old('cashier_id', $user->id) == $c->id) ? 'selected' : '' }}>
+                                            {{ $c->name }} ({{ ucfirst($c->role) }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @else
+                            <input type="hidden" name="cashier_id" value="{{ $user->id }}">
+                            <span class="px-2.5 py-1 rounded text-xs font-medium bg-green-50 text-green-700 border border-green-200">
+                                <i class="fa-solid fa-circle-check text-green-500 mr-1"></i> Kasir POS Aktif
+                            </span>
+                        @endif
+                    </div>
+
                     <!-- Admin / Staff Customer Selection -->
                     <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
                         <div class="sm:col-span-6">

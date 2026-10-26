@@ -85,9 +85,7 @@
                         <th class="px-4 py-3">Nomor Nota</th>
                         <th class="px-4 py-3">Nama Pelanggan</th>
                         <th class="px-4 py-3">Waktu Transaksi</th>
-                        @if(!$user->isCustomer())
-                            <th class="px-4 py-3">Kasir</th>
-                        @endif
+                        <th class="px-4 py-3">Kasir</th>
                         <th class="px-4 py-3 text-center">Metode Bayar</th>
                         <th class="px-4 py-3 text-center">Jumlah Item</th>
                         <th class="px-4 py-3 text-right">Total Belanja</th>
@@ -117,11 +115,10 @@
                             <td class="px-4 py-3 text-xs text-gray-500">
                                 {{ \Carbon\Carbon::parse($sale->sold_at)->format('d M Y, H:i') }}
                             </td>
-                            @if(!$user->isCustomer())
-                                <td class="px-4 py-3 text-xs text-gray-600">
-                                    <div>{{ $sale->user->name ?? '-' }}</div>
-                                </td>
-                            @endif
+                            <td class="px-4 py-3 text-xs text-gray-600">
+                                <div class="font-medium text-gray-800">{{ $sale->user->name ?? 'Syahputri (Kasir)' }}</div>
+                                <div class="text-[10px] text-gray-400">{{ strtoupper($sale->user->role ?? 'STAFF') }}</div>
+                            </td>
                             <td class="px-4 py-3 text-center text-xs">
                                 <span class="px-2 py-0.5 rounded border border-gray-200 bg-gray-50 font-medium text-gray-700">
                                     {{ $sale->payment_method ?? 'Cash' }}
