@@ -12,7 +12,7 @@
                 </span>
                 <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Master Produk Hijab</h1>
             </div>
-            <p class="text-slate-500 text-xs sm:text-sm mt-1">Data inventori boneka, penentuan harga beli (modal), harga jual, dan kontrol stok minimum.</p>
+            <p class="text-slate-500 text-xs sm:text-sm mt-1">Data inventori produk hijab modern & syar'i, penentuan harga beli (modal), harga jual, dan kontrol stok minimum.</p>
         </div>
 
         <div class="flex items-center space-x-2">

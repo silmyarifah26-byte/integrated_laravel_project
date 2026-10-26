@@ -11,7 +11,7 @@
     <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
         <div class="mb-6">
             <h1 class="text-xl font-extrabold text-slate-900">Tambah Produk Hijab Baru</h1>
-            <p class="text-xs text-slate-500 mt-1">Lengkapi data master boneka, harga modal, harga jual, dan spesifikasi bahan.</p>
+            <p class="text-xs text-slate-500 mt-1">Lengkapi data master hijab, harga modal, harga jual, dan spesifikasi bahan kain.</p>
         </div>
 
         <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
@@ -82,11 +82,11 @@
 
                 <div>
                     <label for="material" class="block text-sm font-bold text-slate-700 mb-1.5">
-                        Bahan Kain & Isian
+                        Bahan / Material Kain
                     </label>
                     <input type="text" name="material" id="material"
                         value="{{ old('material') }}"
-                        placeholder="Contoh: Yelvo Halus + Dacron Grade A"
+                        placeholder="Contoh: Ceruty Babydoll Premium, Voal Ultrafine, Silk Sutra"
                         class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-plush-500 focus:border-plush-500 text-sm bg-slate-50/50 hover:bg-white focus:bg-white transition-all">
                     @error('material')
                         <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>
@@ -195,16 +195,16 @@
                         <span class="text-[11px] font-bold text-slate-500">Pilih Cepat Koleksi Asli:</span>
                         @php
                             $presets = [
-                                ['label' => '🧸 Teddy Pita', 'path' => 'images/hijab/pashmina-ceruty.svg'],
-                                ['label' => '🧸 Teddy Sweater', 'path' => 'images/hijab/pashmina-silk.svg'],
-                                ['label' => '🐰 Kelinci Pink', 'path' => 'images/hijab/pashmina-rayon.svg'],
-                                ['label' => '🐼 Panda Bambu', 'path' => 'images/hijab/segiempat-voal.svg'],
-                                ['label' => '🧋 Kucing Boba', 'path' => 'images/hijab/segiempat-paris.svg'],
-                                ['label' => '🎎 Chibi Idol', 'path' => 'images/hijab/segiempat-motif.svg'],
-                                ['label' => '🦊 Rubah Pastel', 'path' => 'images/hijab/bergo-hamidah.svg'],
-                                ['label' => '🎓 Beruang Wisuda', 'path' => 'images/hijab/bergo-sport.svg'],
-                                ['label' => '🌸 Buket Boneka', 'path' => 'images/hijab/khimar-french.svg'],
-                                ['label' => '🐕 Bantal Shiba', 'path' => 'images/hijab/inner-ciput.svg'],
+                                ['label' => '🧕 Pashmina Ceruty', 'path' => 'images/hijab/pashmina-ceruty.svg'],
+                                ['label' => '✨ Pashmina Silk', 'path' => 'images/hijab/pashmina-silk.svg'],
+                                ['label' => '🌿 Pashmina Rayon', 'path' => 'images/hijab/pashmina-rayon.svg'],
+                                ['label' => '🌸 Segi Empat Voal', 'path' => 'images/hijab/segiempat-voal.svg'],
+                                ['label' => '🎀 Segi Empat Paris', 'path' => 'images/hijab/segiempat-paris.svg'],
+                                ['label' => '🎨 Segi Empat Motif', 'path' => 'images/hijab/segiempat-motif.svg'],
+                                ['label' => '⚡ Bergo Hamidah', 'path' => 'images/hijab/bergo-hamidah.svg'],
+                                ['label' => '🏃‍♀️ Bergo Sport', 'path' => 'images/hijab/bergo-sport.svg'],
+                                ['label' => '🕊️ Khimar French', 'path' => 'images/hijab/khimar-french.svg'],
+                                ['label' => '👑 Inner Ciput Rajut', 'path' => 'images/hijab/inner-ciput.svg'],
                             ];
                         @endphp
                         @foreach($presets as $pr)

@@ -12,7 +12,7 @@
         <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
                 <h1 class="text-xl font-extrabold text-slate-900">Ubah Produk Hijab</h1>
-                <p class="text-xs text-slate-500 mt-1">Perbarui data master, harga, dan spesifikasi boneka {{ $product->name }}.</p>
+                <p class="text-xs text-slate-500 mt-1">Perbarui data master, harga, dan spesifikasi hijab {{ $product->name }}.</p>
             </div>
             <!-- Current Stock Read-Only Badge -->
             <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-right">
@@ -88,10 +88,11 @@
 
                 <div>
                     <label for="material" class="block text-sm font-bold text-slate-700 mb-1.5">
-                        Bahan Kain & Isian
+                        Bahan / Material Kain
                     </label>
                     <input type="text" name="material" id="material"
                         value="{{ old('material', $product->material) }}"
+                        placeholder="Contoh: Ceruty Babydoll Premium, Voal Ultrafine, Silk Sutra"
                         class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-plush-500 focus:border-plush-500 text-sm bg-slate-50/50 hover:bg-white focus:bg-white transition-all">
                     @error('material')
                         <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>
@@ -124,6 +125,8 @@
                         <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+            </div>
+
             <!-- Minimum Stock -->
             <div>
                 <label for="minimum_stock" class="block text-sm font-bold text-slate-700 mb-1.5">
@@ -183,16 +186,16 @@
                         <span class="text-[11px] font-bold text-slate-500">Pilih Cepat Koleksi Asli:</span>
                         @php
                             $presets = [
-                                ['label' => '🧸 Teddy Pita', 'path' => 'images/hijab/pashmina-ceruty.svg'],
-                                ['label' => '🧸 Teddy Sweater', 'path' => 'images/hijab/pashmina-silk.svg'],
-                                ['label' => '🐰 Kelinci Pink', 'path' => 'images/hijab/pashmina-rayon.svg'],
-                                ['label' => '🐼 Panda Bambu', 'path' => 'images/hijab/segiempat-voal.svg'],
-                                ['label' => '🧋 Kucing Boba', 'path' => 'images/hijab/segiempat-paris.svg'],
-                                ['label' => '🎎 Chibi Idol', 'path' => 'images/hijab/segiempat-motif.svg'],
-                                ['label' => '🦊 Rubah Pastel', 'path' => 'images/hijab/bergo-hamidah.svg'],
-                                ['label' => '🎓 Beruang Wisuda', 'path' => 'images/hijab/bergo-sport.svg'],
-                                ['label' => '🌸 Buket Boneka', 'path' => 'images/hijab/khimar-french.svg'],
-                                ['label' => '🐕 Bantal Shiba', 'path' => 'images/hijab/inner-ciput.svg'],
+                                ['label' => '🧕 Pashmina Ceruty', 'path' => 'images/hijab/pashmina-ceruty.svg'],
+                                ['label' => '✨ Pashmina Silk', 'path' => 'images/hijab/pashmina-silk.svg'],
+                                ['label' => '🌿 Pashmina Rayon', 'path' => 'images/hijab/pashmina-rayon.svg'],
+                                ['label' => '🌸 Segi Empat Voal', 'path' => 'images/hijab/segiempat-voal.svg'],
+                                ['label' => '🎀 Segi Empat Paris', 'path' => 'images/hijab/segiempat-paris.svg'],
+                                ['label' => '🎨 Segi Empat Motif', 'path' => 'images/hijab/segiempat-motif.svg'],
+                                ['label' => '⚡ Bergo Hamidah', 'path' => 'images/hijab/bergo-hamidah.svg'],
+                                ['label' => '🏃‍♀️ Bergo Sport', 'path' => 'images/hijab/bergo-sport.svg'],
+                                ['label' => '🕊️ Khimar French', 'path' => 'images/hijab/khimar-french.svg'],
+                                ['label' => '👑 Inner Ciput Rajut', 'path' => 'images/hijab/inner-ciput.svg'],
                             ];
                         @endphp
                         @foreach($presets as $pr)

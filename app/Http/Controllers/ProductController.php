@@ -109,12 +109,22 @@ class ProductController extends Controller
         ], [
             'sku.required' => 'SKU hijab wajib diisi.',
             'sku.unique' => 'SKU ini sudah terdaftar.',
+            'sku.max' => 'SKU maksimal 50 karakter.',
             'name.required' => 'Nama produk hijab wajib diisi.',
-            'category_id.required' => 'Kategori wajib dipilih.',
-            'category_id.exists' => 'Kategori yang dipilih tidak valid.',
+            'name.max' => 'Nama produk hijab maksimal 150 karakter.',
+            'category_id.required' => 'Kategori produk hijab wajib dipilih.',
+            'category_id.exists' => 'Kategori yang dipilih tidak valid di sistem.',
             'purchase_price.required' => 'Harga beli/modal wajib diisi.',
+            'purchase_price.numeric' => 'Harga beli harus berupa angka.',
+            'purchase_price.min' => 'Harga beli (modal) tidak boleh bernilai negatif.',
             'selling_price.required' => 'Harga jual wajib diisi.',
+            'selling_price.numeric' => 'Harga jual harus berupa angka.',
+            'selling_price.min' => 'Harga jual tidak boleh bernilai negatif.',
+            'stock.integer' => 'Jumlah stok harus berupa bilangan bulat.',
+            'stock.min' => 'Jumlah stok awal tidak boleh bernilai negatif.',
             'minimum_stock.required' => 'Batas stok minimum wajib diisi.',
+            'minimum_stock.integer' => 'Batas stok minimum harus berupa bilangan bulat.',
+            'minimum_stock.min' => 'Batas stok minimum tidak boleh bernilai negatif.',
             'image_file.image' => 'File harus berupa foto gambar yang valid.',
             'image_file.max' => 'Ukuran foto maksimal 5MB.',
         ]);
@@ -134,7 +144,7 @@ class ProductController extends Controller
         Product::create($validated);
 
         return redirect()->route('products.index')
-            ->with('success', "produk hijab '{$validated['name']}' ({$validated['sku']}) berhasil ditambahkan.");
+            ->with('success', "Produk hijab '{$validated['name']}' ({$validated['sku']}) berhasil ditambahkan.");
     }
 
     /**
@@ -179,11 +189,20 @@ class ProductController extends Controller
         ], [
             'sku.required' => 'SKU hijab wajib diisi.',
             'sku.unique' => 'SKU ini sudah digunakan produk lain.',
+            'sku.max' => 'SKU maksimal 50 karakter.',
             'name.required' => 'Nama produk hijab wajib diisi.',
-            'category_id.required' => 'Kategori wajib dipilih.',
-            'purchase_price.required' => 'Harga beli wajib diisi.',
+            'name.max' => 'Nama produk hijab maksimal 150 karakter.',
+            'category_id.required' => 'Kategori produk hijab wajib dipilih.',
+            'category_id.exists' => 'Kategori yang dipilih tidak valid di sistem.',
+            'purchase_price.required' => 'Harga beli (modal) wajib diisi.',
+            'purchase_price.numeric' => 'Harga beli harus berupa angka.',
+            'purchase_price.min' => 'Harga beli (modal) tidak boleh bernilai negatif.',
             'selling_price.required' => 'Harga jual wajib diisi.',
+            'selling_price.numeric' => 'Harga jual harus berupa angka.',
+            'selling_price.min' => 'Harga jual tidak boleh bernilai negatif.',
             'minimum_stock.required' => 'Batas minimum stok wajib diisi.',
+            'minimum_stock.integer' => 'Batas stok minimum harus berupa bilangan bulat.',
+            'minimum_stock.min' => 'Batas minimum stok tidak boleh bernilai negatif.',
             'image_file.image' => 'File harus berupa foto gambar yang valid.',
             'image_file.max' => 'Ukuran foto maksimal 5MB.',
         ]);
@@ -219,10 +238,10 @@ class ProductController extends Controller
 
         if ($hasTransactions) {
             return redirect()->route('products.index')
-                ->with('success', "produk hijab '{$name}' telah dinonaktifkan (soft delete) karena memiliki riwayat transaksi, sehingga integritas data laporan keuangan tetap terjaga.");
+                ->with('success', "Produk hijab '{$name}' telah dinonaktifkan (soft delete) karena memiliki riwayat transaksi, sehingga integritas data laporan keuangan tetap terjaga.");
         }
 
         return redirect()->route('products.index')
-            ->with('success', "produk hijab '{$name}' berhasil dihapus.");
+            ->with('success', "Produk hijab '{$name}' berhasil dihapus.");
     }
 }

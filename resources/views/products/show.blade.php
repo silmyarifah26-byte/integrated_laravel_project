@@ -60,7 +60,7 @@
                         <span class="font-bold text-slate-800">{{ $product->size ?: '-' }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-slate-500">Material & Isian:</span>
+                        <span class="text-slate-500">Bahan / Kain:</span>
                         <span class="font-bold text-slate-800">{{ $product->material ?: '-' }}</span>
                     </div>
                     <div class="flex justify-between">
