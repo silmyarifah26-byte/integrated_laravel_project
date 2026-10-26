@@ -1,57 +1,52 @@
 @extends('layouts.app', ['title' => 'Catat Pengadaan Hijab (Stock-In)'])
 
 @section('content')
-<div class="max-w-5xl mx-auto py-4 space-y-6">
-    <div class="mb-4">
-        <a href="{{ route('purchases.index') }}" class="text-xs font-bold text-slate-500 hover:text-blue-600 inline-flex items-center">
+<div class="max-w-5xl mx-auto space-y-4">
+    <div>
+        <a href="{{ route('purchases.index') }}" class="text-xs font-medium text-gray-500 hover:text-gray-700 inline-flex items-center">
             <i class="fa-solid fa-arrow-left mr-1.5"></i> Kembali ke Riwayat Pembelian
         </a>
     </div>
 
-    <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
-        <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
+    <div class="bg-white p-6 sm:p-8 rounded-lg border border-gray-200 shadow-sm">
+        <div class="mb-6 pb-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-                <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Form Pengadaan Hijab (Stock-In)</h1>
-                <p class="text-xs text-slate-500 mt-1">Catat pengadaan multi-item hijab & tekstil dari pabrik/supplier untuk menambah saldo stok fisik secara otomatis.</p>
+                <h1 class="text-xl font-bold text-gray-900">Form Pengadaan Hijab (Stock-In)</h1>
+                <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Catat pengadaan produk dari supplier untuk menambah stok toko.</p>
             </div>
-            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-300">
-                <i class="fa-solid fa-boxes-packing mr-1.5"></i> Stock-In Otomatis
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200">
+                Stock-In Otomatis
             </span>
         </div>
 
         @if(isset($selectedProduct) && $selectedProduct)
-            <div class="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
-                <div class="flex items-center space-x-3">
-                    <span class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg flex-shrink-0">
-                        <i class="fa-solid fa-bolt"></i>
+            <div class="mb-5 p-3.5 rounded-md bg-yellow-50 border border-yellow-200 text-yellow-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                <div>
+                    <span class="font-semibold">
+                        Mode Restock Cepat: Produk {{ $selectedProduct->name }} telah dipilih otomatis untuk penambahan stok.
                     </span>
-                    <div>
-                        <h2 class="font-extrabold text-sm text-amber-900">
-                            Mode Restock Cepat: Produk {{ $selectedProduct->name }} telah dipilih otomatis untuk penambahan stok.
-                        </h2>
-                        <p class="text-xs text-amber-700 mt-0.5">
-                            Stok Saat Ini: <strong>{{ $selectedProduct->stock }} pcs</strong> &bull; Batas Minimum: <strong>{{ $selectedProduct->minimum_stock }} pcs</strong> &bull; Estimasi Harga Beli: <strong>Rp {{ number_format($selectedProduct->purchase_price, 0, ',', '.') }}</strong>
-                        </p>
-                    </div>
+                    <span class="block text-yellow-700 mt-0.5">
+                        SKU: {{ $selectedProduct->sku }} &bull; Sisa Stok: {{ $selectedProduct->stock }} pcs &bull; Batas Minimum: {{ $selectedProduct->minimum_stock }} pcs
+                    </span>
                 </div>
-                <a href="{{ route('purchases.create') }}" class="text-xs font-bold text-amber-800 hover:text-amber-950 underline flex-shrink-0">
-                    Bersihkan Pilihan
+                <a href="{{ route('purchases.create') }}" class="text-yellow-800 hover:underline flex-shrink-0 font-medium">
+                    Reset
                 </a>
             </div>
         @endif
 
-        <form action="{{ route('purchases.store') }}" method="POST" id="purchaseForm" class="space-y-6">
+        <form action="{{ route('purchases.store') }}" method="POST" id="purchaseForm" class="space-y-5">
             @csrf
 
-            <!-- Header Information Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200/80">
+            <!-- Header Info -->
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 bg-gray-50 p-4 rounded-md border border-gray-200">
                 <!-- Supplier Selection -->
                 <div class="sm:col-span-6">
-                    <label for="supplier_id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                        Pemasok Tekstil / Produsen Hijab <span class="text-rose-500">*</span>
+                    <label for="supplier_id" class="block text-xs font-medium text-gray-700 mb-1">
+                        Pemasok / Supplier <span class="text-red-500">*</span>
                     </label>
                     <select name="supplier_id" id="supplier_id" required
-                        class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white font-medium">
+                        class="w-full px-3 py-2 rounded-md border border-gray-300 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white">
                         <option value="">-- Pilih Supplier --</option>
                         @foreach($suppliers as $sup)
                             <option value="{{ $sup->id }}" {{ old('supplier_id') == $sup->id ? 'selected' : '' }}>
@@ -60,82 +55,81 @@
                         @endforeach
                     </select>
                     @error('supplier_id')
-                        <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Purchased Date -->
                 <div class="sm:col-span-6">
-                    <label for="purchased_at" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                        Tanggal & Waktu Pengadaan <span class="text-rose-500">*</span>
+                    <label for="purchased_at" class="block text-xs font-medium text-gray-700 mb-1">
+                        Tanggal & Waktu Pengadaan <span class="text-red-500">*</span>
                     </label>
                     <input type="datetime-local" name="purchased_at" id="purchased_at" required
                         value="{{ old('purchased_at', now()->format('Y-m-d\TH:i')) }}"
-                        class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white font-medium">
+                        class="w-full px-3 py-2 rounded-md border border-gray-300 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white">
                     @error('purchased_at')
-                        <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Notes -->
                 <div class="sm:col-span-12">
-                    <label for="notes" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    <label for="notes" class="block text-xs font-medium text-gray-700 mb-1">
                         Catatan Transaksi (Opsional)
                     </label>
                     <input type="text" name="notes" id="notes"
                         value="{{ old('notes') }}"
-                        placeholder="Contoh: Pengadaan batch bahan ceruty babydoll & voal ultrafine..."
-                        class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                        placeholder="Contoh: Pengadaan stok awal pashmina..."
+                        class="w-full px-3 py-2 rounded-md border border-gray-300 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white">
                     @error('notes')
-                        <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
 
             <!-- Items Table Section -->
-            <div class="space-y-3">
+            <div class="space-y-2">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-base font-extrabold text-slate-900 flex items-center">
-                            <i class="fa-solid fa-list-check text-blue-600 mr-2"></i> Daftar Hijab yang Dibeli (Multi-Item)
+                        <h2 class="text-sm font-semibold text-gray-900">
+                            Daftar Produk Hijab yang Dibeli
                         </h2>
-                        <p class="text-xs text-slate-500">Pilih produk hijab, tentukan kuantitas masuk, dan verifikasi harga beli per unit.</p>
                     </div>
 
-                    <button type="button" id="addRowBtn" class="inline-flex items-center px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition-colors">
-                        <i class="fa-solid fa-plus mr-1.5"></i> Tambah Baris Hijab
+                    <button type="button" id="addRowBtn" class="inline-flex items-center px-3 py-1.5 rounded-md bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-medium transition-colors">
+                        <i class="fa-solid fa-plus mr-1"></i> Tambah Baris
                     </button>
                 </div>
 
                 @error('items')
-                    <div class="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-bold">
+                    <div class="p-3 rounded-md bg-red-50 border border-red-200 text-xs text-red-700">
                         {{ $message }}
                     </div>
                 @enderror
 
                 <!-- Dynamic Items Table -->
-                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                <div class="bg-white rounded-md border border-gray-200 overflow-hidden shadow-xs">
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs sm:text-sm text-slate-600" id="itemsTable">
-                            <thead class="bg-slate-50 text-[11px] uppercase font-extrabold text-slate-500 border-b border-slate-200">
+                        <table class="w-full text-left text-xs sm:text-sm text-gray-700" id="itemsTable">
+                            <thead class="bg-gray-50 text-xs uppercase font-semibold text-gray-600 border-b border-gray-200">
                                 <tr>
-                                    <th class="px-4 py-3 w-7/12 sm:w-5/12">Pilih Produk Hijab</th>
-                                    <th class="px-3 py-3 w-2/12 sm:w-2/12 text-center">Stok Saat Ini</th>
-                                    <th class="px-3 py-3 w-2/12 sm:w-2/12 text-center">Jumlah Masuk</th>
-                                    <th class="px-3 py-3 w-3/12 sm:w-3/12 text-right">Harga Beli Satuan (Rp)</th>
-                                    <th class="px-3 py-3 w-2/12 text-right">Subtotal (Rp)</th>
-                                    <th class="px-2 py-3 w-10 text-center"></th>
+                                    <th class="px-3 py-2.5 w-6/12 sm:w-5/12">Produk Hijab</th>
+                                    <th class="px-2 py-2.5 text-center">Stok</th>
+                                    <th class="px-2 py-2.5 text-center">Jumlah</th>
+                                    <th class="px-3 py-2.5 text-right">Harga Beli Satuan (Rp)</th>
+                                    <th class="px-3 py-2.5 text-right">Subtotal (Rp)</th>
+                                    <th class="px-2 py-2.5 w-10 text-center"></th>
                                 </tr>
                             </thead>
-                            <tbody id="itemsTbody" class="divide-y divide-slate-100">
+                            <tbody id="itemsTbody" class="divide-y divide-gray-200">
                                 <!-- Dynamic rows inserted by JavaScript -->
                             </tbody>
-                            <tfoot class="bg-slate-50 font-black text-slate-900 border-t border-slate-200">
+                            <tfoot class="bg-gray-50 font-bold text-gray-900 border-t border-gray-200">
                                 <tr>
-                                    <td colspan="4" class="px-4 py-3.5 text-right uppercase tracking-wider text-xs">
+                                    <td colspan="4" class="px-4 py-3 text-right uppercase text-xs text-gray-600">
                                         Total Biaya Pengadaan:
                                     </td>
-                                    <td class="px-3 py-3.5 text-right text-base text-blue-700" id="grandTotalDisplay">
+                                    <td class="px-3 py-3 text-right text-base text-blue-700 font-bold" id="grandTotalDisplay">
                                         Rp 0
                                     </td>
                                     <td></td>
@@ -147,11 +141,11 @@
             </div>
 
             <!-- Buttons -->
-            <div class="pt-4 flex items-center justify-end space-x-3 border-t border-slate-100">
-                <a href="{{ route('purchases.index') }}" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-sm transition-colors">
+            <div class="pt-3 flex items-center justify-end space-x-2 border-t border-gray-100">
+                <a href="{{ route('purchases.index') }}" class="px-3.5 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 text-xs font-medium transition-colors">
                     Batal
                 </a>
-                <button type="submit" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-sm shadow-md transition-all flex items-center space-x-2">
+                <button type="submit" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium transition-colors flex items-center space-x-1.5">
                     <i class="fa-solid fa-check"></i>
                     <span>Simpan & Tambah Stok Hijab</span>
                 </button>
@@ -160,7 +154,6 @@
     </div>
 </div>
 
-<!-- Template for JavaScript Data -->
 <script>
     const productsData = @json($products);
     const oldItems = @json(old('items', []));
@@ -170,51 +163,50 @@
 
     function createRow(item = null) {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50/60 transition-colors item-row';
+        tr.className = 'hover:bg-gray-50 item-row';
         tr.dataset.index = rowIndex;
 
         const selectedProductId = item ? item.product_id : '';
         const quantity = item ? item.quantity : 1;
         const unitCost = item ? item.unit_cost : 0;
 
-        let optionsHtml = '<option value="">-- Pilih Produk Hijab --</option>';
+        let optionsHtml = '<option value="">-- Pilih Produk --</option>';
         productsData.forEach(p => {
             const isSelected = selectedProductId == p.id ? 'selected' : '';
             optionsHtml += `<option value="${p.id}" data-cost="${p.purchase_price}" data-stock="${p.stock}" data-sku="${p.sku}" data-size="${p.size || ''}" ${isSelected}>
-                ${p.name} [${p.sku}] - ${p.size || ''}
+                ${p.name} [${p.sku}]
             </option>`;
         });
 
         tr.innerHTML = `
-            <td class="px-4 py-3">
-                <select name="items[${rowIndex}][product_id]" required class="product-select w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white font-medium">
+            <td class="px-3 py-2">
+                <select name="items[${rowIndex}][product_id]" required class="product-select w-full px-2.5 py-1.5 rounded-md border border-gray-300 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white">
                     ${optionsHtml}
                 </select>
             </td>
-            <td class="px-3 py-3 text-center text-xs font-bold text-slate-500 current-stock-cell">
+            <td class="px-2 py-2 text-center text-xs text-gray-500 current-stock-cell">
                 -
             </td>
-            <td class="px-3 py-3 text-center">
+            <td class="px-2 py-2 text-center">
                 <input type="number" name="items[${rowIndex}][quantity]" value="${quantity}" min="1" required
-                    class="qty-input w-24 text-center px-2 py-1.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-bold focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    class="qty-input w-20 text-center px-2 py-1 rounded-md border border-gray-300 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-blue-500">
             </td>
-            <td class="px-3 py-3 text-right">
+            <td class="px-3 py-2 text-right">
                 <input type="number" step="0.01" name="items[${rowIndex}][unit_cost]" value="${unitCost}" min="0" required
-                    class="cost-input w-full text-right px-3 py-1.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    class="cost-input w-28 text-right px-2 py-1 rounded-md border border-gray-300 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-blue-500">
             </td>
-            <td class="px-3 py-3 text-right font-black text-slate-900 subtotal-display">
+            <td class="px-3 py-2 text-right font-medium text-gray-900 subtotal-display">
                 Rp 0
             </td>
-            <td class="px-2 py-3 text-center">
-                <button type="button" class="remove-row-btn p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors" title="Hapus Baris">
-                    <i class="fa-solid fa-trash-can text-sm"></i>
+            <td class="px-2 py-2 text-center">
+                <button type="button" class="remove-row-btn p-1 text-gray-400 hover:text-red-600 transition-colors" title="Hapus Baris">
+                    <i class="fa-solid fa-trash-can text-xs"></i>
                 </button>
             </td>
         `;
 
         document.getElementById('itemsTbody').appendChild(tr);
 
-        // Bind events
         const select = tr.querySelector('.product-select');
         const qtyInput = tr.querySelector('.qty-input');
         const costInput = tr.querySelector('.cost-input');
@@ -241,14 +233,13 @@
         removeBtn.addEventListener('click', () => {
             const allRows = document.querySelectorAll('.item-row');
             if (allRows.length <= 1) {
-                alert('Minimal harus ada 1 baris produk hijab dalam transaksi.');
+                alert('Minimal harus ada 1 baris produk dalam transaksi.');
                 return;
             }
             tr.remove();
             calculateGrandTotal();
         });
 
-        // Trigger change for initial stock & cost setup
         if (selectedProductId) {
             costInput.value = parseFloat(unitCost).toFixed(2);
             select.dispatchEvent(new Event('change'));
@@ -280,7 +271,6 @@
         return 'Rp ' + new Intl.NumberFormat('id-ID').format(Math.round(number));
     }
 
-    // Initialize with old items, preselected restock product, or 1 empty row
     document.addEventListener('DOMContentLoaded', () => {
         if (oldItems && oldItems.length > 0) {
             oldItems.forEach(item => createRow(item));

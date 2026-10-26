@@ -1,17 +1,16 @@
 @extends('layouts.app', ['title' => 'Detail Transaksi Pembelian ' . $purchase->purchase_number])
 
 @section('content')
-<div class="max-w-4xl mx-auto py-4 space-y-6">
+<div class="max-w-4xl mx-auto space-y-4">
     <div class="flex items-center justify-between">
-        <a href="{{ route('purchases.index') }}" class="text-xs font-bold text-slate-500 hover:text-blue-600 inline-flex items-center">
-            <i class="fa-solid fa-arrow-left mr-1.5"></i> Kembali ke Daftar Pembelian
+        <a href="{{ route('purchases.index') }}" class="text-xs font-medium text-gray-500 hover:text-gray-700 inline-flex items-center">
+            <i class="fa-solid fa-arrow-left mr-1.5"></i> Kembali ke Riwayat Pembelian
         </a>
 
-        <!-- Cancel Transaction Button (Admin Only & Completed Only) -->
         @if(auth()->user()->isAdmin() && $purchase->status === 'completed')
-            <form action="{{ route('purchases.cancel', $purchase) }}" method="POST" onsubmit="return confirm('PERINGATAN: Apakah Anda yakin ingin membatalkan transaksi {{ $purchase->purchase_number }}? Seluruh kuantitas stok produk pada transaksi ini akan dikurangi kembali dari inventori toko.');">
+            <form action="{{ route('purchases.cancel', $purchase) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan transaksi {{ $purchase->purchase_number }}? Stok produk akan dikurangi kembali.');">
                 @csrf
-                <button type="submit" class="inline-flex items-center px-4 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs shadow-sm transition-colors">
+                <button type="submit" class="inline-flex items-center px-3 py-1.5 rounded-md bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 font-medium text-xs transition-colors">
                     <i class="fa-solid fa-ban mr-1.5"></i> Batalkan Transaksi Ini
                 </button>
             </form>
@@ -19,130 +18,98 @@
     </div>
 
     <!-- PO Invoice Card -->
-    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden p-6 sm:p-8 space-y-6">
+    <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6 space-y-6">
 
         <!-- Invoice Header -->
-        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-slate-100 pb-6">
+        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-gray-100 pb-5">
             <div>
-                <div class="flex items-center space-x-2 mb-1.5">
-                    <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-sm">
-                        <i class="fa-solid fa-truck-ramp-box"></i>
-                    </span>
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Faktur Pengadaan (Stock-In)</span>
-                </div>
-                <h1 class="text-2xl sm:text-3xl font-black text-slate-900 font-mono tracking-tight">{{ $purchase->purchase_number }}</h1>
-                <p class="text-xs text-slate-400 mt-1">Dicatat pada: {{ \Carbon\Carbon::parse($purchase->purchased_at)->translatedFormat('d F Y, H:i') }}</p>
+                <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">Faktur Pengadaan (Stock-In)</span>
+                <h1 class="text-xl sm:text-2xl font-bold text-gray-900 font-mono mt-0.5">{{ $purchase->purchase_number }}</h1>
+                <p class="text-xs text-gray-500 mt-1">Tanggal: {{ \Carbon\Carbon::parse($purchase->purchased_at)->translatedFormat('d F Y, H:i') }} WIB</p>
             </div>
 
             <!-- Status Badge -->
             <div class="text-left sm:text-right">
                 @if($purchase->status === 'completed')
-                    <span class="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-black bg-emerald-100 text-emerald-800 border border-emerald-200">
-                        <i class="fa-solid fa-circle-check mr-1.5 text-sm"></i> STATUS: COMPLETED
+                    <span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold bg-green-100 text-green-800 border border-green-200">
+                        Status: Completed
                     </span>
-                    <p class="text-[11px] text-slate-400 mt-1">Stok telah ditambahkan ke inventori</p>
+                    <p class="text-[11px] text-gray-400 mt-1">Stok telah ditambahkan ke toko</p>
                 @else
-                    <span class="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-black bg-rose-100 text-rose-700 border border-rose-200">
-                        <i class="fa-solid fa-ban mr-1.5 text-sm"></i> STATUS: CANCELLED
+                    <span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold bg-red-100 text-red-800 border border-red-200">
+                        Status: Cancelled
                     </span>
-                    <p class="text-[11px] text-rose-500 font-semibold mt-1">Transaksi dibatalkan & stok dikembalikan</p>
+                    <p class="text-[11px] text-red-600 font-medium mt-1">Transaksi dibatalkan & stok dikembalikan</p>
                 @endif
             </div>
         </div>
 
-        <!-- Supplier & Cashier Info Grid -->
+        <!-- Supplier & User Info Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-            <!-- Supplier Info -->
-            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-1.5">
-                <span class="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Informasi Pemasok / Pabrik</span>
-                <p class="text-sm font-extrabold text-slate-900">{{ $purchase->supplier->name ?? '-' }}</p>
-                <p class="text-slate-600"><strong class="text-slate-700">Telepon:</strong> {{ $purchase->supplier->phone ?? '-' }}</p>
+            <div class="bg-gray-50 p-4 rounded-md border border-gray-200 space-y-1">
+                <span class="text-[10px] uppercase font-semibold text-gray-400 block">Pemasok</span>
+                <p class="text-sm font-bold text-gray-900">{{ $purchase->supplier->name ?? '-' }}</p>
+                <p class="text-gray-600">Telepon: {{ $purchase->supplier->phone ?? '-' }}</p>
                 @if($purchase->supplier->email)
-                    <p class="text-slate-600"><strong class="text-slate-700">Email:</strong> {{ $purchase->supplier->email }}</p>
+                    <p class="text-gray-600">Email: {{ $purchase->supplier->email }}</p>
                 @endif
-                <p class="text-slate-500 text-[11px]"><strong class="text-slate-700">Alamat:</strong> {{ $purchase->supplier->address ?? '-' }}</p>
+                <p class="text-gray-500">Alamat: {{ $purchase->supplier->address ?: '-' }}</p>
             </div>
 
-            <!-- Officer & Note Info -->
-            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-1.5">
-                <span class="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Petugas Pencatat & Catatan</span>
-                <p class="text-sm font-extrabold text-slate-900">{{ $purchase->user->name ?? '-' }} ({{ strtoupper($purchase->user->role ?? '-') }})</p>
-                <p class="text-slate-600"><strong class="text-slate-700">Email:</strong> {{ $purchase->user->email ?? '-' }}</p>
-                <div class="pt-1 border-t border-slate-200/60 mt-1">
-                    <span class="text-slate-400 block text-[10px]">Catatan:</span>
-                    <p class="text-slate-700 italic">{{ $purchase->notes ?: 'Tidak ada catatan khusus.' }}</p>
-                </div>
+            <div class="bg-gray-50 p-4 rounded-md border border-gray-200 space-y-1">
+                <span class="text-[10px] uppercase font-semibold text-gray-400 block">Petugas Penerima</span>
+                <p class="text-sm font-bold text-gray-900">{{ $purchase->user->name ?? '-' }}</p>
+                <p class="text-gray-600">Role: {{ strtoupper($purchase->user->role ?? '-') }}</p>
+                <p class="text-gray-600">Email: {{ $purchase->user->email ?? '-' }}</p>
+                @if($purchase->notes)
+                    <p class="text-gray-500 pt-1 border-t border-gray-200">Catatan: {{ $purchase->notes }}</p>
+                @endif
             </div>
         </div>
 
         <!-- Items Table -->
-        <div class="space-y-3">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Rincian Hijab yang Dipesan</h2>
-            <div class="border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
-                <table class="w-full text-left text-xs sm:text-sm text-slate-600">
-                    <thead class="bg-slate-50 text-[11px] uppercase font-extrabold text-slate-500 border-b border-slate-200">
-                        <tr>
-                            <th class="px-5 py-3 w-12 text-center">No</th>
-                            <th class="px-5 py-3">Produk Hijab</th>
-                            <th class="px-5 py-3">Kategori & Ukuran</th>
-                            <th class="px-5 py-3 text-center">Kuantitas Masuk</th>
-                            <th class="px-5 py-3 text-right">Harga Beli Satuan</th>
-                            <th class="px-5 py-3 text-right">Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100">
-                        @foreach($purchase->items as $index => $item)
-                            <tr class="hover:bg-slate-50/60 transition-colors">
-                                <td class="px-5 py-3.5 text-center font-bold text-slate-400">
-                                    {{ $index + 1 }}
-                                </td>
-                                <td class="px-5 py-3.5">
-                                    <div class="flex items-center space-x-3">
-                                        <img src="{{ asset($item->product->image_path ?? 'images/hijab/pashmina-ceruty.svg') }}" 
-                                             alt="{{ $item->product->name ?? 'Hijab' }}" 
-                                             class="w-10 h-10 object-cover rounded-xl border border-blue-100 flex-shrink-0 shadow-xs">
-                                        <div>
-                                            <div class="font-extrabold text-slate-900">{{ $item->product->name ?? 'Produk Dihapus' }}</div>
-                                            <div class="text-[11px] text-slate-400 font-mono">{{ $item->product->sku ?? '-' }}</div>
-                                        </div>
+        <div class="border border-gray-200 rounded-md overflow-hidden">
+            <table class="w-full text-left text-xs sm:text-sm text-gray-700">
+                <thead class="bg-gray-50 uppercase text-xs font-semibold text-gray-600 border-b border-gray-200">
+                    <tr>
+                        <th class="px-4 py-2.5 w-12 text-center">No</th>
+                        <th class="px-4 py-2.5">Produk Hijab</th>
+                        <th class="px-4 py-2.5 text-center">Jumlah Masuk</th>
+                        <th class="px-4 py-2.5 text-right">Harga Beli Satuan</th>
+                        <th class="px-4 py-2.5 text-right">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    @foreach($purchase->items as $idx => $item)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 text-center text-gray-400">{{ $idx + 1 }}</td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center space-x-3">
+                                    @if($item->product)
+                                        <img src="{{ asset($item->product->image_path) }}" 
+                                             alt="{{ $item->product->name }}" 
+                                             class="w-10 h-10 object-cover rounded border border-gray-200 flex-shrink-0">
+                                    @endif
+                                    <div>
+                                        <div class="font-semibold text-gray-900">{{ $item->product->name ?? 'Produk Dihapus' }}</div>
+                                        <div class="text-xs text-gray-400 font-mono">{{ $item->product->sku ?? '-' }}</div>
                                     </div>
-                                </td>
-                                <td class="px-5 py-3.5 text-xs">
-                                    <span class="font-semibold text-slate-700">{{ $item->product->category->name ?? '-' }}</span>
-                                    <div class="text-slate-400 text-[11px]">{{ $item->product->size ?? '-' }}</div>
-                                </td>
-                                <td class="px-5 py-3.5 text-center font-black text-blue-600">
-                                    +{{ $item->quantity }} pcs
-                                </td>
-                                <td class="px-5 py-3.5 text-right font-medium text-slate-700">
-                                    Rp {{ number_format($item->unit_cost, 0, ',', '.') }}
-                                </td>
-                                <td class="px-5 py-3.5 text-right font-black text-slate-900">
-                                    Rp {{ number_format($item->subtotal, 0, ',', '.') }}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                    <tfoot class="bg-slate-50 font-black text-slate-900 border-t border-slate-200">
-                        <tr>
-                            <td colspan="3" class="px-5 py-3 text-right text-xs uppercase tracking-wider text-slate-500">
-                                Total Kuantitas:
+                                </div>
                             </td>
-                            <td class="px-5 py-3 text-center text-sm font-black text-blue-700">
-                                {{ $purchase->items->sum('quantity') }} pcs
-                            </td>
-                            <td class="px-5 py-3 text-right text-xs uppercase tracking-wider text-slate-500">
-                                Total Pembayaran:
-                            </td>
-                            <td class="px-5 py-3 text-right text-base font-black text-blue-700">
-                                Rp {{ number_format($purchase->total, 0, ',', '.') }}
-                            </td>
+                            <td class="px-4 py-3 text-center font-medium">{{ $item->quantity }} pcs</td>
+                            <td class="px-4 py-3 text-right">Rp {{ number_format($item->unit_cost, 0, ',', '.') }}</td>
+                            <td class="px-4 py-3 text-right font-medium">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
                         </tr>
-                    </tfoot>
-                </table>
-            </div>
+                    @endforeach
+                </tbody>
+                <tfoot class="bg-gray-50 border-t border-gray-200 font-bold text-gray-900">
+                    <tr>
+                        <td colspan="4" class="px-4 py-3 text-right uppercase text-xs">Total Biaya Pengadaan:</td>
+                        <td class="px-4 py-3 text-right text-base text-blue-700">Rp {{ number_format($purchase->total, 0, ',', '.') }}</td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
-
     </div>
 </div>
 @endsection

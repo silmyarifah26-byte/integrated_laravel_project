@@ -3,35 +3,29 @@
 @section('content')
 <div class="space-y-6">
 
-    <!-- Header Section -->
-    <div class="bg-gradient-to-r from-pink-400 via-rose-300 to-purple-300 rounded-3xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
-        <div class="absolute -right-6 -bottom-6 text-white/15 text-9xl pointer-events-none">
-            <i class="fa-solid fa-heart"></i>
-        </div>
-        <div class="relative z-10 max-w-2xl">
-            <span class="px-3 py-1 rounded-full text-xs font-black bg-white/25 backdrop-blur border border-white/40 text-white mb-2 inline-block">
-                🧕 Koleksi Eksklusif HijabSociety
-            </span>
-            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Katalog Hijab & Aksesoris Muslimah</h1>
-            <p class="text-white/95 text-sm mt-1">
-                Pilih hijab cantik favorit Anda dari berbagai kategori mulai dari Pashmina, Segi Empat Voal Ultrafine, Bergo Daily Instan, hingga Khimar Syar'i berbahan premium dan nyaman seharian.
+    <!-- Header Section Sederhana -->
+    <div class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+            <h1 class="text-xl font-bold text-gray-900">Katalog Hijab & Aksesoris Muslimah</h1>
+            <p class="text-xs sm:text-sm text-gray-500 mt-0.5">
+                Pilihan koleksi pashmina, segi empat voal, dan hijab instan berkualitas di HijabSociety.
             </p>
+        </div>
+        <div class="text-xs text-gray-500">
+            Total: <span class="font-semibold text-gray-800">{{ $products->total() }}</span> Produk
         </div>
     </div>
 
-    <!-- Search & Category Filter -->
-    <div class="bg-white p-4 rounded-3xl border border-pink-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <form action="{{ route('products.catalog') }}" method="GET" class="flex-1 grid grid-cols-1 sm:grid-cols-12 gap-3">
-            <div class="sm:col-span-8 relative">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </span>
+    <!-- Search & Filter Bar Standar -->
+    <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+        <form action="{{ route('products.catalog') }}" method="GET" class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+            <div class="sm:col-span-7">
                 <input type="text" name="search" value="{{ $search }}" placeholder="Cari nama hijab, bahan voal/ceruty, atau ukuran..."
-                    class="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 text-sm focus:ring-2 focus:ring-pink-400 focus:border-pink-400 bg-pink-50/20 focus:bg-white transition-all">
+                    class="w-full px-3 py-2 rounded-md border border-gray-300 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-rose-500 focus:border-rose-500">
             </div>
 
-            <div class="sm:col-span-4 flex items-center space-x-2">
-                <select name="category_id" class="w-full px-3 py-2.5 rounded-2xl border border-slate-200 text-sm focus:ring-2 focus:ring-pink-400 focus:border-pink-400 bg-pink-50/20 focus:bg-white transition-all">
+            <div class="sm:col-span-3">
+                <select name="category_id" class="w-full px-3 py-2 rounded-md border border-gray-300 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-rose-500 focus:border-rose-500">
                     <option value="">Semua Kategori</option>
                     @foreach($categories as $cat)
                         <option value="{{ $cat->id }}" {{ $categoryId == $cat->id ? 'selected' : '' }}>
@@ -39,97 +33,96 @@
                         </option>
                     @endforeach
                 </select>
-                <button type="submit" class="px-5 py-2.5 rounded-2xl bg-pink-500 hover:bg-pink-600 text-white font-bold text-xs shadow-sm transition-colors">
+            </div>
+
+            <div class="sm:col-span-2 flex items-center space-x-2">
+                <button type="submit" class="w-full py-2 px-3 rounded-md bg-gray-900 hover:bg-gray-800 text-white font-medium text-xs transition-colors">
                     Filter
                 </button>
+                @if($search || $categoryId)
+                    <a href="{{ route('products.catalog') }}" class="py-2 px-3 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-50 text-xs font-medium transition-colors" title="Reset filter">
+                        Reset
+                    </a>
+                @endif
             </div>
         </form>
-
-        <span class="text-xs font-semibold text-slate-500 whitespace-nowrap">
-            Ditemukan: <strong>{{ $products->total() }}</strong> Item Hijab
-        </span>
     </div>
 
     <!-- Product Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         @forelse($products as $item)
-            <div class="bg-white rounded-3xl border border-pink-100 p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-200 flex flex-col justify-between group">
+            <div class="bg-white rounded-lg border border-gray-200 p-4 shadow-sm hover:border-gray-300 transition-colors flex flex-col justify-between">
                 <div>
-                    <!-- Foto Hijab Otomatis -->
-                    <div class="w-full h-52 rounded-2xl overflow-hidden mb-3 relative group-hover:scale-[1.02] transition-transform duration-200 bg-slate-100 border border-pink-100">
+                    <!-- Foto Hijab -->
+                    <div class="w-full h-48 rounded-md overflow-hidden mb-3 relative bg-gray-100 border border-gray-200">
                         <img src="{{ asset($item->image_path) }}" 
                              alt="{{ $item->name }}" 
-                             class="object-cover object-center w-full h-52 rounded-2xl">
+                             class="object-cover object-center w-full h-48">
                         
-                        <div class="absolute top-2.5 left-2.5">
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-white/90 backdrop-blur text-pink-600 border border-pink-200 shadow-xs">
+                        <div class="absolute top-2 left-2">
+                            <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-white/95 text-gray-700 border border-gray-200">
                                 {{ $item->category->name ?? 'Hijab' }}
                             </span>
                         </div>
-                        <div class="absolute top-2.5 right-2.5">
-                            <span class="text-[10px] font-bold text-slate-400 font-mono bg-white/80 px-2 py-0.5 rounded-full border border-slate-100">
+                        <div class="absolute top-2 right-2">
+                            <span class="text-[10px] font-mono text-gray-500 bg-white/90 px-1.5 py-0.5 rounded border border-gray-200">
                                 {{ $item->sku }}
                             </span>
                         </div>
                     </div>
 
-                    <!-- Hijab Name -->
-                    <h2 class="font-extrabold text-slate-800 text-base group-hover:text-pink-600 transition-colors line-clamp-2">
+                    <!-- Nama Hijab -->
+                    <h2 class="font-semibold text-gray-900 text-sm line-clamp-2">
                         {{ $item->name }}
                     </h2>
 
-                    <!-- Specs -->
-                    <div class="mt-3 space-y-1 text-xs text-slate-600 bg-pink-50/30 p-2.5 rounded-2xl border border-pink-100/50">
-                        <div class="flex items-center justify-between">
-                            <span class="text-slate-400">Ukuran:</span>
-                            <span class="font-bold text-slate-700">{{ $item->size ?: '-' }}</span>
-                        </div>
-                        <div class="flex items-start justify-between gap-1">
-                            <span class="text-slate-400">Bahan:</span>
-                            <span class="font-medium text-slate-600 text-right line-clamp-1" title="{{ $item->material }}">{{ $item->material ?: '-' }}</span>
-                        </div>
+                    <!-- Spesifikasi Ukuran & Bahan -->
+                    <div class="mt-2 text-xs text-gray-500 space-y-1">
+                        <div>Ukuran: <span class="text-gray-700 font-medium">{{ $item->size ?: '-' }}</span></div>
+                        <div class="line-clamp-1">Bahan: <span class="text-gray-700 font-medium">{{ $item->material ?: '-' }}</span></div>
                     </div>
                 </div>
 
-                <!-- Bottom Pricing & Stock -->
-                <div class="mt-4 pt-3 border-t border-pink-50 flex items-center justify-between">
-                    <div>
-                        <span class="text-[10px] uppercase font-bold text-slate-400 block">Harga</span>
-                        <span class="text-lg font-black text-pink-600">
-                            Rp {{ number_format($item->selling_price, 0, ',', '.') }}
-                        </span>
+                <!-- Harga, Stok, dan Tombol Pesan -->
+                <div class="mt-4 pt-3 border-t border-gray-100">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <span class="text-[10px] uppercase text-gray-400 block">Harga</span>
+                            <span class="text-base font-bold text-rose-600">
+                                Rp {{ number_format($item->selling_price, 0, ',', '.') }}
+                            </span>
+                        </div>
+
+                        <div>
+                            @if($item->stock > 0)
+                                <span class="px-2 py-0.5 rounded text-xs font-medium bg-green-50 text-green-700 border border-green-200">
+                                    Stok: {{ $item->stock }}
+                                </span>
+                            @else
+                                <span class="px-2 py-0.5 rounded text-xs font-medium bg-red-50 text-red-700 border border-red-200">
+                                    Habis
+                                </span>
+                            @endif
+                        </div>
                     </div>
 
-                    @if($item->stock > 0)
-                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                            Stok: {{ $item->stock }}
-                        </span>
-                    @else
-                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
-                            Habis
-                        </span>
-                    @endif
-                </div>
-
-                <!-- Quick Action Button -->
-                <div class="mt-3">
-                    <a href="{{ route('sales.create', ['product_id' => $item->id]) }}" class="w-full inline-flex items-center justify-center py-2 px-3 rounded-2xl bg-pink-50 hover:bg-pink-100 text-pink-700 font-bold text-xs border border-pink-200 transition-colors">
-                        <i class="fa-solid fa-basket-shopping mr-1.5 text-pink-500"></i> Pesan Hijab Ini
+                    <a href="{{ route('sales.create', ['product_id' => $item->id]) }}" class="w-full inline-flex items-center justify-center py-2 px-3 rounded-md bg-rose-600 hover:bg-rose-700 text-white font-medium text-xs transition-colors">
+                        <i class="fa-solid fa-cart-plus mr-1.5"></i> Pesan Hijab Ini
                     </a>
                 </div>
             </div>
         @empty
-            <div class="col-span-full bg-white p-12 rounded-3xl border border-slate-200 text-center text-slate-400">
-                <i class="fa-solid fa-basket-shopping text-5xl mb-3 text-slate-300"></i>
-                <p class="font-bold text-base text-slate-700">Tidak ada produk hijab yang sesuai dengan filter pencarian.</p>
-                <p class="text-xs text-slate-400 mt-1">Silakan coba pilih kategori lain atau bersihkan kata kunci.</p>
+            <div class="col-span-full bg-white p-8 rounded-lg border border-gray-200 text-center text-gray-500">
+                <i class="fa-solid fa-boxes-stacked text-3xl mb-2 text-gray-300"></i>
+                <p class="font-semibold text-gray-700 text-sm">Tidak ada produk hijab yang ditemukan.</p>
+                <p class="text-xs text-gray-400 mt-0.5">Silakan gunakan kata kunci lain atau pilih semua kategori.</p>
             </div>
         @endforelse
     </div>
 
-    <!-- Pagination Bar -->
+    <!-- Pagination -->
     @if($products->hasPages())
-        <div class="bg-white p-4 rounded-2xl border border-slate-200">
+        <div class="bg-white p-3 rounded-lg border border-gray-200">
             {{ $products->links() }}
         </div>
     @endif

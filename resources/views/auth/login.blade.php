@@ -1,102 +1,78 @@
-@extends('layouts.app', ['title' => "Masuk Pelanggan - HijabSociety"])
+@extends('layouts.app', ['title' => 'Masuk Pelanggan - HijabSociety'])
 
 @section('content')
-<div class="max-w-md mx-auto py-8 sm:py-12 px-4">
-
-    <!-- Main Login Card Container -->
-    <div class="bg-white rounded-3xl border border-pink-100 shadow-xl shadow-pink-100/50 overflow-hidden transition-all duration-300">
-
-        <!-- Soft Pink Pastel Header Banner -->
-        <div class="p-6 sm:p-8 border-b border-pink-100/60 bg-gradient-to-br from-pink-50 via-rose-50/40 to-white text-slate-800">
-            <!-- Title & Subtitle -->
-            <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900">
+<div class="max-w-md mx-auto my-8">
+    <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 sm:p-8">
+        
+        <!-- Header -->
+        <div class="mb-6 pb-4 border-b border-gray-100">
+            <h1 class="text-xl font-bold text-gray-900">
                 Masuk Pelanggan HijabSociety
             </h1>
-
-            <p class="text-xs sm:text-sm mt-1.5 text-slate-500 font-medium">
-                Belanja hijab cantik favoritmu dan pantau pesanan dengan mudah tanpa perlu mengingat kata sandi.
+            <p class="text-sm text-gray-500 mt-1">
+                Silakan masuk menggunakan nama dan email untuk melihat katalog dan melakukan pesanan hijab.
             </p>
         </div>
 
-        <!-- Login Form Body -->
-        <div class="p-6 sm:p-8">
-            <form action="{{ route('login') }}" method="POST" class="space-y-5" id="customerLoginForm">
-                @csrf
+        <!-- Form Login -->
+        <form action="{{ route('login') }}" method="POST" class="space-y-4">
+            @csrf
 
-                <!-- Hidden Customer Portal Role -->
-                <input type="hidden" name="portal_role" value="customer">
+            <!-- Hidden Role -->
+            <input type="hidden" name="portal_role" value="customer">
 
-                <!-- Name Input (Required) -->
-                <div>
-                    <label for="name" class="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1.5">
-                        Nama Panggilan / Lengkap <span class="text-rose-500">*</span>
-                    </label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-rose-300">
-                            <i class="fa-solid fa-user-tag"></i>
-                        </span>
-                        <input type="text" name="name" id="name" required
-                            value="{{ old('name') }}"
-                            placeholder="Contoh: Caca"
-                            class="w-full pl-11 pr-4 py-3 rounded-2xl border border-pink-200 text-sm transition-all bg-pink-50/30 hover:bg-white focus:bg-white focus:ring-2 focus:ring-rose-400 focus:border-rose-400 font-medium">
-                    </div>
-                </div>
+            <!-- Name Input -->
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                    Nama Lengkap / Panggilan <span class="text-red-500">*</span>
+                </label>
+                <input type="text" name="name" id="name" required
+                    value="{{ old('name') }}"
+                    placeholder="Contoh: Siti Aisyah"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-rose-500 focus:border-rose-500">
+            </div>
 
-                <!-- Email Input (Required) -->
-                <div>
-                    <label for="email" class="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1.5">
-                        Alamat Email Akun <span class="text-rose-500">*</span>
-                    </label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
-                            <i class="fa-regular fa-envelope"></i>
-                        </span>
-                        <input type="email" name="email" id="email" required autofocus
-                            value="{{ old('email') }}"
-                            placeholder="nama@email.com"
-                            class="w-full pl-11 pr-4 py-3 rounded-2xl border border-pink-200 text-sm transition-all bg-slate-50/50 hover:bg-white focus:bg-white focus:ring-2 focus:ring-rose-400 focus:border-rose-400 font-medium">
-                    </div>
-                </div>
+            <!-- Email Input -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                    Alamat Email <span class="text-red-500">*</span>
+                </label>
+                <input type="email" name="email" id="email" required autofocus
+                    value="{{ old('email') }}"
+                    placeholder="nama@email.com"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-rose-500 focus:border-rose-500">
+            </div>
 
-                <!-- Remember Me Checkbox -->
-                <div class="flex items-center justify-between text-xs sm:text-sm">
-                    <label class="flex items-center cursor-pointer select-none">
-                        <input type="checkbox" name="remember" class="w-4 h-4 rounded text-rose-500 focus:ring-rose-400 border-pink-200">
-                        <span class="ml-2 text-slate-600 font-bold">Ingat saya di perangkat ini</span>
-                    </label>
-                </div>
+            <!-- Remember Me -->
+            <div class="flex items-center text-sm">
+                <input type="checkbox" name="remember" id="remember" class="h-4 w-4 text-rose-600 focus:ring-rose-500 border-gray-300 rounded">
+                <label for="remember" class="ml-2 text-gray-600 select-none">Ingat saya di perangkat ini</label>
+            </div>
 
-                <!-- Submit Button -->
-                <div>
-                    <button type="submit"
-                        class="w-full py-3.5 px-4 rounded-2xl font-black text-sm text-white shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center space-x-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 shadow-pink-300/30">
-                        <i class="fa-solid fa-heart"></i>
-                        <span>Masuk & Mulai Belanja</span>
-                    </button>
-                </div>
+            <!-- Submit Button -->
+            <div class="pt-2">
+                <button type="submit"
+                    class="w-full py-2.5 px-4 bg-rose-600 hover:bg-rose-700 text-white font-medium rounded-md text-sm transition-colors shadow-xs">
+                    Masuk
+                </button>
+            </div>
 
-                <!-- Registration Link -->
-                <div class="pt-4 border-t border-pink-100 text-center text-xs sm:text-sm text-slate-500 font-semibold">
-                    Masuk otomatis tanpa password! Atau ingin daftar profil lengkap?
-                    <a href="{{ route('register') }}" class="font-black text-rose-500 hover:text-rose-600 hover:underline ml-1">
-                        Daftar Akun Customer Sekarang
-                    </a>
-                </div>
-            </form>
-        </div>
-
+            <!-- Register Link -->
+            <div class="pt-3 text-center text-xs text-gray-500 border-t border-gray-100">
+                Belum memiliki akun?
+                <a href="{{ route('register') }}" class="text-rose-600 hover:text-rose-700 font-semibold ml-1">
+                    Daftar Akun Customer Sekarang
+                </a>
+            </div>
+        </form>
     </div>
 
-    <!-- Security Note & Discreet Portal Links for Evaluator / Testing -->
-    <div class="mt-8 text-center text-xs text-slate-400 font-medium">
-        <p>🌸 HijabSociety Store &bull; Sistem Inventaris & Penjualan Hijab Modern & Syar'i</p>
-        <div class="mt-3 text-[11px] text-slate-400/50 flex items-center justify-center space-x-3">
-            <span>Akses Pengujian Dosen:</span>
-            <a href="{{ route('login.staff') }}" class="text-slate-400/70 hover:text-emerald-600 transition-colors">Portal Staff Toko</a>
-            <span>&bull;</span>
-            <a href="{{ route('login.admin') }}" class="text-slate-400/70 hover:text-purple-600 transition-colors">Portal Administrator</a>
-        </div>
+    <!-- Switch Portal Link -->
+    <div class="mt-6 text-center text-xs text-gray-400 space-x-3">
+        <span>Akses Portal Internal:</span>
+        <a href="{{ route('login.staff') }}" class="text-gray-500 hover:text-gray-700 underline">Portal Staff</a>
+        <span>&bull;</span>
+        <a href="{{ route('login.admin') }}" class="text-gray-500 hover:text-gray-700 underline">Portal Administrator</a>
     </div>
-
 </div>
 @endsection

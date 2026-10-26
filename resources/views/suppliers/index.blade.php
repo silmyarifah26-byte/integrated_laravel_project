@@ -4,109 +4,94 @@
 <div class="space-y-6">
 
     <!-- Header Section -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <div class="flex items-center space-x-2">
-                <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-sm">
-                    <i class="fa-solid fa-industry"></i>
-                </span>
-                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Pemasok Tekstil & Hijab</h1>
-            </div>
-            <p class="text-slate-500 text-xs sm:text-sm mt-1">Daftar mitra pabrik produsen dan distributor pengadaan bahan & produk hijab (Stock-In).</p>
+            <h1 class="text-xl font-bold text-gray-900">Pemasok Tekstil & Hijab</h1>
+            <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Daftar mitra pabrik dan distributor pengadaan bahan atau stok hijab (Stock-In).</p>
         </div>
 
         @if(auth()->user()->isAdmin())
             <div>
-                <a href="{{ route('suppliers.create') }}" class="inline-flex items-center px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-sm transition-all duration-200">
+                <a href="{{ route('suppliers.create') }}" class="inline-flex items-center px-3.5 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs transition-colors">
                     <i class="fa-solid fa-plus mr-1.5"></i> Tambah Pemasok
                 </a>
             </div>
         @else
-            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">
-                <i class="fa-solid fa-eye mr-1.5"></i> Mode Akses: Hanya Lihat (Staff)
+            <span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">
+                Mode Akses: Hanya Lihat (Staff)
             </span>
         @endif
     </div>
 
     <!-- Search & Filter Bar -->
-    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <form action="{{ route('suppliers.index') }}" method="GET" class="w-full sm:max-w-md relative flex items-center">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </span>
+    <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <form action="{{ route('suppliers.index') }}" method="GET" class="w-full sm:max-w-md flex items-center space-x-2">
             <input type="text" name="search" value="{{ $search }}" placeholder="Cari nama, telepon, atau alamat supplier..."
-                class="w-full pl-10 pr-24 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 focus:bg-white transition-all">
-            @if($search)
-                <a href="{{ route('suppliers.index') }}" class="absolute right-12 text-slate-400 hover:text-slate-600 text-xs font-bold" title="Hapus filter">
-                    <i class="fa-solid fa-xmark"></i>
-                </a>
-            @endif
-            <button type="submit" class="absolute right-1.5 px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold transition-colors">
+                class="w-full px-3 py-2 rounded-md border border-gray-300 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+            <button type="submit" class="px-3.5 py-2 rounded-md bg-gray-900 hover:bg-gray-800 text-white text-xs font-medium transition-colors">
                 Cari
             </button>
+            @if($search)
+                <a href="{{ route('suppliers.index') }}" class="px-3 py-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-50 text-xs font-medium transition-colors" title="Reset filter">
+                    Reset
+                </a>
+            @endif
         </form>
 
-        <span class="text-xs font-semibold text-slate-500">
+        <span class="text-xs text-gray-500">
             Total: <strong>{{ $suppliers->total() }}</strong> Pemasok
         </span>
     </div>
 
     <!-- Suppliers Table -->
-    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+    <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-slate-600">
-                <thead class="bg-slate-50 text-xs uppercase font-extrabold text-slate-500 border-b border-slate-200">
+            <table class="w-full text-left text-sm text-gray-700">
+                <thead class="bg-gray-50 text-xs uppercase font-semibold text-gray-600 border-b border-gray-200">
                     <tr>
-                        <th class="px-6 py-4 w-12 text-center">No</th>
-                        <th class="px-6 py-4">Nama Supplier</th>
-                        <th class="px-6 py-4">Kontak (Telp & Email)</th>
-                        <th class="px-6 py-4">Alamat Pabrik / Gudang</th>
-                        <th class="px-6 py-4 text-center">Riwayat Stock-In</th>
+                        <th class="px-4 py-3 w-12 text-center">No</th>
+                        <th class="px-4 py-3">Nama Supplier</th>
+                        <th class="px-4 py-3">Kontak</th>
+                        <th class="px-4 py-3">Alamat</th>
+                        <th class="px-4 py-3 text-center">Riwayat Stock-In</th>
                         @if(auth()->user()->isAdmin())
-                            <th class="px-6 py-4 text-center w-36">Aksi</th>
+                            <th class="px-4 py-3 text-center w-28">Aksi</th>
                         @endif
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100">
+                <tbody class="divide-y divide-gray-200">
                     @forelse($suppliers as $index => $sup)
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="px-6 py-4 text-center font-bold text-slate-400">
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 text-center font-medium text-gray-400">
                                 {{ $suppliers->firstItem() + $index }}
                             </td>
-                            <td class="px-6 py-4">
-                                <span class="font-extrabold text-slate-900 text-base block">
-                                    {{ $sup->name }}
-                                </span>
+                            <td class="px-4 py-3 font-semibold text-gray-900 text-sm">
+                                {{ $sup->name }}
                             </td>
-                            <td class="px-6 py-4">
-                                <div class="font-bold text-slate-800 text-xs flex items-center">
-                                    <i class="fa-solid fa-phone text-blue-500 mr-1.5 text-[10px]"></i> {{ $sup->phone }}
-                                </div>
+                            <td class="px-4 py-3 text-xs text-gray-600">
+                                <div class="font-medium text-gray-800">{{ $sup->phone }}</div>
                                 @if($sup->email)
-                                    <div class="text-xs text-slate-500 flex items-center mt-0.5">
-                                        <i class="fa-regular fa-envelope text-slate-400 mr-1.5 text-[10px]"></i> {{ $sup->email }}
-                                    </div>
+                                    <div class="text-gray-400">{{ $sup->email }}</div>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 text-slate-600 text-xs max-w-xs">
+                            <td class="px-4 py-3 text-gray-500 text-xs max-w-xs">
                                 {{ $sup->address ?: '-' }}
                             </td>
-                            <td class="px-6 py-4 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold {{ $sup->purchases_count > 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-500' }}">
-                                    <i class="fa-solid fa-truck-ramp-box mr-1.5 text-[10px]"></i>
+                            <td class="px-4 py-3 text-center">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium {{ $sup->purchases_count > 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-gray-50 text-gray-400' }}">
                                     {{ $sup->purchases_count }} Transaksi
                                 </span>
                             </td>
                             @if(auth()->user()->isAdmin())
-                                <td class="px-6 py-4 text-center">
-                                    <div class="inline-flex items-center space-x-1.5">
-                                        <a href="{{ route('suppliers.edit', $sup) }}" class="p-2 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 transition-colors" title="Ubah Pemasok">
+                                <td class="px-4 py-3 text-center">
+                                    <div class="inline-flex items-center space-x-1">
+                                        <a href="{{ route('suppliers.edit', $sup) }}" class="p-1.5 rounded border border-yellow-200 text-yellow-700 bg-yellow-50 hover:bg-yellow-100 transition-colors" title="Ubah Pemasok">
                                             <i class="fa-solid fa-pen-to-square text-xs"></i>
                                         </a>
                                         <form action="{{ route('suppliers.destroy', $sup) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pemasok {{ $sup->name }}?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="p-2 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition-colors" title="Hapus Pemasok">
+                                            <button type="submit" class="p-1.5 rounded border border-red-200 text-red-700 bg-red-50 hover:bg-red-100 transition-colors" title="Hapus Pemasok">
                                                 <i class="fa-solid fa-trash-can text-xs"></i>
                                             </button>
                                         </form>
@@ -116,12 +101,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ auth()->user()->isAdmin() ? 6 : 5 }}" class="px-6 py-12 text-center text-slate-400">
-                                <i class="fa-solid fa-industry text-4xl mb-2 text-slate-300"></i>
-                                <p class="font-semibold">Tidak ada pemasok yang ditemukan.</p>
-                                @if($search)
-                                    <p class="text-xs text-slate-400 mt-1">Coba kata kunci lain atau bersihkan kotak pencarian.</p>
-                                @endif
+                            <td colspan="{{ auth()->user()->isAdmin() ? 6 : 5 }}" class="px-4 py-8 text-center text-gray-400 text-sm">
+                                Tidak ada data pemasok yang ditemukan.
                             </td>
                         </tr>
                     @endforelse
@@ -129,9 +110,9 @@
             </table>
         </div>
 
-        <!-- Pagination Bar -->
+        <!-- Pagination -->
         @if($suppliers->hasPages())
-            <div class="p-4 border-t border-slate-100 bg-slate-50/50">
+            <div class="p-3 border-t border-gray-200 bg-gray-50">
                 {{ $suppliers->links() }}
             </div>
         @endif
