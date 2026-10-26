@@ -119,7 +119,13 @@
                             </td>
                             <td class="px-4 py-3 text-xs text-gray-500">
                                 <div>{{ $item->product->category->name ?? '-' }}</div>
-                                <div class="text-gray-400">{{ $item->product->size ?? '-' }}</div>
+                                @if(!empty($item->variation))
+                                    <span class="inline-block px-1.5 py-0.5 rounded text-[11px] font-medium bg-rose-50 text-rose-700 border border-rose-200 mt-1">
+                                        {{ $item->variation }}
+                                    </span>
+                                @else
+                                    <div class="text-gray-400">{{ $item->product->size ?? '-' }}</div>
+                                @endif
                             </td>
                             <td class="px-4 py-3 text-center font-medium">{{ $item->quantity }} pcs</td>
                             <td class="px-4 py-3 text-right">Rp {{ number_format($item->unit_price, 0, ',', '.') }}</td>

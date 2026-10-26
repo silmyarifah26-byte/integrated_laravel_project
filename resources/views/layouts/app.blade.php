@@ -80,8 +80,13 @@
                         <a href="{{ route('sales.index') }}" class="px-3 py-1.5 rounded-md text-sm font-medium transition-colors {{ request()->routeIs('sales.*') ? 'bg-gray-100 text-gray-900 font-semibold' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }}">
                             <i class="fa-solid fa-bag-shopping mr-1 text-xs text-gray-400"></i> Riwayat Pesanan Saya
                         </a>
-                        <a href="{{ route('sales.create') }}" class="px-3 py-1.5 rounded-md text-sm font-medium bg-rose-600 hover:bg-rose-700 text-white transition-colors">
-                            <i class="fa-solid fa-cart-plus mr-1 text-xs"></i> Pesan Hijab
+                        <a href="{{ route('cart.index') }}" class="inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium {{ request()->routeIs('cart.*') ? 'bg-rose-700 text-white font-semibold' : 'bg-rose-600 hover:bg-rose-700 text-white' }} transition-colors">
+                            <i class="fa-solid fa-cart-shopping mr-1.5 text-xs"></i> Keranjang
+                            @if(count(session('cart', [])) > 0)
+                                <span class="ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-white text-rose-600 leading-none">
+                                    {{ count(session('cart', [])) }}
+                                </span>
+                            @endif
                         </a>
                     @endif
                 </nav>

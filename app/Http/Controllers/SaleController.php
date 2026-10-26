@@ -190,6 +190,7 @@ class SaleController extends Controller
 
                     $sale->items()->create([
                         'product_id' => $product->id,
+                        'variation' => $item['variation'] ?? null,
                         'quantity' => $qty,
                         'unit_price' => $product->selling_price,
                         'subtotal' => $subtotal,

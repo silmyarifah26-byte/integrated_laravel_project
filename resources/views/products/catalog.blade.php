@@ -11,8 +11,18 @@
                 Pilihan koleksi pashmina, segi empat voal, dan hijab instan berkualitas di HijabSociety.
             </p>
         </div>
-        <div class="text-xs text-gray-500">
-            Total: <span class="font-semibold text-gray-800">{{ $products->total() }}</span> Produk
+        <div class="flex items-center space-x-3 text-xs">
+            <span class="text-gray-500">
+                Total: <span class="font-semibold text-gray-800">{{ $products->total() }}</span> Produk
+            </span>
+            <a href="{{ route('cart.index') }}" class="inline-flex items-center px-3 py-1.5 rounded-md bg-rose-50 border border-rose-200 text-rose-700 font-semibold hover:bg-rose-100 transition-colors">
+                <i class="fa-solid fa-cart-shopping mr-1.5"></i> Lihat Keranjang
+                @if(count(session('cart', [])) > 0)
+                    <span class="ml-1.5 px-1.5 py-0.2 rounded-full text-[10px] bg-rose-600 text-white font-bold">
+                        {{ count(session('cart', [])) }}
+                    </span>
+                @endif
+            </a>
         </div>
     </div>
 
@@ -76,16 +86,13 @@
                         {{ $item->name }}
                     </h2>
 
-                    <!-- Spesifikasi Ukuran & Bahan -->
-                    <div class="mt-2 text-xs text-gray-500 space-y-1">
-                        <div>Ukuran: <span class="text-gray-700 font-medium">{{ $item->size ?: '-' }}</span></div>
-                        <div class="line-clamp-1">Bahan: <span class="text-gray-700 font-medium">{{ $item->material ?: '-' }}</span></div>
+                    <!-- Spesifikasi Bahan -->
+                    <div class="mt-1 text-xs text-gray-500">
+                        <span class="line-clamp-1">Bahan: <span class="text-gray-700 font-medium">{{ $item->material ?: '-' }}</span></span>
                     </div>
-                </div>
 
-                <!-- Harga, Stok, dan Tombol Pesan -->
-                <div class="mt-4 pt-3 border-t border-gray-100">
-                    <div class="flex items-center justify-between mb-3">
+                    <!-- Harga dan Status Stok -->
+                    <div class="flex items-center justify-between mt-3 pt-2 border-t border-gray-100">
                         <div>
                             <span class="text-[10px] uppercase text-gray-400 block">Harga</span>
                             <span class="text-base font-bold text-rose-600">
@@ -105,11 +112,56 @@
                             @endif
                         </div>
                     </div>
-
-                    <a href="{{ route('sales.create', ['product_id' => $item->id]) }}" class="w-full inline-flex items-center justify-center py-2 px-3 rounded-md bg-rose-600 hover:bg-rose-700 text-white font-medium text-xs transition-colors">
-                        <i class="fa-solid fa-cart-plus mr-1.5"></i> Pesan Hijab Ini
-                    </a>
                 </div>
+
+                <!-- Form Pemilihan Variasi & Add to Cart -->
+                <form action="{{ route('cart.add') }}" method="POST" class="mt-3 pt-3 border-t border-gray-100 space-y-2">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $item->id }}">
+
+                    <!-- Pilihan Variasi Warna -->
+                    <div>
+                        <label class="block text-[11px] font-semibold text-gray-700 mb-0.5">
+                            Variasi Warna:
+                        </label>
+                        <select name="color" class="w-full text-xs px-2.5 py-1.5 border border-gray-300 rounded-md bg-white text-gray-800 focus:outline-none focus:ring-1 focus:ring-rose-500">
+                            @foreach($item->available_colors as $color)
+                                <option value="{{ $color }}">{{ $color }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Pilihan Variasi Ukuran -->
+                    <div>
+                        <label class="block text-[11px] font-semibold text-gray-700 mb-0.5">
+                            Variasi Ukuran:
+                        </label>
+                        <select name="size" class="w-full text-xs px-2.5 py-1.5 border border-gray-300 rounded-md bg-white text-gray-800 focus:outline-none focus:ring-1 focus:ring-rose-500">
+                            @foreach($item->available_sizes as $sizeOption)
+                                <option value="{{ $sizeOption }}">{{ $sizeOption }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Kuantitas & Tombol Masukkan ke Keranjang -->
+                    <div class="flex items-center space-x-2 pt-1">
+                        <div class="w-16">
+                            <input type="number" 
+                                   name="quantity" 
+                                   value="1" 
+                                   min="1" 
+                                   max="{{ $item->stock > 0 ? $item->stock : 1 }}" 
+                                   {{ $item->stock < 1 ? 'disabled' : '' }}
+                                   class="w-full text-xs px-2 py-1.5 border border-gray-300 rounded-md text-center font-medium focus:outline-none focus:ring-1 focus:ring-rose-500">
+                        </div>
+                        <button type="submit" 
+                                {{ $item->stock < 1 ? 'disabled' : '' }}
+                                class="flex-1 py-1.5 px-3 rounded-md {{ $item->stock > 0 ? 'bg-rose-600 hover:bg-rose-700 text-white' : 'bg-gray-200 text-gray-400 cursor-not-allowed' }} font-medium text-xs transition-colors flex items-center justify-center">
+                            <i class="fa-solid fa-cart-plus mr-1.5"></i>
+                            {{ $item->stock > 0 ? 'Masukkan ke Keranjang' : 'Stok Habis' }}
+                        </button>
+                    </div>
+                </form>
             </div>
         @empty
             <div class="col-span-full bg-white p-8 rounded-lg border border-gray-200 text-center text-gray-500">

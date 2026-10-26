@@ -39,12 +39,16 @@ Sistem ini mengintegrasikan seluruh rantai operasional toko hijab:
    - Transaksi POS kasir toko fisik oleh Staff/Admin dengan dukungan pencarian pelanggan terdaftar atau mode Tamu/Umum (*Guest*).
    - Pemesanan mandiri oleh pelanggan terdaftar (*Customer Self-Service Order*) langsung dari katalog toko.
    - Pengurangan stok produk secara otomatis (`decrement`) saat transaksi berhasil disimpan.
-4. **Pencegahan Overselling & Rekonsiliasi Realtime**:
+4. **Keranjang Belanja (*Shopping Cart*) & Pilihan Variasi Hijab (Warna & Ukuran)**:
+   - Pemilihan variasi warna dan ukuran langsung pada katalog produk sebelum dimasukkan ke keranjang belanja.
+   - Halaman keranjang belanja (`/cart`) dengan kontrol kuantitas item, hapus item, pengosongan keranjang, dan rincian ringkasan biaya.
+   - Checkout multi-item dengan pilihan metode pembayaran (QRIS, Transfer Bank, E-Wallet, Tunai/COD) dan penyimpanan variasi terpilih pada faktur nota penjualan.
+5. **Pencegahan Overselling & Rekonsiliasi Realtime**:
    - Penguncian baris produk menggunakan `lockForUpdate()` di dalam transaksi atomik `DB::transaction`.
    - Mengambil harga jual langsung dari basis data server, bukan mempercayai input form peramban.
    - Validasi ketat ketersediaan stok fisik: jika ada satu item saja yang stoknya kurang, transaksi digugurkan seutuhnya (*All-or-Nothing Rollback*) tanpa meninggalkan data gantung.
-5. **Aset Ilustrasi Hijab Offline 100%**:
-   - Menyediakan 10 file ilustrasi SVG lokal di folder `public/images/hijab/` (pashmina ceruty, pashmina silk, pashmina rayon, segiempat voal, segiempat paris, segiempat motif, bergo hamidah, bergo sport, khimar french, inner ciput). Katalog dan nota tetap tampil sempurna tanpa dependensi internet eksternal.
+6. **Aset Ilustrasi & Foto Hijab Nyata 100%**:
+   - Menyediakan foto asli butik hijab lokal beresolusi tinggi di folder `public/images/hijab/` (pashmina ceruty, pashmina silk, pashmina rayon, segiempat voal, segiempat paris, segiempat motif, bergo hamidah, bergo sport, khimar french, inner ciput). Katalog dan nota tetap tampil sempurna tanpa dependensi internet eksternal.
 
 ---
 
@@ -245,6 +249,7 @@ erDiagram
         bigint id PK
         bigint sale_id FK
         bigint product_id FK
+        string variation
         int quantity
         decimal unit_price
         decimal subtotal
@@ -287,6 +292,7 @@ Aplikasi menerapkan sistem otorisasi berlapis menggunakan middleware kustom (`Ro
 | **Pemasok Tekstil (Lihat)** | `GET /suppliers` | ✅ Akses | ✅ Akses | ❌ 403 Forbidden |
 | **Pemasok Tekstil (Mutasi)** | `POST/PUT/DELETE /suppliers` | ✅ Hak Penuh | ❌ 403 Forbidden | ❌ 403 Forbidden |
 | **Master Produk Hijab (Lihat/Katalog)** | `GET /products`, `/catalog` | ✅ Tabel Master | ✅ Tabel Master | ✅ Katalog Belanja (Tanpa Harga Modal) |
+| **Keranjang Belanja & Variasi Produk** | `GET/POST /cart`, `/cart/add`, `/cart/checkout` | ✅ Akses | ✅ Akses | ✅ Akses Penuh (Pilih Variasi, Kelola Qty, Checkout) |
 | **Master Produk (Tambah/Ubah/Hapus)** | `POST/PUT/DELETE /products` | ✅ Hak Penuh (Soft Delete) | ❌ 403 Forbidden | ❌ 403 Forbidden |
 | **Pengadaan Pembelian (Stock-In)** | `GET/POST /purchases`, `/create` | ✅ Akses | ✅ Akses | ❌ 403 Forbidden |
 | **Batalkan Transaksi Pembelian** | `POST /purchases/{id}/cancel` | ✅ Hak Penuh | ❌ 403 Forbidden | ❌ 403 Forbidden |

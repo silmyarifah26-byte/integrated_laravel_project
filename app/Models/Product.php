@@ -28,6 +28,8 @@ class Product extends Model
     protected $appends = [
         'image_asset_url',
         'image_path',
+        'available_colors',
+        'available_sizes',
     ];
 
     /**
@@ -128,6 +130,96 @@ class Product extends Model
     public function getImageAssetUrlAttribute(): string
     {
         return asset($this->image_path);
+    }
+
+    /**
+     * Get available color variations for the hijab item.
+     */
+    public function getAvailableColorsAttribute(): array
+    {
+        $name = strtolower($this->name ?? '');
+        $cat = strtolower($this->category->name ?? '');
+
+        if (str_contains($name, 'silk') || str_contains($name, 'cradenza') || str_contains($name, 'shimmer')) {
+            return ['Champagne Gold', 'Dusty Mauve', 'Rose Gold', 'Silver Grey', 'Emerald Lux'];
+        }
+
+        if (str_contains($name, 'rayon') || str_contains($name, 'kaos')) {
+            return ['Soft Beige', 'Charcoal Grey', 'Walnut Brown', 'Nude Sand', 'Denim Blue'];
+        }
+
+        if (str_contains($name, 'paris')) {
+            return ['Lavender', 'Vanilla Cream', 'Taupe Brown', 'Soft Rose', 'Hitam'];
+        }
+
+        if (str_contains($name, 'motif') || str_contains($name, 'printing')) {
+            return ['Garden Rose', 'Pastel Blossom', 'Turkish Floral', 'Emerald Elegance'];
+        }
+
+        if (str_contains($name, 'sport') || str_contains($cat, 'sport')) {
+            return ['Hitam Jetblack', 'Abu Misty', 'Navy Sport', 'Marun Red'];
+        }
+
+        if (str_contains($name, 'bergo') || str_contains($cat, 'bergo')) {
+            return ['Coffee Brown', 'Caramel', 'Khaki', 'Denim Blue', 'Dusty Mauve'];
+        }
+
+        if (str_contains($name, 'french') || str_contains($name, 'khimar') || str_contains($cat, 'khimar')) {
+            return ['Jetblack Syar\'i', 'Dark Emerald', 'Deep Plum', 'Dusty Rose'];
+        }
+
+        if (str_contains($name, 'ciput') || str_contains($name, 'inner') || str_contains($cat, 'inner')) {
+            return ['Nude Cream', 'Hitam Jetblack', 'Broken White', 'Abu-Abu'];
+        }
+
+        if (str_contains($name, 'voal') || str_contains($cat, 'segi empat')) {
+            return ['Sage Green', 'Dusty Pink', 'Terracotta', 'Midnight Navy', 'Warm Mustard'];
+        }
+
+        // Pashmina Ceruty / Default Hijab
+        return ['Rose Dust', 'Mocca', 'Sage Green', 'Broken White', 'Hitam Jetblack', 'Dusty Lavender'];
+    }
+
+    /**
+     * Get available size variations for the hijab item.
+     */
+    public function getAvailableSizesAttribute(): array
+    {
+        $name = strtolower($this->name ?? '');
+        $cat = strtolower($this->category->name ?? '');
+        $currentSize = $this->size ? trim($this->size) : null;
+
+        if (str_contains($name, 'bergo') || str_contains($cat, 'bergo')) {
+            return ['Size M (Standar)', 'Size L (Menutup Dada)', 'Size XL (Syar\'i)'];
+        }
+
+        if (str_contains($name, 'khimar') || str_contains($cat, 'khimar')) {
+            return ['Size L (Depan 100cm / Belakang 120cm)', 'Size XL Syar\'i (Depan 115cm / Belakang 135cm)'];
+        }
+
+        if (str_contains($name, 'ciput') || str_contains($name, 'inner') || str_contains($cat, 'inner')) {
+            return ['All Size Elastis'];
+        }
+
+        if (str_contains($name, 'pashmina') || str_contains($cat, 'pashmina')) {
+            if ($currentSize) {
+                return ["Standar ({$currentSize})", 'Jumbo (200 x 75 cm)'];
+            }
+            return ['Standar (175 x 75 cm)', 'Jumbo (200 x 75 cm)'];
+        }
+
+        if (str_contains($name, 'segi empat') || str_contains($cat, 'segi empat') || str_contains($name, 'voal') || str_contains($name, 'paris')) {
+            if ($currentSize) {
+                return ["Standar ({$currentSize})", 'Syar\'i (130 x 130 cm)'];
+            }
+            return ['Standar (115 x 115 cm)', 'Syar\'i (130 x 130 cm)'];
+        }
+
+        if ($currentSize) {
+            return [$currentSize];
+        }
+
+        return ['All Size Standar'];
     }
 
     protected function casts(): array

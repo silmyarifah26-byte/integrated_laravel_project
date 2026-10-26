@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
@@ -49,6 +50,14 @@ Route::middleware('auth')->group(function () {
     // Products View (All authenticated users can view, controller renders appropriate view)
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+
+    // Shopping Cart & Variation Selection Routes
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::patch('/cart/update/{key}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{key}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+    Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
     // Sales Routes (Accessible by all roles: Admin/Staff cashiers, Customer self-orders)
     Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');

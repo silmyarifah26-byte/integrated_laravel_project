@@ -401,14 +401,56 @@
                             <p class="text-xs text-gray-500 mt-1">Bahan: {{ $item->material ?? 'Premium' }}</p>
                         </div>
 
-                        <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
-                            <div>
-                                <span class="text-sm font-bold text-rose-600">Rp {{ number_format($item->selling_price, 0, ',', '.') }}</span>
-                                <span class="block text-[11px] text-gray-500">Stok: {{ $item->stock }} pcs</span>
+                        <div class="mt-4 pt-3 border-t border-gray-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <div>
+                                    <span class="text-sm font-bold text-rose-600">Rp {{ number_format($item->selling_price, 0, ',', '.') }}</span>
+                                </div>
+                                <span class="text-[11px] px-2 py-0.5 rounded font-medium {{ $item->stock > 0 ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700' }}">
+                                    Stok: {{ $item->stock }}
+                                </span>
                             </div>
-                            <a href="{{ route('sales.create', ['product_id' => $item->id]) }}" class="px-3 py-1.5 rounded-md bg-rose-600 hover:bg-rose-700 text-white text-xs font-medium transition-colors">
-                                Pesan
-                            </a>
+
+                            <!-- Form Pemilihan Variasi & Add to Cart -->
+                            <form action="{{ route('cart.add') }}" method="POST" class="space-y-2">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $item->id }}">
+
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-[10px] font-semibold text-gray-600 mb-0.5">Warna:</label>
+                                        <select name="color" class="w-full text-xs px-2 py-1 border border-gray-300 rounded-md bg-white text-gray-800 focus:outline-none focus:ring-1 focus:ring-rose-500">
+                                            @foreach($item->available_colors as $color)
+                                                <option value="{{ $color }}">{{ $color }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-semibold text-gray-600 mb-0.5">Ukuran:</label>
+                                        <select name="size" class="w-full text-xs px-2 py-1 border border-gray-300 rounded-md bg-white text-gray-800 focus:outline-none focus:ring-1 focus:ring-rose-500">
+                                            @foreach($item->available_sizes as $sizeOption)
+                                                <option value="{{ $sizeOption }}">{{ $sizeOption }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center space-x-2 pt-1">
+                                    <input type="number" 
+                                           name="quantity" 
+                                           value="1" 
+                                           min="1" 
+                                           max="{{ $item->stock > 0 ? $item->stock : 1 }}" 
+                                           {{ $item->stock < 1 ? 'disabled' : '' }}
+                                           class="w-14 text-xs px-2 py-1.5 border border-gray-300 rounded-md text-center font-medium focus:outline-none focus:ring-1 focus:ring-rose-500">
+                                    <button type="submit" 
+                                            {{ $item->stock < 1 ? 'disabled' : '' }}
+                                            class="flex-1 py-1.5 px-3 rounded-md {{ $item->stock > 0 ? 'bg-rose-600 hover:bg-rose-700 text-white' : 'bg-gray-200 text-gray-400 cursor-not-allowed' }} text-xs font-medium transition-colors flex items-center justify-center">
+                                        <i class="fa-solid fa-cart-plus mr-1.5"></i>
+                                        {{ $item->stock > 0 ? 'Masukkan ke Keranjang' : 'Habis' }}
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 @endforeach
