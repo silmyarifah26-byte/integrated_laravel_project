@@ -4,7 +4,7 @@
 [![PHP Version](https://img.shields.io/badge/PHP-%3E%3D8.2-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
 [![MySQL Database](https://img.shields.io/badge/MySQL-8.x%20%2F%20XAMPP-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-CDN-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-[![Tests Passing](https://img.shields.io/badge/Automated_Tests-72_Passed_(100%25)-success?style=for-the-badge&logo=checkmarx&logoColor=white)](#9-panduan-pengujian-otomatis-automated-testing-guide)
+[![Tests Passing](https://img.shields.io/badge/Automated_Tests-87_Passed_(100%25)-success?style=for-the-badge&logo=checkmarx&logoColor=white)](#9-panduan-pengujian-otomatis-automated-testing-guide)
 
 Aplikasi Web Terintegrasi untuk **Sistem Manajemen Inventaris & Transaksi Penjualan Toko Hijab "HijabSociety" (Modern, Chic & Syar'i Hijab Store)**, dibangun dengan tema visual **Soft Rose & Neutral Aesthetic yang elegan, bersih, dan modern** sebagai pemenuhan **Tugas Ujian Tengah Semester (UTS) Mata Kuliah Web Programming 2**.
 
@@ -14,7 +14,7 @@ Aplikasi Web Terintegrasi untuk **Sistem Manajemen Inventaris & Transaksi Penjua
 1. [Project Overview & Skenario Bisnis Toko Hijab](#1-project-overview--skenario-bisnis-toko-hijab)
 2. [Spesifikasi & System Requirements](#2-spesifikasi--system-requirements)
 3. [Langkah-Langkah Instalasi (Reproducible Setup Guide)](#3-langkah-langkah-instalasi-reproducible-setup-guide)
-4. [Entity Relationship Diagram (ERD) & Penjelasan Relasi Database](#4-entity-relationship-diagram-erd--penjelasan-relasi-database)
+4. [Entity Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
 5. [Matriks Hak Akses & Peran Pengguna (Role-Based Access Control)](#5-matriks-hak-akses--peran-pengguna-role-based-access-control)
 6. [Daftar Akun Demo Pengujian & Sistem Login 3 Portal](#6-daftar-akun-demo-pengujian--sistem-login-3-portal)
 7. [Dashboard Controller & Ringkasan Data Aktual](#7-dashboard-controller--ringkasan-data-aktual)
@@ -142,140 +142,177 @@ Aplikasi kini siap diakses melalui peramban pada alamat:
 
 ---
 
-## 4. Entity Relationship Diagram (ERD) & Penjelasan Relasi Database
-
-### Diagram ERD (Mermaid)
+## Entity Relationship Diagram (ERD)
 
 ```mermaid
 erDiagram
-    USERS ||--o{ PURCHASES : "makes / receives (user_id)"
-    USERS ||--o{ SALES : "cashier / records (user_id)"
-    USERS ||--o{ SALES : "customer / orders (customer_id)"
-    CATEGORIES ||--o{ PRODUCTS : "classifies (category_id)"
-    SUPPLIERS ||--o{ PURCHASES : "supplies (supplier_id)"
-    PURCHASES ||--|{ PURCHASE_ITEMS : "contains (purchase_id)"
-    PRODUCTS ||--o{ PURCHASE_ITEMS : "restocked in (product_id)"
-    SALES ||--|{ SALE_ITEMS : "contains (sale_id)"
-    PRODUCTS ||--o{ SALE_ITEMS : "sold in (product_id)"
+    %% ==========================================
+    %% ENTITY-RELATIONSHIP DIAGRAM (ERD) - HIJABSOCIETY
+    %% ==========================================
+
+    USERS ||--o{ PURCHASES : "mencatat_penerimaan (user_id)"
+    USERS ||--o{ SALES : "kasir_bertugas (user_id)"
+    USERS ||--o{ SALES : "pelanggan_member (customer_id)"
+    
+    CATEGORIES ||--o{ PRODUCTS : "mengelompokkan (category_id)"
+    
+    SUPPLIERS ||--o{ PURCHASES : "memasok (supplier_id)"
+    
+    PURCHASES ||--|{ PURCHASE_ITEMS : "memuat_item (purchase_id)"
+    PRODUCTS ||--o{ PURCHASE_ITEMS : "diadakan_pada (product_id)"
+    
+    SALES ||--|{ SALE_ITEMS : "memuat_item (sale_id)"
+    PRODUCTS ||--o{ SALE_ITEMS : "terjual_pada (product_id)"
 
     USERS {
-        bigint id PK
-        string name
-        string email UK
-        string password
+        bigint id PK "Auto Increment"
+        string name "Nama Pengguna / Staff / Customer"
+        string email UK "Alamat Email Unik"
+        string password "Hashed Password (Bcrypt)"
         enum role "admin, staff, customer"
-        string phone
-        text address
-        timestamp created_at
-        timestamp updated_at
+        string phone "Nomor Telepon (Nullable)"
+        text address "Alamat Domisili (Nullable)"
+        timestamp created_at "Waktu Registrasi Akun"
+        timestamp updated_at "Waktu Pembaruan Akun"
     }
 
     CATEGORIES {
-        bigint id PK
-        string name UK
-        text description
-        timestamp created_at
-        timestamp updated_at
+        bigint id PK "Auto Increment"
+        string name UK "Nama Kategori Hijab Unik"
+        text description "Deskripsi Kategori Hijab (Nullable)"
+        timestamp created_at "Waktu Dibuat"
+        timestamp updated_at "Waktu Diperbarui"
     }
 
     SUPPLIERS {
-        bigint id PK
-        string name
-        string phone
-        string email
-        text address
-        timestamp created_at
-        timestamp updated_at
+        bigint id PK "Auto Increment"
+        string name "Nama Produsen / Pabrik Tekstil"
+        string phone "Nomor Telepon / WhatsApp Pemasok"
+        string email "Alamat Email Pemasok (Nullable)"
+        text address "Alamat Kantor / Gudang Pemasok (Nullable)"
+        timestamp created_at "Waktu Dibuat"
+        timestamp updated_at "Waktu Diperbarui"
     }
 
     PRODUCTS {
-        bigint id PK
-        bigint category_id FK
-        string sku UK
-        string name
-        string size
-        string material
-        string image_url
-        decimal purchase_price
-        decimal selling_price
-        int stock
-        int minimum_stock
-        timestamp deleted_at
-        timestamp created_at
-        timestamp updated_at
+        bigint id PK "Auto Increment"
+        bigint category_id FK "Relasi ke categories.id (RESTRICT)"
+        string sku UK "Stock Keeping Unit Unik (Maks 50)"
+        string name "Nama Model Hijab (Maks 150)"
+        string size "Dimensi / Ukuran Hijab (e.g. 180x75cm)"
+        string material "Jenis Kain Hijab (Ceruty, Voal, dll)"
+        string image_url "Path Aset Foto Hijab Lokal"
+        decimal purchase_price "Harga Modal HPP (15,2)"
+        decimal selling_price "Harga Jual Retail Toko (15,2)"
+        int stock "Kuantitas Stok Fisik Toko"
+        int minimum_stock "Batas Peringatan Stok Kritis (Default 5)"
+        timestamp deleted_at "Soft Delete (Menjaga Integritas)"
+        timestamp created_at "Waktu Dibuat"
+        timestamp updated_at "Waktu Diperbarui"
     }
 
     PURCHASES {
-        bigint id PK
-        bigint supplier_id FK
-        bigint user_id FK
-        string purchase_number UK
-        decimal total
-        string status
-        text notes
-        dateTime purchased_at
-        timestamp created_at
-        timestamp updated_at
+        bigint id PK "Auto Increment"
+        bigint supplier_id FK "Relasi ke suppliers.id (RESTRICT)"
+        bigint user_id FK "Staff / Admin yang Input (CASCADE)"
+        string purchase_number UK "Format: PO-YYYYMMDD-XXXX"
+        decimal total "Total Nilai Pengadaan Barang (15,2)"
+        string status "Status Transaksi (completed / cancelled)"
+        text notes "Catatan Tambahan Pengadaan (Nullable)"
+        dateTime purchased_at "Tanggal Transaksi Pembelian"
+        timestamp created_at "Waktu Dibuat"
+        timestamp updated_at "Waktu Diperbarui"
     }
 
     PURCHASE_ITEMS {
-        bigint id PK
-        bigint purchase_id FK
-        bigint product_id FK
-        int quantity
-        decimal unit_cost
-        decimal subtotal
-        timestamp created_at
-        timestamp updated_at
+        bigint id PK "Auto Increment"
+        bigint purchase_id FK "Relasi ke purchases.id (CASCADE)"
+        bigint product_id FK "Relasi ke products.id (RESTRICT)"
+        int quantity "Jumlah Hijab yang Diadakan (Pcs)"
+        decimal unit_cost "Harga Beli Satuan Historis (15,2)"
+        decimal subtotal "Subtotal Item (quantity x unit_cost)"
+        timestamp created_at "Waktu Dibuat"
+        timestamp updated_at "Waktu Diperbarui"
     }
 
     SALES {
-        bigint id PK
-        bigint user_id FK
-        bigint customer_id FK
-        string customer_name
-        string sale_number UK
-        decimal total
-        string status
-        string payment_method
-        string payment_status
-        text notes
-        dateTime sold_at
-        timestamp created_at
-        timestamp updated_at
+        bigint id PK "Auto Increment"
+        bigint user_id FK "Akun Kasir Staff Bertugas (CASCADE)"
+        bigint customer_id FK "Akun Pelanggan Member (SET NULL)"
+        string customer_name "Nama Pelanggan Pembeli / Walk-in"
+        string sale_number UK "Format: INV-YYYYMMDD-XXXX"
+        decimal total "Total Nilai Belanja Transaksi (15,2)"
+        string status "Status Pesanan (completed / cancelled)"
+        string payment_method "Metode Bayar (QRIS, Transfer, COD)"
+        string payment_status "Status Bayar (paid / unpaid)"
+        text notes "Catatan Pesanan / Pengiriman (Nullable)"
+        dateTime sold_at "Waktu & Tanggal Transaksi Selesai"
+        timestamp created_at "Waktu Dibuat"
+        timestamp updated_at "Waktu Diperbarui"
     }
 
     SALE_ITEMS {
-        bigint id PK
-        bigint sale_id FK
-        bigint product_id FK
-        string variation
-        int quantity
-        decimal unit_price
-        decimal subtotal
-        timestamp created_at
-        timestamp updated_at
+        bigint id PK "Auto Increment"
+        bigint sale_id FK "Relasi ke sales.id (CASCADE)"
+        bigint product_id FK "Relasi ke products.id (RESTRICT)"
+        string variation "Variasi Pilihan (Warna & Ukuran)"
+        int quantity "Kuantitas Pembelian (Pcs)"
+        decimal unit_price "Harga Satuan Resmi Server DB (15,2)"
+        decimal subtotal "Subtotal Item (quantity x unit_price)"
+        timestamp created_at "Waktu Dibuat"
+        timestamp updated_at "Waktu Diperbarui"
     }
 ```
 
-### Penjelasan Relasi & Integritas Data Antar Tabel:
-1. **Relasi `Category` ke `Product` (One-to-Many / `hasMany` & `belongsTo`)**:
-   - Setiap produk hijab merujuk ke satu kategori melalui foreign key `category_id`.
-   - Menggunakan relasi `RESTRICT` pada level bisnis: Kategori yang masih menaungi produk tidak dapat dihapus sembarangan untuk mencegah produk yatim (*orphan products*).
-2. **Relasi `Supplier` ke `Purchase` (One-to-Many)**:
-   - Satu supplier tekstil/konveksi dapat menyuplai banyak transaksi pembelian (`purchases`).
-   - Supplier dengan riwayat pengadaan terkunci aman dari penghapusan fatal.
-3. **Relasi Transaksi Header-Detail (`purchases` ➔ `purchase_items` & `sales` ➔ `sale_items`)**:
-   - Memenuhi kaidah Normalisasi Database (1NF, 2NF, 3NF).
-   - Memungkinkan nota pembelian atau penjualan menampung *n* item produk berbeda dalam satu transaksi atomik.
-   - **Price Locking Historis**: Kolom `unit_cost` pada `purchase_items` dan `unit_price` pada `sale_items` menyimpan nilai riil saat transaksi dibuat. Perubahan harga jual atau modal di master produk masa depan tidak akan mengubah total pendapatan masa lalu.
-4. **Relasi `User` ke Transaksi (`purchases` & `sales`)**:
-   - `purchases.user_id`: Menyimpan identitas Staff/Admin yang bertanggung jawab melakukan input penerimaan stok dari supplier.
-   - `sales.user_id`: Menyimpan kasir/petugas yang melayani transaksi.
-   - `sales.customer_id`: Menyimpan ID akun pelanggan jika pembeli adalah anggota member terdaftar (nullable jika pembeli adalah tamu umum).
-5. **Perlindungan Integritas Historis (`SoftDeletes`)**:
-   - Tabel `products` menggunakan trait `SoftDeletes` (`deleted_at`).
-   - Jika suatu produk dinonaktifkan/dihapus dari katalog, rekam jejak pada transaksi penjualan maupun pengadaan stok masa lalu tetap utuh dan laporan keuangan tetap akurat.
+---
+
+### Matriks Tabel Database & Integritas Referensial
+
+| Nama Tabel | Peran & Deskripsi Entitas | Primary Key (PK) | Foreign Key (FK) & Referensi | Referential Integrity Action |
+| :--- | :--- | :---: | :--- | :---: |
+| `users` | Menyimpan kredensial akun pengguna sistem 3 role (`admin`, `staff`, `customer`). | `id` | - | - |
+| `categories` | Klasifikasi jenis hijab (Pashmina, Segi Empat, Bergo, Khimar, Inner). | `id` | - | - |
+| `suppliers` | Data mitra pabrik tekstil dan konveksi hijab rekanan butik. | `id` | - | - |
+| `products` | Katalog master produk hijab, spesifikasi bahan, harga, dan level stok fisik. | `id` | `category_id` ➔ `categories.id` | `ON DELETE RESTRICT` |
+| `purchases` | Header transaksi pengadaan stok barang masuk (*Stock-In*) dari supplier. | `id` | `supplier_id` ➔ `suppliers.id`<br>`user_id` ➔ `users.id` | `RESTRICT` (Supplier)<br>`CASCADE` (User) |
+| `purchase_items` | Baris detail produk hijab yang dibeli dalam satu faktur pengadaan. | `id` | `purchase_id` ➔ `purchases.id`<br>`product_id` ➔ `products.id` | `CASCADE` (Purchase)<br>`RESTRICT` (Product) |
+| `sales` | Header transaksi kasir POS / order mandiri customer (*Stock-Out*). | `id` | `user_id` ➔ `users.id`<br>`customer_id` ➔ `users.id` | `CASCADE` (Kasir User)<br>`SET NULL` (Customer Member) |
+| `sale_items` | Baris detail produk hijab yang terjual beserta variasi warna & ukuran terpilih. | `id` | `sale_id` ➔ `sales.id`<br>`product_id` ➔ `products.id` | `CASCADE` (Sale)<br>`RESTRICT` (Product) |
+
+---
+
+### Penjelasan Lengkap Relasi Antar Tabel & Kaidah Bisnis
+
+1. **Relasi Kategori ke Produk (`categories` ➔ `products`) — [1 : N]**:
+   - Satu kategori hijab dapat menaungi banyak varian produk (`hasMany`), sedangkan satu produk hanya terikat pada satu kategori induk (`belongsTo`).
+   - **Kaidah Integritas (`RESTRICT`)**: Kategori yang masih memuat produk tidak dapat dihapus dari database (`restrictOnDelete()`), guna mencegah produk kehilangan identitas klasifikasinya (*orphan records*).
+
+2. **Relasi Pemasok ke Pembelian (`suppliers` ➔ `purchases`) — [1 : N]**:
+   - Satu supplier pabrik tekstil dapat menyuplai banyak transaksi penerimaan barang (`hasMany`).
+   - Supplier yang sudah memiliki riwayat transaksi dilindungi dari penghapusan fatal demi konsistensi audit keuangan butik.
+
+3. **Relasi Transaksi Header-Detail (`purchases` ➔ `purchase_items` & `sales` ➔ `sale_items`) — [1 : N]**:
+   - Mengikuti kaidah **Normalisasi Database Relasional (1NF, 2NF, 3NF)**.
+   - Satu nota transaksi header (`sales` atau `purchases`) dapat menampung *n* baris item produk berbeda secara dinamis.
+   - **Cascade Deletion**: Jika header transaksi dihapus, seluruh detail item di dalamnya akan ikut terhapus secara bersih (`cascadeOnDelete()`).
+   - **Many-to-Many Resolving**: Tabel detail item berfungsi sebagai *pivot entity* yang menguraikan relasi banyak-ke-banyak (N : M) antara produk dengan transaksi.
+
+4. **Dual Foreign Key pada Tabel Penjualan (`sales.user_id` & `sales.customer_id`)**:
+   - **`user_id` (Kasir Bertugas)**: Wajib terisi dan selalu mereferensikan akun staf toko/kasir aktif yang bertugas mencatat dan memproses transaksi penjualan (e.g. `Syahputri` atau `Admin`). Jika transaksi dibuat dari pemesanan mandiri customer, sistem secara otomatis menugaskan kasir operasional toko yang sedang berdinas.
+   - **`customer_id` (Akun Pelanggan)**: Bersifat opsional (*nullable*). Jika pembeli adalah member terdaftar, ID pembeli disimpan untuk menyinkronkan riwayat belanja pada dashboard customer. Jika pembeli adalah tamu umum (*walk-in guest*), kolom bernilai `NULL` dan nama disimpan pada `customer_name`.
+   - **Integritas `SET NULL`**: Jika akun seorang pelanggan dihapus, data transaksi penjualan toko tidak ikut terhapus; foreign key `customer_id` otomatis diubah menjadi `NULL` (`nullOnDelete()`) sehingga rekap omzet kasir tetap utuh.
+
+5. **Penguncian Harga Historis (*Price Locking Guarantee*)**:
+   - Kolom `purchase_items.unit_cost` dan `sale_items.unit_price` membekukan nilai harga satuan yang disepakati tepat pada detik transaksi terjadi.
+   - Jika di kemudian hari harga modal (`purchase_price`) atau harga jual (`selling_price`) pada master produk mengalami penyesuaian (inflasi/promo), seluruh riwayat faktur dan laporan laba-rugi masa lampau tetap stabil dan akurat 100%.
+
+6. **Integritas Riwayat Transaksi via *Soft Deletes* (`deleted_at`)**:
+   - Tabel `products` menggunakan trait Laravel `SoftDeletes`.
+   - Ketika produk hijab dihapus oleh Admin, record produk tidak lenyap secara permanen dari basis data, melainkan diberi tanda stempel waktu `deleted_at`.
+   - Dengan mekanisme ini, relasi `restrictOnDelete()` pada detail nota transaksi masa lalu tetap valid, tidak memicu eror SQL *foreign key constraint violation*, dan detail faktur lama tetap dapat menampilkan nama produk asli saat dicetak.
+
+7. **Pencatatan Variasi Terpilih (`sale_items.variation`)**:
+   - Mendukung pencatatan spesifik variasi warna (e.g. *Sage Green, Dusty Pink, Mocca*) dan ukuran (e.g. *Standar, Jumbo*) yang dipilih pelanggan pada saat menambahkan barang ke keranjang belanja, memastikan pesanan yang disiapkan staf gudang sesuai pesanan pembeli.
 
 ---
 
@@ -373,7 +410,7 @@ Jalankan perintah berikut pada terminal project:
 php artisan test
 ```
 
-### Hasil Verifikasi Pengujian (72 Passed, 411 Assertions - 100% Green):
+### Hasil Verifikasi Pengujian (87 Passed, 561 Assertions - 100% Green):
 ```text
    PASS  Tests\Unit\ExampleTest
   ✓ that true is true                                                              0.01s
@@ -465,8 +502,13 @@ php artisan test
   ✓ sale atomicity rolls back all items if second item fails                       0.03s
   ✓ authorization prevents staff and customer from accessing admin routes          0.06s
 
-  Tests:    72 passed (411 assertions)
-  Duration: 3.50s
+   PASS  Tests\Feature\UtsRubricComplianceTest (3 tests)
+  ✓ rubric 1 server url protection blocks unauthorized manual url access           0.10s
+  ✓ rubric 2 atomic transaction prevents negative stock on sales                   0.03s
+  ✓ rubric 3 pure server database pricing ignores spoofed frontend prices          0.03s
+
+  Tests:    87 passed (561 assertions)
+  Duration: 3.36s
 ```
 
 ---
