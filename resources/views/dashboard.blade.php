@@ -124,7 +124,7 @@
             <!-- Card 5: Total Products -->
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Produk Hijab</span>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Produk Aktif</span>
                     <span class="w-9 h-9 rounded-xl bg-plush-100 text-plush-600 flex items-center justify-center text-sm">
                         <i class="fa-solid fa-boxes-stacked"></i>
                     </span>
@@ -387,7 +387,7 @@
                 </div>
             </div>
 
-            <!-- Quick Action: Order Doll -->
+            <!-- Quick Action: Order Hijab -->
             <div class="bg-gradient-to-br from-plush-50 to-pink-50 p-6 rounded-2xl border border-rose-200 shadow-sm flex items-center justify-between">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Ingin Koleksi Hijab Baru?</span>
@@ -480,7 +480,7 @@
                 @foreach($featuredProducts as $item)
                     <div class="bg-white rounded-3xl border border-pink-100 p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-pink-200 transition-all flex flex-col justify-between group">
                         <div>
-                            <!-- Real Plushie Photo -->
+                            <!-- Foto Hijab Pilihan -->
                             <div class="w-full h-52 rounded-2xl overflow-hidden mb-3 relative group-hover:scale-[1.02] transition-transform duration-200 bg-slate-100 border border-pink-100">
                                 <img src="{{ asset($item->image_url ?? 'images/hijab/pashmina-ceruty.svg') }}" 
                                      alt="{{ $item->name }}" 

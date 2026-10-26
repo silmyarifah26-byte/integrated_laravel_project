@@ -214,5 +214,34 @@ class TransactionSeeder extends Seeder
                 'subtotal' => 65000.00,
             ]);
         }
+
+        // ---------------------------------------------------------------------
+        // 6. SALE 4 (Stock-Out) - Transaksi Kasir Hari Ini (Today's Sale)
+        // ---------------------------------------------------------------------
+        if ($nadia && $prodParis) {
+            $saleToday = Sale::updateOrCreate(
+                ['sale_number' => 'INV-' . now()->format('Ymd') . '-0001'],
+                [
+                    'user_id' => $kasir->id,
+                    'customer_id' => $nadia->id,
+                    'customer_name' => $nadia->name,
+                    'payment_method' => 'Tunai / COD',
+                    'payment_status' => 'paid',
+                    'total' => 70000.00,
+                    'status' => 'completed',
+                    'notes' => 'Transaksi kasir butik hari ini - Segi Empat Paris Premium 2 pcs.',
+                    'sold_at' => now(),
+                ]
+            );
+
+            $saleToday->items()->delete();
+            SaleItem::create([
+                'sale_id' => $saleToday->id,
+                'product_id' => $prodParis->id,
+                'quantity' => 2,
+                'unit_price' => 35000.00,
+                'subtotal' => 70000.00,
+            ]);
+        }
     }
 }
