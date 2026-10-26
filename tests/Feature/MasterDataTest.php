@@ -223,4 +223,151 @@ class MasterDataTest extends TestCase
         $response->assertSessionHas('error');
         $this->assertDatabaseHas('users', ['id' => $this->admin->id]);
     }
+
+    public function test_admin_can_update_category_with_unique_validation(): void
+    {
+        $otherCategory = Category::create([
+            'name' => 'Pashmina Sutra',
+            'description' => 'Bahan sutra asli',
+        ]);
+
+        // 1. Successful update
+        $response = $this->actingAs($this->admin)->put("/categories/{$this->category->id}", [
+            'name' => 'Pashmina Ceruty Premium',
+            'description' => 'Deskripsi diperbarui',
+        ]);
+        $response->assertRedirect('/categories');
+        $response->assertSessionHas('success');
+        $this->assertDatabaseHas('categories', [
+            'id' => $this->category->id,
+            'name' => 'Pashmina Ceruty Premium',
+        ]);
+
+        // 2. Reject duplicate with another existing category
+        $dupResponse = $this->actingAs($this->admin)->put("/categories/{$this->category->id}", [
+            'name' => 'Pashmina Sutra',
+        ]);
+        $dupResponse->assertSessionHasErrors('name');
+    }
+
+    public function test_admin_can_delete_category_without_products(): void
+    {
+        $categoryToDelete = Category::create([
+            'name' => 'Kategori Kosong',
+            'description' => 'Tidak memiliki produk',
+        ]);
+
+        $response = $this->actingAs($this->admin)->delete("/categories/{$categoryToDelete->id}");
+        $response->assertRedirect('/categories');
+        $response->assertSessionHas('success');
+        $this->assertDatabaseMissing('categories', ['id' => $categoryToDelete->id]);
+    }
+
+    public function test_admin_can_crud_supplier_successfully(): void
+    {
+        // 1. Create Supplier
+        $createResponse = $this->actingAs($this->admin)->post('/suppliers', [
+            'name' => 'PT Tekstil Hijab Nusantara',
+            'phone' => '022-87654321',
+            'email' => 'nusantara@tekstil.test',
+            'address' => 'Jl. Moh Toha No 45, Bandung',
+        ]);
+        $createResponse->assertRedirect('/suppliers');
+        $createResponse->assertSessionHas('success');
+
+        $supplier = Supplier::where('email', 'nusantara@tekstil.test')->first();
+        $this->assertNotNull($supplier);
+
+        // 2. Update Supplier
+        $updateResponse = $this->actingAs($this->admin)->put("/suppliers/{$supplier->id}", [
+            'name' => 'PT Tekstil Hijab Nusantara Baru',
+            'phone' => '022-99998888',
+            'email' => 'nusantara_baru@tekstil.test',
+            'address' => 'Jl. Moh Toha No 99, Bandung',
+        ]);
+        $updateResponse->assertRedirect('/suppliers');
+        $updateResponse->assertSessionHas('success');
+        $this->assertDatabaseHas('suppliers', [
+            'id' => $supplier->id,
+            'name' => 'PT Tekstil Hijab Nusantara Baru',
+        ]);
+
+        // 3. Delete Supplier without purchases
+        $deleteResponse = $this->actingAs($this->admin)->delete("/suppliers/{$supplier->id}");
+        $deleteResponse->assertRedirect('/suppliers');
+        $deleteResponse->assertSessionHas('success');
+        $this->assertDatabaseMissing('suppliers', ['id' => $supplier->id]);
+    }
+
+    public function test_admin_can_crud_user_in_user_management(): void
+    {
+        // 1. Admin creates a new staff user
+        $createResponse = $this->actingAs($this->admin)->post('/users', [
+            'name' => 'Staf Baru Toko',
+            'email' => 'stafbaru@hijabsociety.test',
+            'password' => 'secret123',
+            'role' => 'staff',
+            'phone' => '081234567890',
+            'address' => 'Surabaya',
+        ]);
+        $createResponse->assertRedirect('/users');
+        $createResponse->assertSessionHas('success');
+
+        $newUser = User::where('email', 'stafbaru@hijabsociety.test')->first();
+        $this->assertNotNull($newUser);
+        $this->assertTrue(Hash::check('secret123', $newUser->password));
+        $this->assertEquals('staff', $newUser->role);
+
+        // 2. Admin updates the user (changing role to customer and updating name)
+        $updateResponse = $this->actingAs($this->admin)->put("/users/{$newUser->id}", [
+            'name' => 'Pelanggan Setia Hijab',
+            'email' => 'stafbaru@hijabsociety.test',
+            'role' => 'customer',
+            'phone' => '081299998888',
+        ]);
+        $updateResponse->assertRedirect('/users');
+        $updateResponse->assertSessionHas('success');
+        $newUser->refresh();
+        $this->assertEquals('Pelanggan Setia Hijab', $newUser->name);
+        $this->assertEquals('customer', $newUser->role);
+
+        // 3. Admin deletes user without transactions
+        $deleteResponse = $this->actingAs($this->admin)->delete("/users/{$newUser->id}");
+        $deleteResponse->assertRedirect('/users');
+        $deleteResponse->assertSessionHas('success');
+        $this->assertDatabaseMissing('users', ['id' => $newUser->id]);
+    }
+
+    public function test_admin_cannot_delete_user_with_transaction_history(): void
+    {
+        $staffWithSales = User::create([
+            'name' => 'Kasir Berprestasi',
+            'email' => 'kasir@hijabsociety.test',
+            'password' => Hash::make('password123'),
+            'role' => 'staff',
+        ]);
+
+        \App\Models\Sale::create([
+            'user_id' => $staffWithSales->id,
+            'sale_number' => 'SL-TEST-0001',
+            'total' => 120000,
+            'status' => 'completed',
+            'sold_at' => now(),
+        ]);
+
+        $response = $this->actingAs($this->admin)->delete("/users/{$staffWithSales->id}");
+        $response->assertSessionHas('error');
+        $this->assertDatabaseHas('users', ['id' => $staffWithSales->id]);
+    }
+
+    public function test_user_management_search_and_role_filter(): void
+    {
+        $resFilterStaff = $this->actingAs($this->admin)->get('/users?role=staff');
+        $resFilterStaff->assertStatus(200);
+        $resFilterStaff->assertSee($this->staff->name);
+
+        $resSearch = $this->actingAs($this->admin)->get('/users?search=' . urlencode($this->customer->email));
+        $resSearch->assertStatus(200);
+        $resSearch->assertSee($this->customer->email);
+    }
 }
