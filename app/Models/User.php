@@ -98,4 +98,18 @@ class User extends Authenticatable
     {
         return $this->role === 'customer';
     }
+
+    /**
+     * Check if user has any of the given roles.
+     *
+     * @param string|array $roles
+     */
+    public function hasRole(string|array $roles): bool
+    {
+        if (is_string($roles)) {
+            $roles = array_map('trim', explode(',', $roles));
+        }
+
+        return in_array($this->role, (array) $roles, true);
+    }
 }

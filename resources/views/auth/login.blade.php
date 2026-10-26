@@ -37,7 +37,7 @@
                         </span>
                         <input type="text" name="name" id="name" required
                             value="{{ old('name') }}"
-                            placeholder="Contoh: Zahra"
+                            placeholder="Contoh: Caca"
                             class="w-full pl-11 pr-4 py-3 rounded-2xl border border-pink-200 text-sm transition-all bg-pink-50/30 hover:bg-white focus:bg-white focus:ring-2 focus:ring-rose-400 focus:border-rose-400 font-medium">
                     </div>
                 </div>

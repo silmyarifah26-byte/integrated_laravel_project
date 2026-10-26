@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -174,7 +175,7 @@ class PurchaseController extends Controller
      */
     public function cancel(Request $request, Purchase $purchase): RedirectResponse
     {
-        if (! Auth::user()->isAdmin()) {
+        if (! Gate::allows('cancel-purchase', $purchase)) {
             abort(403, 'Akses Ditolak: Hanya Administrator yang berhak membatalkan transaksi.');
         }
 

@@ -343,4 +343,48 @@ class AuthAndRoleTest extends TestCase
         $response->assertRedirect('/login');
         $response->assertSessionHas('error', 'Sesi halaman telah diperbarui, silakan klik tombol Masuk sekali lagi.');
     }
+
+    public function test_gates_differentiate_roles_and_permissions(): void
+    {
+        $admin = User::where('role', 'admin')->first();
+        $staff = User::where('role', 'staff')->first();
+        $customer = User::where('role', 'customer')->first();
+
+        // Admin permissions
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($admin)->allows('admin'));
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($admin)->allows('manage-users'));
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($admin)->allows('manage-master-data'));
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($admin)->allows('cancel-transactions'));
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($admin)->allows('view-financial-reports'));
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($admin)->allows('operate-purchases'));
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($admin)->allows('operate-sales'));
+
+        // Staff permissions
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($staff)->allows('staff'));
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($staff)->allows('operate-purchases'));
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($staff)->allows('operate-sales'));
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($staff)->allows('view-products'));
+        $this->assertFalse(\Illuminate\Support\Facades\Gate::forUser($staff)->allows('manage-users'));
+        $this->assertFalse(\Illuminate\Support\Facades\Gate::forUser($staff)->allows('manage-master-data'));
+        $this->assertFalse(\Illuminate\Support\Facades\Gate::forUser($staff)->allows('cancel-transactions'));
+
+        // Customer permissions
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($customer)->allows('customer'));
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($customer)->allows('access-catalog'));
+        $this->assertTrue(\Illuminate\Support\Facades\Gate::forUser($customer)->allows('view-own-sales'));
+        $this->assertFalse(\Illuminate\Support\Facades\Gate::forUser($customer)->allows('admin'));
+        $this->assertFalse(\Illuminate\Support\Facades\Gate::forUser($customer)->allows('staff'));
+        $this->assertFalse(\Illuminate\Support\Facades\Gate::forUser($customer)->allows('manage-users'));
+        $this->assertFalse(\Illuminate\Support\Facades\Gate::forUser($customer)->allows('operate-purchases'));
+    }
+
+    public function test_logout_clears_authenticated_session(): void
+    {
+        $admin = User::where('role', 'admin')->first();
+
+        $response = $this->actingAs($admin)->post('/logout');
+
+        $response->assertRedirect('/login');
+        $this->assertGuest();
+    }
 }

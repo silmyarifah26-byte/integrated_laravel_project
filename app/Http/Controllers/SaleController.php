@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -221,8 +222,8 @@ class SaleController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        // Customer can only view their own sale
-        if ($user->isCustomer() && $sale->customer_id !== $user->id) {
+        // Customer can only view their own sale (enforced via Gate)
+        if (! Gate::allows('view-sale', $sale)) {
             abort(403, 'Akses Ditolak: Anda tidak memiliki izin untuk melihat nota transaksi milik pengguna lain.');
         }
 
@@ -236,7 +237,7 @@ class SaleController extends Controller
      */
     public function cancel(Request $request, Sale $sale): RedirectResponse
     {
-        if (! Auth::user()->isAdmin()) {
+        if (! Gate::allows('cancel-sale', $sale)) {
             abort(403, 'Akses Ditolak: Hanya Administrator yang berhak membatalkan transaksi penjualan.');
         }
 
