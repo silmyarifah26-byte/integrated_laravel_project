@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgPanda" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ECFDF5"/>
+      <stop offset="100%" stop-color="#D1FAE5"/>
+    </radialGradient>
+  </defs>
+  <rect width="200" height="200" rx="30" fill="url(#bgPanda)"/>
+  <!-- Black Ears -->
+  <circle cx="62" cy="68" r="18" fill="#1E293B"/>
+  <circle cx="138" cy="68" r="18" fill="#1E293B"/>
+  <!-- Body -->
+  <ellipse cx="100" cy="146" rx="46" ry="40" fill="#FFFFFF" stroke="#F1F5F9" stroke-width="2"/>
+  <!-- Black Arms & Vest -->
+  <ellipse cx="60" cy="138" rx="15" ry="22" fill="#1E293B" transform="rotate(25 60 138)"/>
+  <ellipse cx="140" cy="138" rx="15" ry="22" fill="#1E293B" transform="rotate(-25 140 138)"/>
+  <!-- Head -->
+  <circle cx="100" cy="98" r="44" fill="#FFFFFF" stroke="#F1F5F9" stroke-width="2"/>
+  <!-- Eye Patches -->
+  <ellipse cx="78" cy="95" rx="14" ry="17" fill="#1E293B" transform="rotate(-15 78 95)"/>
+  <ellipse cx="122" cy="95" rx="14" ry="17" fill="#1E293B" transform="rotate(15 122 95)"/>
+  <!-- Eyes -->
+  <circle cx="80" cy="95" r="5" fill="#FFFFFF"/>
+  <circle cx="81" cy="95" r="3" fill="#0F172A"/>
+  <circle cx="82" cy="93" r="1.5" fill="#FFFFFF"/>
+  <circle cx="120" cy="95" r="5" fill="#FFFFFF"/>
+  <circle cx="119" cy="95" r="3" fill="#0F172A"/>
+  <circle cx="120" cy="93" r="1.5" fill="#FFFFFF"/>
+  <!-- Snout -->
+  <ellipse cx="100" cy="110" rx="7" ry="5" fill="#0F172A"/>
+  <path d="M96 116 Q100 120 104 116" stroke="#0F172A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Blush -->
+  <ellipse cx="70" cy="112" rx="7" ry="4" fill="#F472B6" opacity="0.6"/>
+  <ellipse cx="130" cy="112" rx="7" ry="4" fill="#F472B6" opacity="0.6"/>
+  <!-- Bamboo Stalk -->
+  <g transform="translate(115, 125) rotate(-20)">
+    <rect x="-4" y="-15" width="8" height="36" rx="3" fill="#10B981"/>
+    <line x1="-4" y1="-3" x2="4" y2="-3" stroke="#047857" stroke-width="2"/>
+    <line x1="-4" y1="9" x2="4" y2="9" stroke="#047857" stroke-width="2"/>
+    <!-- Leaves -->
+    <path d="M4 -5 Q18 -12 16 -2 Q10 4 4 -3" fill="#34D399"/>
+    <path d="M-4 7 Q-18 2 -14 12 Q-8 14 -4 9" fill="#34D399"/>
+  </g>
+</svg>

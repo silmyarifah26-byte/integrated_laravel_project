@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgIdol" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F5F3FF"/>
+      <stop offset="100%" stop-color="#EDE9FE"/>
+    </radialGradient>
+    <linearGradient id="hairGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C084FC"/>
+      <stop offset="100%" stop-color="#A855F7"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="30" fill="url(#bgIdol)"/>
+  <!-- Chibi Twintails / Hair Back -->
+  <ellipse cx="50" cy="95" rx="16" ry="32" fill="url(#hairGrad)" transform="rotate(-15 50 95)"/>
+  <ellipse cx="150" cy="95" rx="16" ry="32" fill="url(#hairGrad)" transform="rotate(15 150 95)"/>
+  <!-- Body & Idol Dress -->
+  <ellipse cx="100" cy="150" rx="38" ry="32" fill="#FAF5FF"/>
+  <path d="M75 140 L125 140 L135 168 L65 168 Z" fill="#DDD6FE"/>
+  <path d="M85 142 L115 142 L120 156 L80 156 Z" fill="#C084FC"/>
+  <!-- Chibi Head -->
+  <circle cx="100" cy="96" r="42" fill="#FEF2F2"/>
+  <!-- Hair Front & Bangs -->
+  <path d="M60 88 C60 60 140 60 140 88 C130 76 115 84 100 78 C85 84 70 76 60 88 Z" fill="url(#hairGrad)"/>
+  <path d="M60 88 L65 105 L72 90 L85 100 L95 86 L105 86 L115 100 L128 90 L135 105 L140 88 Z" fill="url(#hairGrad)"/>
+  <!-- Starry Anime Eyes -->
+  <ellipse cx="80" cy="102" rx="6.5" ry="8" fill="#581C87"/>
+  <circle cx="82" cy="99" r="3" fill="#FFFFFF"/>
+  <circle cx="78" cy="105" r="1.5" fill="#E9D5FF"/>
+  <ellipse cx="120" cy="102" rx="6.5" ry="8" fill="#581C87"/>
+  <circle cx="122" cy="99" r="3" fill="#FFFFFF"/>
+  <circle cx="118" cy="105" r="1.5" fill="#E9D5FF"/>
+  <!-- Smile & Blush -->
+  <path d="M96 112 Q100 116 104 112" stroke="#BE185D" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <ellipse cx="72" cy="112" rx="7" ry="4" fill="#F472B6" opacity="0.6"/>
+  <ellipse cx="128" cy="112" rx="7" ry="4" fill="#F472B6" opacity="0.6"/>
+  <!-- Star Hairpin -->
+  <polygon points="128,70 131,76 137,76 132,80 134,86 128,82 122,86 124,80 119,76 125,76" fill="#FBBF24"/>
+</svg>

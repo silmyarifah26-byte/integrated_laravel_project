@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGradGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FDF4FF"/>
+      <stop offset="100%" stop-color="#FAE8FF"/>
+    </radialGradient>
+    <radialGradient id="bearFur" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#FED7AA"/>
+      <stop offset="100%" stop-color="#FDBA74"/>
+    </radialGradient>
+  </defs>
+  <rect width="200" height="200" rx="30" fill="url(#bgGradGrad)"/>
+  <!-- Ears -->
+  <circle cx="65" cy="70" r="20" fill="url(#bearFur)"/>
+  <circle cx="65" cy="70" r="10" fill="#FDE68A"/>
+  <circle cx="135" cy="70" r="20" fill="url(#bearFur)"/>
+  <circle cx="135" cy="70" r="10" fill="#FDE68A"/>
+  <!-- Body & Graduation Gown -->
+  <ellipse cx="100" cy="150" rx="44" ry="38" fill="url(#bearFur)"/>
+  <path d="M68 135 L132 135 L140 178 L60 178 Z" fill="#1E293B"/>
+  <path d="M96 135 L104 135 L104 178 L96 178 Z" fill="#F59E0B"/>
+  <!-- Head -->
+  <circle cx="100" cy="102" r="42" fill="url(#bearFur)"/>
+  <!-- Snout -->
+  <ellipse cx="100" cy="112" rx="16" ry="12" fill="#FFF7ED"/>
+  <ellipse cx="100" cy="107" rx="5.5" ry="4" fill="#334155"/>
+  <path d="M97 114 Q100 118 103 114" stroke="#334155" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Eyes -->
+  <circle cx="84" cy="100" r="4.5" fill="#1E293B"/>
+  <circle cx="86" cy="98" r="1.5" fill="#FFFFFF"/>
+  <circle cx="116" cy="100" r="4.5" fill="#1E293B"/>
+  <circle cx="118" cy="98" r="1.5" fill="#FFFFFF"/>
+  <!-- Cheeks -->
+  <ellipse cx="76" cy="110" rx="6" ry="4" fill="#F472B6" opacity="0.6"/>
+  <ellipse cx="124" cy="110" rx="6" ry="4" fill="#F472B6" opacity="0.6"/>
+  <!-- Graduation Toga Cap (Mortarboard) -->
+  <polygon points="100,42 145,55 100,68 55,55" fill="#0F172A"/>
+  <rect x="85" y="62" width="30" height="12" rx="2" fill="#1E293B"/>
+  <!-- Tassel -->
+  <line x1="100" y1="55" x2="135" y2="65" stroke="#F59E0B" stroke-width="2"/>
+  <circle cx="135" cy="68" r="3.5" fill="#F59E0B"/>
+  <!-- Diploma Scroll in Hand -->
+  <g transform="translate(136, 142) rotate(25)">
+    <rect x="-4" y="-12" width="8" height="24" rx="2" fill="#FEF08A"/>
+    <rect x="-4.5" y="-2" width="9" height="4" fill="#EF4444"/>
+  </g>
+</svg>

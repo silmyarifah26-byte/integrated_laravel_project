@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF0F5"/>
+      <stop offset="100%" stop-color="#FCE7F3"/>
+    </radialGradient>
+    <radialGradient id="furGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#FFF5EB"/>
+      <stop offset="100%" stop-color="#FED7AA"/>
+    </radialGradient>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#F472B6" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <rect width="200" height="200" rx="30" fill="url(#bgGrad)"/>
+  <!-- Sparkles -->
+  <path d="M40 35 Q45 25 50 35 Q45 45 40 35" fill="#F472B6" opacity="0.6"/>
+  <path d="M160 45 Q165 38 170 45 Q165 52 160 45" fill="#F472B6" opacity="0.6"/>
+  <!-- Ears -->
+  <circle cx="65" cy="65" r="24" fill="url(#furGrad)" filter="url(#softShadow)"/>
+  <circle cx="65" cy="65" r="14" fill="#FBCFE8"/>
+  <circle cx="135" cy="65" r="24" fill="url(#furGrad)" filter="url(#softShadow)"/>
+  <circle cx="135" cy="65" r="14" fill="#FBCFE8"/>
+  <!-- Body -->
+  <ellipse cx="100" cy="142" rx="46" ry="42" fill="url(#furGrad)" filter="url(#softShadow)"/>
+  <ellipse cx="100" cy="146" rx="28" ry="24" fill="#FFFBF5"/>
+  <!-- Arms -->
+  <ellipse cx="58" cy="138" rx="14" ry="20" fill="url(#furGrad)" transform="rotate(20 58 138)"/>
+  <ellipse cx="142" cy="138" rx="14" ry="20" fill="url(#furGrad)" transform="rotate(-20 142 138)"/>
+  <!-- Head -->
+  <circle cx="100" cy="95" r="44" fill="url(#furGrad)" filter="url(#softShadow)"/>
+  <!-- Snout -->
+  <ellipse cx="100" cy="106" rx="18" ry="14" fill="#FFFBF5"/>
+  <ellipse cx="100" cy="101" rx="6" ry="4.5" fill="#475569"/>
+  <path d="M96 109 Q100 114 104 109" stroke="#475569" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Eyes -->
+  <circle cx="82" cy="92" r="5.5" fill="#1E293B"/>
+  <circle cx="84" cy="90" r="2" fill="#FFFFFF"/>
+  <circle cx="118" cy="92" r="5.5" fill="#1E293B"/>
+  <circle cx="120" cy="90" r="2" fill="#FFFFFF"/>
+  <!-- Blushing Cheeks -->
+  <ellipse cx="74" cy="104" rx="8" ry="5" fill="#F472B6" opacity="0.5"/>
+  <ellipse cx="126" cy="104" rx="8" ry="5" fill="#F472B6" opacity="0.5"/>
+  <!-- Cute Pink Ribbon Bow -->
+  <g transform="translate(100, 132)">
+    <circle cx="0" cy="0" r="5" fill="#FB7185"/>
+    <path d="M-5 -2 C-18 -12 -22 6 -5 4 Z" fill="#F43F5E"/>
+    <path d="M5 -2 C18 -12 22 6 5 4 Z" fill="#F43F5E"/>
+    <path d="M-3 4 L-8 16 L-2 14 L0 5" fill="#E11D48"/>
+    <path d="M3 4 L8 16 L2 14 L0 5" fill="#E11D48"/>
+  </g>
+</svg>

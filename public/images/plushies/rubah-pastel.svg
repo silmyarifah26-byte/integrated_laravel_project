@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgFox" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#EFF6FF"/>
+      <stop offset="100%" stop-color="#DBEAFE"/>
+    </radialGradient>
+    <linearGradient id="foxFur" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBCFE8"/>
+      <stop offset="100%" stop-color="#F472B6"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="30" fill="url(#bgFox)"/>
+  <!-- Fluffy Pastel Fox Tail -->
+  <path d="M130 145 C165 140 185 105 170 85 C155 70 140 95 130 115 Z" fill="url(#foxFur)"/>
+  <path d="M170 85 C162 78 152 82 148 90 C156 90 162 94 170 85 Z" fill="#FFFFFF"/>
+  <!-- Fox Ears -->
+  <polygon points="55,80 65,38 92,65" fill="url(#foxFur)"/>
+  <polygon points="62,75 68,46 86,65" fill="#FFFFFF"/>
+  <polygon points="145,80 135,38 108,65" fill="url(#foxFur)"/>
+  <polygon points="138,75 132,46 114,65" fill="#FFFFFF"/>
+  <!-- Body -->
+  <ellipse cx="100" cy="146" rx="42" ry="36" fill="url(#foxFur)"/>
+  <ellipse cx="100" cy="148" rx="24" ry="22" fill="#FFFFFF"/>
+  <!-- Head -->
+  <circle cx="100" cy="100" r="42" fill="url(#foxFur)"/>
+  <!-- White Snout / Cheeks -->
+  <path d="M62 105 C62 125 100 130 100 130 C100 130 138 125 138 105 C125 110 110 112 100 112 C90 112 75 110 62 105 Z" fill="#FFFFFF"/>
+  <!-- Eyes (Happy Closed C-curve Eyes) -->
+  <path d="M78 98 Q84 92 90 98" stroke="#1E293B" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M110 98 Q116 92 122 98" stroke="#1E293B" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Nose -->
+  <ellipse cx="100" cy="115" rx="5" ry="3.5" fill="#1E293B"/>
+  <!-- Blushing Cheeks -->
+  <ellipse cx="72" cy="108" rx="6" ry="4" fill="#F43F5E" opacity="0.5"/>
+  <ellipse cx="128" cy="108" rx="6" ry="4" fill="#F43F5E" opacity="0.5"/>
+  <!-- Flower Crown -->
+  <circle cx="85" cy="68" r="5" fill="#FDE047"/>
+  <circle cx="100" cy="65" r="6" fill="#A7F3D0"/>
+  <circle cx="115" cy="68" r="5" fill="#DDD6FE"/>
+</svg>

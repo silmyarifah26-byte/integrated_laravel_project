@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgShiba" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FEF3C7"/>
+      <stop offset="100%" stop-color="#FDE68A"/>
+    </radialGradient>
+    <radialGradient id="shibaFur" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#FBBF24"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </radialGradient>
+  </defs>
+  <rect width="200" height="200" rx="30" fill="url(#bgShiba)"/>
+  <!-- Shiba Ears -->
+  <polygon points="50,75 62,38 88,68" fill="url(#shibaFur)"/>
+  <polygon points="58,70 65,46 82,68" fill="#FEF3C7"/>
+  <polygon points="150,75 138,38 112,68" fill="url(#shibaFur)"/>
+  <polygon points="142,70 135,46 118,68" fill="#FEF3C7"/>
+  <!-- Round Squishy Cushion Body -->
+  <ellipse cx="100" cy="115" rx="65" ry="54" fill="url(#shibaFur)"/>
+  <!-- White Cheeks & Belly Patch -->
+  <path d="M48 110 C48 145 100 155 100 155 C100 155 152 145 152 110 C138 125 120 128 100 128 C80 128 62 125 48 110 Z" fill="#FFFFFF"/>
+  <!-- White Eyebrow Dots -->
+  <ellipse cx="78" cy="90" rx="5" ry="4" fill="#FFFFFF"/>
+  <ellipse cx="122" cy="90" rx="5" ry="4" fill="#FFFFFF"/>
+  <!-- Shiba Eyes (Happy Squinting Eyes) -->
+  <path d="M72 104 Q80 96 88 104" stroke="#1E293B" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M112 104 Q120 96 128 104" stroke="#1E293B" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Cute Black Nose & Tongue -->
+  <ellipse cx="100" cy="118" rx="6.5" ry="4.5" fill="#1E293B"/>
+  <path d="M96 123 Q100 127 104 123" stroke="#1E293B" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M97 125 C97 132 103 132 103 125 Z" fill="#FB7185"/>
+  <!-- Blushing Cheeks -->
+  <ellipse cx="64" cy="118" rx="8" ry="5" fill="#F43F5E" opacity="0.6"/>
+  <ellipse cx="136" cy="118" rx="8" ry="5" fill="#F43F5E" opacity="0.6"/>
+  <!-- Little Paws on Bottom -->
+  <ellipse cx="75" cy="158" rx="10" ry="7" fill="#FFFFFF"/>
+  <ellipse cx="125" cy="158" rx="10" ry="7" fill="#FFFFFF"/>
+</svg>
