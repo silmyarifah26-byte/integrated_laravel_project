@@ -27,49 +27,49 @@ class PurchaseTest extends TestCase
         parent::setUp();
 
         $this->admin = User::create([
-            'name' => 'Admin Test',
-            'email' => 'admin@bonekaku.test',
+            'name' => 'Admin HijabSociety',
+            'email' => 'admin@hijabsociety.test',
             'password' => Hash::make('password123'),
             'role' => 'admin',
         ]);
 
         $this->staff = User::create([
-            'name' => 'Staff Test',
-            'email' => 'staff@bonekaku.test',
+            'name' => 'Staff Toko Hijab',
+            'email' => 'staff@hijabsociety.test',
             'password' => Hash::make('password123'),
             'role' => 'staff',
         ]);
 
         $this->customer = User::create([
-            'name' => 'Customer Test',
-            'email' => 'customer@bonekaku.test',
+            'name' => 'Customer HijabSociety',
+            'email' => 'customer@hijabsociety.test',
             'password' => Hash::make('password123'),
             'role' => 'customer',
         ]);
 
-        $category = Category::create(['name' => 'Boneka Classic']);
+        $category = Category::create(['name' => 'Pashmina & Hijab Segi Empat']);
 
         $this->supplier = Supplier::create([
-            'name' => 'Pabrik Boneka Bandung',
+            'name' => 'PT Hijab Mandiri Tekstil Bandung',
             'phone' => '022-1234567',
         ]);
 
         $this->product1 = Product::create([
             'category_id' => $category->id,
-            'sku' => 'BNK-P1-001',
-            'name' => 'Boneka Teddy Bear',
-            'purchase_price' => 50000,
-            'selling_price' => 85000,
+            'sku' => 'HJB-PSH-001',
+            'name' => 'Pashmina Ceruty Baby Doll Sage Green',
+            'purchase_price' => 35000,
+            'selling_price' => 65000,
             'stock' => 10,
             'minimum_stock' => 5,
         ]);
 
         $this->product2 = Product::create([
             'category_id' => $category->id,
-            'sku' => 'BNK-P2-002',
-            'name' => 'Boneka Kelinci Pink',
+            'sku' => 'HJB-VOAL-002',
+            'name' => 'Segi Empat Voal Ultrafine Dusty Pink',
             'purchase_price' => 40000,
-            'selling_price' => 70000,
+            'selling_price' => 75000,
             'stock' => 5,
             'minimum_stock' => 3,
         ]);
@@ -98,7 +98,7 @@ class PurchaseTest extends TestCase
         $response = $this->actingAs($this->staff)->post('/purchases', [
             'supplier_id' => $this->supplier->id,
             'purchased_at' => now()->format('Y-m-d H:i:s'),
-            'notes' => 'Pengadaan batch boneka baru',
+            'notes' => 'Pengadaan batch hijab ceruty & voal baru',
             'items' => [
                 [
                     'product_id' => $this->product1->id,
@@ -121,6 +121,8 @@ class PurchaseTest extends TestCase
         $this->assertNotNull($purchase);
         $this->assertEquals(1180000, $purchase->total);
         $this->assertEquals('completed', $purchase->status);
+        $this->assertEquals($this->staff->id, $purchase->user_id);
+        $this->assertNotNull($purchase->purchased_at);
         $this->assertStringStartsWith('PO-', $purchase->purchase_number);
 
         // Check stock increments
@@ -129,6 +131,49 @@ class PurchaseTest extends TestCase
 
         // Check items
         $this->assertCount(2, $purchase->items);
+    }
+
+    public function test_purchase_validation_rules_reject_invalid_payloads(): void
+    {
+        // 1. Missing supplier and empty items
+        $resEmpty = $this->actingAs($this->staff)->post('/purchases', [
+            'supplier_id' => '',
+            'items' => [],
+        ]);
+        $resEmpty->assertSessionHasErrors(['supplier_id', 'items']);
+
+        // 2. Negative quantity and negative unit cost
+        $resNegative = $this->actingAs($this->staff)->post('/purchases', [
+            'supplier_id' => $this->supplier->id,
+            'purchased_at' => now()->format('Y-m-d H:i:s'),
+            'items' => [
+                [
+                    'product_id' => $this->product1->id,
+                    'quantity' => -5,
+                    'unit_cost' => -10000,
+                ],
+            ],
+        ]);
+        $resNegative->assertSessionHasErrors(['items.0.quantity', 'items.0.unit_cost']);
+
+        // 3. Duplicate product_id in items
+        $resDuplicate = $this->actingAs($this->staff)->post('/purchases', [
+            'supplier_id' => $this->supplier->id,
+            'purchased_at' => now()->format('Y-m-d H:i:s'),
+            'items' => [
+                [
+                    'product_id' => $this->product1->id,
+                    'quantity' => 5,
+                    'unit_cost' => 35000,
+                ],
+                [
+                    'product_id' => $this->product1->id, // Duplikat
+                    'quantity' => 10,
+                    'unit_cost' => 35000,
+                ],
+            ],
+        ]);
+        $resDuplicate->assertSessionHasErrors(['items.0.product_id', 'items.1.product_id']);
     }
 
     public function test_staff_cannot_cancel_purchase(): void
