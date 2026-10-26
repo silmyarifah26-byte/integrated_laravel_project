@@ -210,7 +210,7 @@ class PurchaseTest extends TestCase
         $response = $this->actingAs($this->staff)->get(route('purchases.create', ['product_id' => $this->product1->id]));
 
         $response->assertStatus(200);
-        $response->assertSee('Mode Restock Cepat: Boneka ' . $this->product1->name);
+        $response->assertSee('Mode Restock Cepat: Produk ' . $this->product1->name);
         $response->assertSee($this->product1->sku);
     }
 }

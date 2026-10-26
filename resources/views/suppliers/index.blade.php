@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Daftar Pemasok Boneka'])
+@extends('layouts.app', ['title' => 'Daftar Pemasok Tekstil & Hijab'])
 
 @section('content')
 <div class="space-y-6">
@@ -10,9 +10,9 @@
                 <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-sm">
                     <i class="fa-solid fa-industry"></i>
                 </span>
-                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Pemasok & Pabrik Boneka</h1>
+                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Pemasok Tekstil & Hijab</h1>
             </div>
-            <p class="text-slate-500 text-xs sm:text-sm mt-1">Daftar mitra pabrik produsen dan distributor pengadaan boneka (Stock-In).</p>
+            <p class="text-slate-500 text-xs sm:text-sm mt-1">Daftar mitra pabrik produsen dan distributor pengadaan bahan & produk hijab (Stock-In).</p>
         </div>
 
         @if(auth()->user()->isAdmin())

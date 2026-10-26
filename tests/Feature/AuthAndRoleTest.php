@@ -43,7 +43,7 @@ class AuthAndRoleTest extends TestCase
         $response->assertStatus(200);
 
         // Verify Customer portal content
-        $response->assertSee("Masuk Pelanggan Diza's Plushie", false);
+        $response->assertSee("Masuk Pelanggan HijabSociety", false);
         $response->assertSee('Daftar Akun Customer Sekarang');
         $response->assertDontSee('Akun Demo Siap Pakai');
         $response->assertDontSee('admin@bonekaku.test');

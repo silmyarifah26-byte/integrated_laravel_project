@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Daftar Kategori Boneka'])
+@extends('layouts.app', ['title' => 'Daftar Kategori Hijab'])
 
 @section('content')
 <div class="space-y-6">
@@ -10,9 +10,9 @@
                 <span class="w-8 h-8 rounded-lg bg-plush-100 text-plush-600 flex items-center justify-center text-sm">
                     <i class="fa-solid fa-tags"></i>
                 </span>
-                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Kategori Boneka</h1>
+                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Kategori Hijab</h1>
             </div>
-            <p class="text-slate-500 text-xs sm:text-sm mt-1">Klasifikasi kategori untuk mengelompokkan koleksi boneka dan plushie di toko.</p>
+            <p class="text-slate-500 text-xs sm:text-sm mt-1">Klasifikasi kategori untuk mengelompokkan koleksi hijab, pashmina, segi empat, dan aksesoris di HijabSociety.</p>
         </div>
 
         @if(auth()->user()->isAdmin())

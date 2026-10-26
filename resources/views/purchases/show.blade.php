@@ -77,13 +77,13 @@
 
         <!-- Items Table -->
         <div class="space-y-3">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Rincian Boneka yang Dipesan</h2>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Rincian Hijab yang Dipesan</h2>
             <div class="border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
                 <table class="w-full text-left text-xs sm:text-sm text-slate-600">
                     <thead class="bg-slate-50 text-[11px] uppercase font-extrabold text-slate-500 border-b border-slate-200">
                         <tr>
                             <th class="px-5 py-3 w-12 text-center">No</th>
-                            <th class="px-5 py-3">Produk Boneka</th>
+                            <th class="px-5 py-3">Produk Hijab</th>
                             <th class="px-5 py-3">Kategori & Ukuran</th>
                             <th class="px-5 py-3 text-center">Kuantitas Masuk</th>
                             <th class="px-5 py-3 text-right">Harga Beli Satuan</th>

@@ -116,10 +116,10 @@ class SaleController extends Controller
             'payment_method' => ['nullable', 'string', 'in:QRIS,Transfer Bank,E-Wallet,Tunai / COD'],
             'notes' => ['nullable', 'string', 'max:500'],
         ], [
-            'items.required' => 'Pilih minimal 1 jenis boneka untuk ditransaksikan.',
-            'items.min' => 'Pilih minimal 1 jenis boneka untuk ditransaksikan.',
-            'items.*.product_id.required' => 'Produk boneka wajib dipilih.',
-            'items.*.product_id.distinct' => 'Tidak boleh memilih boneka yang sama pada lebih dari satu baris.',
+            'items.required' => 'Pilih minimal 1 jenis hijab untuk ditransaksikan.',
+            'items.min' => 'Pilih minimal 1 jenis hijab untuk ditransaksikan.',
+            'items.*.product_id.required' => 'Produk hijab wajib dipilih.',
+            'items.*.product_id.distinct' => 'Tidak boleh memilih produk hijab yang sama pada lebih dari satu baris.',
             'items.*.quantity.required' => 'Jumlah kuantitas pembelian wajib diisi.',
             'items.*.quantity.min' => 'Kuantitas minimal adalah 1 pcs.',
             'payment_method.in' => 'Metode pembayaran yang dipilih tidak valid.',
@@ -181,7 +181,7 @@ class SaleController extends Controller
 
                     if ($qty < 1 || $product->stock < $qty) {
                         throw ValidationException::withMessages([
-                            'items' => "Stok boneka '{$product->name}' tidak mencukupi (Stok tersedia: {$product->stock}, diminta: {$qty}). Transaksi dibatalkan secara otomatis.",
+                            'items' => "Stok hijab '{$product->name}' tidak mencukupi (Stok tersedia: {$product->stock}, diminta: {$qty}). Transaksi dibatalkan secara otomatis.",
                         ]);
                     }
 
@@ -205,7 +205,7 @@ class SaleController extends Controller
             });
 
             return redirect()->route('sales.show', $sale)
-                ->with('success', "Transaksi penjualan / pesanan '{$sale->sale_number}' berhasil diproses dan stok fisik boneka telah berkurang.");
+                ->with('success', "Transaksi penjualan / pesanan '{$sale->sale_number}' berhasil diproses dan stok fisik hijab telah berkurang.");
         } catch (ValidationException $e) {
             return back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
@@ -257,6 +257,6 @@ class SaleController extends Controller
         });
 
         return redirect()->route('sales.show', $sale)
-            ->with('success', "Transaksi penjualan '{$sale->sale_number}' berhasil dibatalkan dan seluruh stok boneka telah dikembalikan ke inventori toko.");
+            ->with('success', "Transaksi penjualan '{$sale->sale_number}' berhasil dibatalkan dan seluruh Stok hijab telah dikembalikan ke inventori toko.");
     }
 }

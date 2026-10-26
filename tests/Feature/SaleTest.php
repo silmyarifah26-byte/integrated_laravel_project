@@ -249,7 +249,7 @@ class SaleTest extends TestCase
     {
         $response = $this->actingAs($this->customer1)->get('/sales/create?product_id=' . $this->product1->id);
         $response->assertStatus(200);
-        $response->assertSee('Keranjang Boneka yang Dibeli');
+        $response->assertSee('Keranjang Hijab yang Dibeli');
         $response->assertSee($this->product1->name);
     }
 }

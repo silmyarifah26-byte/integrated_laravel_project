@@ -183,7 +183,7 @@ class DashboardTest extends TestCase
         $response->assertSee('INV-20261024-0001');
 
         // Available doll recommendations
-        $response->assertSee('Rekomendasi Boneka Tersedia');
+        $response->assertSee('Rekomendasi Hijab Pilihan');
         $response->assertSee('Teddy Bear Cream Jumbo');
         $response->assertSee('Buat Pesanan');
 

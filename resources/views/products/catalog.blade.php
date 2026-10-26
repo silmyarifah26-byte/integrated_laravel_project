@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Katalog Boneka & Plushie'])
+@extends('layouts.app', ['title' => 'Katalog Hijab & Aksesoris Muslimah'])
 
 @section('content')
 <div class="space-y-6">
@@ -10,11 +10,11 @@
         </div>
         <div class="relative z-10 max-w-2xl">
             <span class="px-3 py-1 rounded-full text-xs font-black bg-white/25 backdrop-blur border border-white/40 text-white mb-2 inline-block">
-                🧸 Koleksi Lengkap Diza's Plushie
+                🧕 Koleksi Eksklusif HijabSociety
             </span>
-            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Katalog Boneka & Plushie</h1>
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Katalog Hijab & Aksesoris Muslimah</h1>
             <p class="text-white/95 text-sm mt-1">
-                Pilih boneka favorit Anda dari berbagai kategori seperti Teddy Bear, Karakter Hewan, Anime Plushie, Buket Wisuda, hingga Bantal Boneka empuk dengan bahan super lembut.
+                Pilih hijab cantik favorit Anda dari berbagai kategori mulai dari Pashmina, Segi Empat Voal Ultrafine, Bergo Daily Instan, hingga Khimar Syar'i berbahan premium dan nyaman seharian.
             </p>
         </div>
     </div>
@@ -26,7 +26,7 @@
                 <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </span>
-                <input type="text" name="search" value="{{ $search }}" placeholder="Cari nama boneka, karakter, atau ukuran..."
+                <input type="text" name="search" value="{{ $search }}" placeholder="Cari nama hijab, bahan voal/ceruty, atau ukuran..."
                     class="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 text-sm focus:ring-2 focus:ring-pink-400 focus:border-pink-400 bg-pink-50/20 focus:bg-white transition-all">
             </div>
 
@@ -46,7 +46,7 @@
         </form>
 
         <span class="text-xs font-semibold text-slate-500 whitespace-nowrap">
-            Ditemukan: <strong>{{ $products->total() }}</strong> Boneka
+            Ditemukan: <strong>{{ $products->total() }}</strong> Item Hijab
         </span>
     </div>
 
@@ -57,13 +57,13 @@
                 <div>
                     <!-- Real Plushie Photo -->
                     <div class="w-full h-52 rounded-2xl overflow-hidden mb-3 relative group-hover:scale-[1.02] transition-transform duration-200 bg-slate-100 border border-pink-100">
-                        <img src="{{ asset($item->image_url ?? 'images/plushies/teddy-bear-pita.jpg') }}" 
+                        <img src="{{ asset($item->image_url ?? 'images/hijab/pashmina-ceruty.svg') }}" 
                              alt="{{ $item->name }}" 
                              class="object-cover object-center w-full h-52 rounded-2xl">
                         
                         <div class="absolute top-2.5 left-2.5">
                             <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-white/90 backdrop-blur text-pink-600 border border-pink-200 shadow-xs">
-                                {{ $item->category->name ?? 'Plushie' }}
+                                {{ $item->category->name ?? 'Hijab' }}
                             </span>
                         </div>
                         <div class="absolute top-2.5 right-2.5">
@@ -73,7 +73,7 @@
                         </div>
                     </div>
 
-                    <!-- Doll Name -->
+                    <!-- Hijab Name -->
                     <h2 class="font-extrabold text-slate-800 text-base group-hover:text-pink-600 transition-colors line-clamp-2">
                         {{ $item->name }}
                     </h2>
@@ -114,14 +114,14 @@
                 <!-- Quick Action Button -->
                 <div class="mt-3">
                     <a href="{{ route('sales.create', ['product_id' => $item->id]) }}" class="w-full inline-flex items-center justify-center py-2 px-3 rounded-2xl bg-pink-50 hover:bg-pink-100 text-pink-700 font-bold text-xs border border-pink-200 transition-colors">
-                        <i class="fa-solid fa-basket-shopping mr-1.5 text-pink-500"></i> Pesan Boneka Ini
+                        <i class="fa-solid fa-basket-shopping mr-1.5 text-pink-500"></i> Pesan Hijab Ini
                     </a>
                 </div>
             </div>
         @empty
             <div class="col-span-full bg-white p-12 rounded-3xl border border-slate-200 text-center text-slate-400">
                 <i class="fa-solid fa-basket-shopping text-5xl mb-3 text-slate-300"></i>
-                <p class="font-bold text-base text-slate-700">Tidak ada boneka yang sesuai dengan filter pencarian.</p>
+                <p class="font-bold text-base text-slate-700">Tidak ada produk hijab yang sesuai dengan filter pencarian.</p>
                 <p class="text-xs text-slate-400 mt-1">Silakan coba pilih kategori lain atau bersihkan kata kunci.</p>
             </div>
         @endforelse

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Tambah Pemasok Boneka'])
+@extends('layouts.app', ['title' => 'Tambah Pemasok Tekstil & Hijab'])
 
 @section('content')
 <div class="max-w-2xl mx-auto py-4">
@@ -11,7 +11,7 @@
     <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
         <div class="mb-6">
             <h1 class="text-xl font-extrabold text-slate-900">Tambah Pemasok / Pabrik Baru</h1>
-            <p class="text-xs text-slate-500 mt-1">Registrasikan data kontak pabrik produsen atau distributor boneka.</p>
+            <p class="text-xs text-slate-500 mt-1">Registrasikan data kontak pabrik tekstil, konveksi, atau distributor hijab.</p>
         </div>
 
         <form action="{{ route('suppliers.store') }}" method="POST" class="space-y-5">
@@ -24,7 +24,7 @@
                 </label>
                 <input type="text" name="name" id="name" required autofocus
                     value="{{ old('name') }}"
-                    placeholder="Contoh: PT Kreasi Boneka Nusantara (Bandung)"
+                    placeholder="Contoh: PT Hijab Mandiri Tekstil (Bandung)"
                     class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-slate-50/50 hover:bg-white focus:bg-white transition-all">
                 @error('name')
                     <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>
@@ -52,7 +52,7 @@
                     </label>
                     <input type="email" name="email" id="email"
                         value="{{ old('email') }}"
-                        placeholder="order@pabrikboneka.com"
+                        placeholder="order@hijabmandiri.co.id"
                         class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-slate-50/50 hover:bg-white focus:bg-white transition-all">
                     @error('email')
                         <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>

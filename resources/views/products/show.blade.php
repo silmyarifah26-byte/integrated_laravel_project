@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Detail Produk Boneka'])
+@extends('layouts.app', ['title' => 'Detail Produk Hijab'])
 
 @section('content')
 <div class="max-w-4xl mx-auto py-4 space-y-6">
@@ -9,7 +9,7 @@
 
         @if(auth()->user()->isAdmin())
             <a href="{{ route('products.edit', $product) }}" class="inline-flex items-center px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-sm transition-colors">
-                <i class="fa-solid fa-pen-to-square mr-1.5"></i> Ubah Data Boneka
+                <i class="fa-solid fa-pen-to-square mr-1.5"></i> Ubah Data Hijab
             </a>
         @endif
     </div>
@@ -19,19 +19,19 @@
         <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
             <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-5">
                 <div class="w-36 h-36 sm:w-48 sm:h-48 rounded-3xl overflow-hidden border border-pink-100 flex-shrink-0 shadow-sm bg-slate-100">
-                    <img src="{{ asset($product->image_url ?? 'images/plushies/teddy-bear-pita.jpg') }}" 
+                    <img src="{{ asset($product->image_url ?? 'images/hijab/pashmina-ceruty.svg') }}" 
                          alt="{{ $product->name }}" 
                          class="w-full h-full object-cover object-center">
                 </div>
                 <div>
                     <div class="flex items-center space-x-2 mb-2">
                         <span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-pink-100 text-pink-700 border border-pink-200">
-                            {{ $product->category->name ?? 'Kategori Boneka' }}
+                            {{ $product->category->name ?? 'Kategori Hijab' }}
                         </span>
                         <span class="text-xs font-mono font-bold text-slate-400">{{ $product->sku }}</span>
                     </div>
                     <h1 class="text-2xl sm:text-3xl font-black text-slate-900">{{ $product->name }}</h1>
-                    <p class="text-xs text-slate-400 mt-1">Koleksi Asli Diza's Plushie Store</p>
+                    <p class="text-xs text-slate-400 mt-1">Koleksi Eksklusif HijabSociety</p>
                 </div>
             </div>
 
@@ -53,7 +53,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6 pt-6 border-t border-slate-100">
             <!-- Specifications -->
             <div class="space-y-3">
-                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Spesifikasi Boneka</h2>
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Spesifikasi Hijab</h2>
                 <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-2 text-sm">
                     <div class="flex justify-between">
                         <span class="text-slate-500">Ukuran / Dimensi:</span>

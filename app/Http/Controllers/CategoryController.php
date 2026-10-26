@@ -97,7 +97,7 @@ class CategoryController extends Controller
     {
         if ($category->products()->exists()) {
             $count = $category->products()->count();
-            return back()->with('error', "Kategori '{$category->name}' tidak dapat dihapus karena masih memuat {$count} produk boneka terkait. Hapus atau pindahkan produk terlebih dahulu.");
+            return back()->with('error', "Kategori '{$category->name}' tidak dapat dihapus karena masih memuat {$count} produk hijab terkait. Hapus atau pindahkan produk terlebih dahulu.");
         }
 
         $name = $category->name;

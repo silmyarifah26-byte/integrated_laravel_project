@@ -12,7 +12,7 @@
                 </span>
                 <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Transaksi Pembelian (Stock-In)</h1>
             </div>
-            <p class="text-slate-500 text-xs sm:text-sm mt-1">Pencatatan pengadaan stok boneka dari pabrik / supplier resmi ke inventori toko.</p>
+            <p class="text-slate-500 text-xs sm:text-sm mt-1">Pencatatan pengadaan stok hijab dari produsen / supplier tekstil resmi ke inventori toko.</p>
         </div>
 
         <div>

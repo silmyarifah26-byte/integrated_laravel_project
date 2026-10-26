@@ -82,13 +82,13 @@ class PurchaseController extends Controller
             'items.*.quantity' => ['required', 'integer', 'min:1'],
             'items.*.unit_cost' => ['required', 'numeric', 'min:0'],
         ], [
-            'supplier_id.required' => 'Pemasok / pabrik boneka wajib dipilih.',
+            'supplier_id.required' => 'Pemasok / produsen hijab wajib dipilih.',
             'supplier_id.exists' => 'Pemasok yang dipilih tidak valid.',
             'purchased_at.required' => 'Tanggal pembelian wajib diisi.',
-            'items.required' => 'Minimal tambahkan 1 baris boneka yang dibeli.',
-            'items.min' => 'Minimal tambahkan 1 baris boneka yang dibeli.',
-            'items.*.product_id.required' => 'Produk boneka pada setiap baris wajib dipilih.',
-            'items.*.product_id.distinct' => 'Tidak boleh memilih boneka yang sama pada lebih dari satu baris.',
+            'items.required' => 'Minimal tambahkan 1 baris produk hijab yang dibeli.',
+            'items.min' => 'Minimal tambahkan 1 baris produk hijab yang dibeli.',
+            'items.*.product_id.required' => 'Produk hijab pada setiap baris wajib dipilih.',
+            'items.*.product_id.distinct' => 'Tidak boleh memilih produk hijab yang sama pada lebih dari satu baris.',
             'items.*.quantity.required' => 'Kuantitas wajib diisi.',
             'items.*.quantity.min' => 'Kuantitas minimal adalah 1 pcs.',
             'items.*.unit_cost.required' => 'Harga beli satuan wajib diisi.',
@@ -157,7 +157,7 @@ class PurchaseController extends Controller
         });
 
         return redirect()->route('purchases.show', $purchase)
-            ->with('success', "Transaksi pengadaan boneka '{$purchase->purchase_number}' berhasil dicatat dan stok fisik produk telah bertambah.");
+            ->with('success', "Transaksi pengadaan hijab '{$purchase->purchase_number}' berhasil dicatat dan stok fisik produk telah bertambah.");
     }
 
     /**

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF7ED"/>
+      <stop offset="100%" stop-color="#FFEDD5"/>
+    </linearGradient>
+    <linearGradient id="fabric" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FB923C"/>
+      <stop offset="50%" stop-color="#F97316"/>
+      <stop offset="100%" stop-color="#EA580C"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#C2410C" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#bg)"/>
+  <circle cx="200" cy="200" r="140" fill="#FFFFFF" opacity="0.6"/>
+  <g filter="url(#shadow)">
+    <!-- Main Draped Hijab Outline -->
+    <path d="M140 100 C180 80, 220 80, 260 100 C275 140, 280 200, 265 270 C240 310, 160 310, 135 270 C120 200, 125 140, 140 100 Z" fill="url(#fabric)"/>
+    <!-- Flowy Layer Fold Left -->
+    <path d="M145 140 C175 130, 205 130, 235 150 C220 230, 175 285, 120 260 C125 210, 132 170, 145 140 Z" fill="#FED7AA" opacity="0.9"/>
+    <!-- Flowy Fold Right -->
+    <path d="M210 145 C230 180, 255 240, 260 300 C240 315, 215 315, 200 270 C205 220, 205 180, 210 145 Z" fill="#F97316" opacity="0.95"/>
+    <!-- Fold Lines -->
+    <path d="M165 110 Q200 135 235 110" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.8"/>
+    <path d="M150 160 Q200 185 245 165" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+    <path d="M160 210 Q200 230 235 220" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.6"/>
+  </g>
+  <circle cx="290" cy="110" r="4" fill="#FB923C"/>
+  <circle cx="110" cy="140" r="5" fill="#FB923C"/>
+  <circle cx="280" cy="280" r="3" fill="#FB923C"/>
+  <rect x="100" y="335" width="200" height="32" rx="16" fill="#FFFFFF" opacity="0.9" filter="url(#shadow)"/>
+  <text x="200" y="356" font-family="'Quicksand', 'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#9A3412" text-anchor="middle">Bergo Hamidah Daily</text>
+</svg>

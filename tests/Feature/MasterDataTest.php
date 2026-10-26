@@ -151,14 +151,11 @@ class MasterDataTest extends TestCase
 
     public function test_admin_can_upload_product_photo(): void
     {
-        $sourceFile = public_path('images/plushies/teddy-bear-pita.jpg');
-        $tempFile = tempnam(sys_get_temp_dir(), 'test_upload_');
-        copy($sourceFile, $tempFile);
-        $file = new \Illuminate\Http\UploadedFile($tempFile, 'upload_plushie.jpg', 'image/jpeg', null, true);
+        $file = \Illuminate\Http\UploadedFile::fake()->create('upload_hijab.jpg', 100, 'image/jpeg');
 
         $response = $this->actingAs($this->admin)->post('/products', [
-            'sku' => 'BNK-UPLOAD-001',
-            'name' => 'Boneka Upload Foto',
+            'sku' => 'HJB-UPLOAD-001',
+            'name' => 'Hijab Upload Foto Test',
             'category_id' => $this->category->id,
             'image_file' => $file,
             'purchase_price' => 50000,
@@ -167,9 +164,9 @@ class MasterDataTest extends TestCase
         ]);
 
         $response->assertRedirect('/products');
-        $product = Product::where('sku', 'BNK-UPLOAD-001')->first();
+        $product = Product::where('sku', 'HJB-UPLOAD-001')->first();
         $this->assertNotNull($product);
-        $this->assertStringContainsString('upload-plushie.jpg', $product->image_url);
+        $this->assertStringContainsString('upload-hijab.jpg', $product->image_url);
 
         // Clean up uploaded test file
         $uploadedPath = public_path(ltrim($product->image_url, '/'));

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name', 150);
             $table->string('size')->nullable();
             $table->string('material')->nullable();
+            $table->string('image_url')->nullable();
             $table->decimal('purchase_price', 15, 2);
             $table->decimal('selling_price', 15, 2);
             $table->integer('stock')->default(0);

@@ -14,7 +14,7 @@
 
             <!-- Cancel Transaction Button (Admin Only & Completed Only) -->
             @if(auth()->user()->isAdmin() && $sale->status === 'completed')
-                <form action="{{ route('sales.cancel', $sale) }}" method="POST" onsubmit="return confirm('PERINGATAN: Apakah Anda yakin ingin membatalkan transaksi penjualan {{ $sale->sale_number }}? Seluruh kuantitas boneka pada nota ini akan dikembalikan ke stok inventori toko secara otomatis.');">
+                <form action="{{ route('sales.cancel', $sale) }}" method="POST" onsubmit="return confirm('PERINGATAN: Apakah Anda yakin ingin membatalkan transaksi penjualan {{ $sale->sale_number }}? Seluruh kuantitas produk hijab pada nota ini akan dikembalikan ke stok inventori toko secara otomatis.');">
                     @csrf
                     <button type="submit" class="inline-flex items-center px-4 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs shadow-sm transition-colors">
                         <i class="fa-solid fa-ban mr-1.5"></i> Batalkan Penjualan Ini
@@ -35,8 +35,8 @@
                         <i class="fa-solid fa-heart"></i>
                     </span>
                     <div>
-                        <span class="text-xs font-black uppercase tracking-wider text-pink-500 block">Diza's Plushie Store</span>
-                        <span class="text-[10px] text-slate-400">Official Cute Plushie & Doll Receipt</span>
+                        <span class="text-xs font-black uppercase tracking-wider text-pink-500 block">HijabSociety</span>
+                        <span class="text-[10px] text-slate-400">Official Hijab & Muslimah Fashion Receipt</span>
                     </div>
                 </div>
                 <h1 class="text-2xl sm:text-3xl font-black text-slate-900 font-mono tracking-tight">{{ $sale->sale_number }}</h1>
@@ -122,13 +122,13 @@
 
         <!-- Items Table -->
         <div class="space-y-3">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Rincian Boneka yang Dibeli</h2>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Rincian Hijab yang Dibeli</h2>
             <div class="border border-pink-100 rounded-2xl overflow-hidden shadow-sm">
                 <table class="w-full text-left text-xs sm:text-sm text-slate-600">
                     <thead class="bg-pink-50/50 text-[11px] uppercase font-extrabold text-slate-500 border-b border-pink-100">
                         <tr>
                             <th class="px-5 py-3 w-12 text-center">No</th>
-                            <th class="px-5 py-3">Produk Boneka</th>
+                            <th class="px-5 py-3">Produk Hijab</th>
                             <th class="px-5 py-3">Kategori & Ukuran</th>
                             <th class="px-5 py-3 text-center">Kuantitas</th>
                             <th class="px-5 py-3 text-right">Harga Satuan</th>
@@ -143,8 +143,8 @@
                                 </td>
                                 <td class="px-5 py-3.5">
                                     <div class="flex items-center space-x-3">
-                                        <img src="{{ asset($item->product->image_url ?? 'images/plushies/teddy-bear-pita.jpg') }}" 
-                                             alt="{{ $item->product->name ?? 'Boneka' }}" 
+                                        <img src="{{ asset($item->product->image_url ?? 'images/hijab/pashmina-ceruty.svg') }}" 
+                                             alt="{{ $item->product->name ?? 'Hijab' }}" 
                                              class="w-12 h-12 object-cover rounded-xl border border-pink-100 flex-shrink-0 shadow-xs">
                                         <div>
                                             <div class="font-extrabold text-slate-900">{{ $item->product->name ?? 'Produk Dihapus' }}</div>
@@ -189,8 +189,8 @@
         </div>
 
         <div class="text-center pt-4 border-t border-dashed border-pink-200 text-xs text-slate-400 space-y-1">
-            <p class="font-bold text-pink-600">✨ Terima kasih telah berbelanja di Diza's Plushie! ✨</p>
-            <p>Boneka lucu yang dipeluk penuh kehangatan, siap menemani harimu.</p>
+            <p class="font-bold text-pink-600">✨ Terima kasih telah berbelanja di HijabSociety! ✨</p>
+            <p>Koleksi hijab elegan dan berkualitas siap menyempurnakan penampilan anggunmu.</p>
         </div>
 
     </div>

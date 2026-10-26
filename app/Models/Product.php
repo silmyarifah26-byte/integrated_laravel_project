@@ -34,7 +34,7 @@ class Product extends Model
      */
     public function getImageAssetUrlAttribute(): string
     {
-        $path = $this->image_url ? ltrim($this->image_url, '/') : 'images/plushies/teddy-bear-pita.jpg';
+        $path = $this->image_url ? ltrim($this->image_url, '/') : 'images/hijab/pashmina-ceruty.svg';
         return asset($path);
     }
 

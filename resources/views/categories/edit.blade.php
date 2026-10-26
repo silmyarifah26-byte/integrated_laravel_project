@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Ubah Kategori Boneka'])
+@extends('layouts.app', ['title' => 'Ubah Kategori Hijab'])
 
 @section('content')
 <div class="max-w-xl mx-auto py-4">
@@ -10,7 +10,7 @@
 
     <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
         <div class="mb-6">
-            <h1 class="text-xl font-extrabold text-slate-900">Ubah Kategori Boneka</h1>
+            <h1 class="text-xl font-extrabold text-slate-900">Ubah Kategori Hijab</h1>
             <p class="text-xs text-slate-500 mt-1">Perbarui nama atau deskripsi kategori {{ $category->name }}.</p>
         </div>
 

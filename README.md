@@ -1,12 +1,12 @@
-# Diza's Plushie - Integrated Inventory & Sales Management System
+# HijabSociety - Integrated Hijab Inventory & Sales Management System
 
 [![Laravel Version](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
 [![PHP Version](https://img.shields.io/badge/PHP-%3E%3D8.2-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
 [![MySQL Database](https://img.shields.io/badge/MySQL-8.x%20%2F%20XAMPP-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-CDN-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-[![Tests Passing](https://img.shields.io/badge/Automated_Tests-Passing_(100%25)-success?style=for-the-badge&logo=checkmarx&logoColor=white)](#panduan-pengujian-otomatis-automated-testing-guide)
+[![Tests Passing](https://img.shields.io/badge/Automated_Tests-Passing_(100%25)-success?style=for-the-badge&logo=checkmarx&logoColor=white)](#8-panduan-pengujian-otomatis-automated-testing-guide)
 
-Aplikasi Web Terintegrasi untuk **Sistem Manajemen Inventori & Transaksi Penjualan Toko Boneka "Diza's Plushie" (Cute & Aesthetic Doll & Plushie Store)**, dibangun dengan tema **Soft Pastel Aesthetic yang manis, modern, dan lembut** sebagai pemenuhan **Tugas Ujian Tengah Semester (UTS) Mata Kuliah Web Programming 2**.
+Aplikasi Web Terintegrasi untuk **Sistem Manajemen Inventaris & Transaksi Penjualan Toko Hijab "HijabSociety" (Modern, Chic & Syar'i Hijab Store)**, dibangun dengan tema **Soft Rose & Neutral Aesthetic yang elegan, modern, dan rapi** sebagai pemenuhan **Tugas Ujian Tengah Semester (UTS) Mata Kuliah Web Programming 2**.
 
 ---
 
@@ -25,18 +25,22 @@ Aplikasi Web Terintegrasi untuk **Sistem Manajemen Inventori & Transaksi Penjual
 
 ## 1. Project Overview & Skenario Bisnis
 
-**Diza's Plushie** adalah sistem informasi manajemen inventori dan kasir modern yang dirancang khusus untuk toko ritel boneka dan plushie impor dengan visualisasi **Soft Pastel Aesthetic** (warna Creamy White `#FFF9FB`, Soft Blush `#FDF2F8`, Pastel Pink `#FBCFE8`, Soft Mint `#D1FAE5`, Baby Peach `#FFEDD5`, dan font manis Quicksand & Plus Jakarta Sans).
+**HijabSociety** adalah sistem informasi manajemen inventaris dan kasir modern yang dirancang khusus untuk butik retail hijab muslimah dengan visualisasi **Soft Rose & Neutral Aesthetic** (warna Creamy White `#FFF9FB`, Soft Blush `#FDF2F8`, Rose Pink `#F43F5E`, Sage Green `#D1FAE5`, Warm Peach `#FFEDD5`, dan tipografi Quicksand & Plus Jakarta Sans).
 
-Sistem ini mengintegrasikan rantai pasok pengadaan boneka dari pabrik/pemasok (*Stock-In*) hingga penjualan ritel ke konsumen (*Stock-Out*), baik melalui kasir toko fisik maupun pemesanan mandiri oleh pelanggan terdaftar (*Customer Self-Service Order*).
+Sistem ini mengintegrasikan seluruh alur operasional:
+1. **Pengadaan Stok Bahan & Hijab (*Stock-In*)**: Pembelian multi-item dari produsen konveksi dan pabrik tekstil ke gudang toko.
+2. **Manajemen Master Data Produk**: Klasifikasi hijab (Pashmina, Segi Empat, Bergo Instan, Khimar Syar'i, Inner & Aksesoris), penentuan harga modal vs jual, kontrol batas minimum stok, dan foto/ilustrasi produk.
+3. **Penjualan Retail & Kasir (*Stock-Out*)**: Transaksi POS oleh kasir toko fisik maupun pemesanan mandiri oleh pelanggan terdaftar (*Customer Self-Service Order*).
+4. **Pencegahan Overselling & Rekonsiliasi Realtime**: Penguncian baris produk (`lockForUpdate`) dalam transaksi atomik (`DB::transaction`) untuk memastikan keakuratan stok fisik.
 
 ### Masalah Bisnis yang Diselesaikan:
-- **Ketidakkonsistenan Stok**: Mengatasi risiko *overselling* atau selisih stok fisik akibat transaksi penjualan bersamaan dengan mengimplementasikan mekanisme konkurensi `Product::lockForUpdate()` di dalam transaksi atomik database (`DB::transaction`).
-- **Pencegahan Data Korup (Multi-Item Atomicity)**: Jika pelanggan membeli beberapa jenis boneka sekaligus dan stok salah satu boneka habis di tengah proses simpan, sistem secara otomatis membatalkan seluruh transaksi (*atomic rollback*), memastikan tidak ada stok yang terpotong sebagian atau nota yang tersimpan tanpa barang lengkap.
-- **Transparansi Biaya & Keamanan Peran**: Memisahkan secara ketat informasi harga modal (*purchase price*) dari pandangan pelanggan, sekaligus memberikan visibilitas penuh bagi pemilik toko (*Admin*) dan kasir/gudang (*Staff*).
-- **Monitoring Dini Kehabisan Stok**: Menyediakan dasbor pemantauan otomatis untuk produk yang sisa stoknya berada di bawah batas minimum (*low stock alert*).
-- **Pengalaman Pelanggan Bebas Hambatan (Passwordless Customer Login)**: Pelanggan tidak perlu mengingat atau memasukkan password saat login. Cukup memasukkan Nama dan Email, sistem langsung mengenali atau mendaftarkan akun baru secara otomatis.
-- **Dukungan Beragam Metode Pembayaran**: Transaksi kasir dan online mendukung metode bayar modern (QRIS Instant QR, Transfer Bank BCA/Mandiri/BSI, E-Wallet GoPay/OVO/ShopeePay/DANA, dan Tunai/COD).
-- **Ilustrasi Boneka Offline 100% Selalu Tampil**: Menyediakan 10 ilustrasi boneka SVG lokal yang aesthetic di folder `public/images/plushies/` sehingga katalog dan struk selalu tampil cantik tanpa bergantung pada koneksi internet luar.
+- **Ketidakkonsistenan Stok**: Meniadakan risiko selisih stok saat jam sibuk belanja dengan konkurensi locking di level basis data.
+- **Pencegahan Data Korup (Multi-Item Atomicity)**: Jika pelanggan membeli 3 model hijab sekaligus dan salah satunya kehabisan stok, seluruh pesanan dibatalkan secara atomik (*rollback*), sehingga saldo kas dan stok tidak pernah gantung.
+- **Transparansi Biaya & Keamanan Peran**: Memproteksi harga beli (*purchase price*) dari pelanggan, namun terbuka transparan bagi Admin & Staff Toko.
+- **Monitoring Dini Kehabisan Stok**: Dasbor interaktif memberikan alert otomatis saat stok fisik berada di bawah batas minimum (*low stock alert*).
+- **Pengalaman Pelanggan Bebas Hambatan (Passwordless Customer Login)**: Pelanggan cukup memasukkan Nama dan Email untuk masuk atau registrasi otomatis tanpa perlu mengingat kata sandi.
+- **Dukungan Beragam Metode Pembayaran**: Mendukung QRIS Instant, Transfer Bank (BCA, Mandiri, BSI), E-Wallet, dan Tunai/Kasir.
+- **Aset Ilustrasi Hijab Offline 100% Selalu Tampil**: Menyediakan 10 ilustrasi SVG lokal aesthetic di folder `public/images/hijab/` sehingga katalog dan struk faktur tetap tampil menawan tanpa koneksi internet luar.
 
 ---
 
@@ -54,33 +58,20 @@ Aplikasi ini dibangun menggunakan arsitektur modern Laravel 12 dengan dependensi
 
 ## 3. Panduan Instalasi & Setup Lingkungan (Reproducible)
 
-Ikuti langkah-langkah di bawah ini untuk mengkloning dan menjalankan project dari nol di komputer lokal / XAMPP:
+Ikuti langkah-langkah di bawah ini untuk menjalankan project dari nol di lingkungan XAMPP lokal:
 
-### Langkah 1: Kloning Repositori Git
-Buka terminal (Git Bash, Command Prompt, atau PowerShell) di direktori kerja Anda (misal `c:/xampp/htdocs`):
-```bash
-git clone https://github.com/zahrapradiza/Integrated-Laravel-Project.git
-cd Integrated-Laravel-Project
+### Langkah 1: Penempatan Folder Project
+Pastikan folder project berada pada direktori:
+```
+C:\xampp\htdocs\integrated_laravel_project
 ```
 
-### Langkah 2: Instalasi Dependensi PHP via Composer
-Jalankan perintah berikut untuk mengunduh seluruh vendor package:
-```bash
-composer install
-```
-
-### Langkah 3: Konfigurasi File Environment (`.env`)
-Salin file template `.env.example` menjadi `.env`:
-```bash
-cp .env.example .env
-```
-*(Di Windows PowerShell gunakan: `copy .env.example .env`)*
-
-Buka file `.env` dan pastikan konfigurasi koneksi MySQL sesuai dengan konfigurasi XAMPP lokal:
+### Langkah 2: Konfigurasi File Environment (`.env`)
+Pastikan file `.env` telah mengonfigurasi koneksi MySQL XAMPP:
 ```env
-APP_NAME="Diza's Plushie"
+APP_NAME="HijabSociety"
 APP_ENV=local
-APP_KEY=
+APP_KEY=base64:wvbnMPoNRk0F0s7tCKvXO3QBBOBXhN/HP415WTK7kFY=
 APP_DEBUG=true
 APP_TIMEZONE=Asia/Jakarta
 APP_URL=http://127.0.0.1:8000
@@ -88,61 +79,40 @@ APP_URL=http://127.0.0.1:8000
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=db_uts_boneka
+DB_DATABASE=integrated_laravel_project
 DB_USERNAME=root
 DB_PASSWORD=
 
 SESSION_DRIVER=file
-SESSION_DOMAIN=
-SESSION_SECURE_COOKIE=false
 CACHE_STORE=file
 ```
 
-### Langkah 4: Generate Application Encryption Key
-Buat kunci aplikasi unik Laravel:
-```bash
-php artisan key:generate
-```
-
-### Langkah 5: Pembuatan Database & Eksekusi Migration + Seeder
-Pastikan service MySQL di XAMPP Control Panel telah aktif (**Status: Running**).
-Buat database baru bernama `db_uts_boneka` via phpMyAdmin atau terminal MySQL:
+### Langkah 3: Pembuatan Database MySQL
+Pastikan modul MySQL di XAMPP Control Panel telah aktif (**Running**).
+Buat database bernama `integrated_laravel_project` via phpMyAdmin atau terminal MySQL:
 ```sql
-CREATE DATABASE db_uts_boneka CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS integrated_laravel_project CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-Jalankan migrasi tabel beserta seeder data demo realistis tema toko boneka:
+### Langkah 4: Eksekusi Migration & Seeder Data Demo
+Jalankan perintah Artisan untuk membuat 8 tabel relasional lengkap dan mengisinya dengan data awal:
 ```bash
-php artisan migrate --seed
+php artisan migrate:fresh --seed
 ```
+*Perintah di atas akan mengeksekusi 10 file migrasi serta mengisi akun 3 role (Admin, Staff, Customer), 5 kategori hijab, 4 supplier tekstil, 10 produk hijab realistis, 2 transaksi pembelian (Stock-In), dan 3 transaksi penjualan (Stock-Out).*
 
-Perintah di atas akan secara otomatis mengeksekusi migrasi 8 tabel serta mengisi akun demo (Admin, Staff, Customer), 5 kategori boneka, 4 pabrik supplier, 10 data boneka, 2 transaksi pembelian awal, dan 3 transaksi penjualan awal.
-
-### Langkah 6: Jalankan Server Development
-Jalankan server bawaan Laravel:
+### Langkah 5: Menjalankan Server Lokal
+Jalankan server development Laravel:
 ```bash
 php artisan serve
 ```
-Aplikasi kini siap diakses melalui web browser pada URL: **`http://127.0.0.1:8000`**
-
-### Langkah 7: Akses 3 Portal Login Terpisah & Kredensial Akun Demo Pengujian
-Untuk menjaga privasi dan keamanan sistem toko, halaman login dipisahkan menjadi 3 portal mandiri tanpa tab campuran:
-
-| Portal & Role | URL Halaman Login | Tema Visual | Kredensial Masuk | Hak Akses Utama |
-|---|---|---|---|---|
-| **Pelanggan (Customer)** | [`/login`](http://127.0.0.1:8000/login) | Soft Pink Pastel 🌸 | Cukup masukkan **Nama** & **Email** (`customer@bonekaku.test` atau sembarang email baru tanpa password). | Belanja boneka di katalog, checkout mandiri, & pantau nota pembelian pribadi. |
-| **Staff Kasir & Gudang** | [`/staff/login`](http://127.0.0.1:8000/staff/login) | Soft Mint / Sage Green 🌿 | Email: `staff@bonekaku.test`<br>Password: `password123` | Buat transaksi kasir toko (Stock-Out POS), catat restock pabrik (Stock-In), & pantau stok rendah. |
-| **Administrator & Owner** | [`/admin/login`](http://127.0.0.1:8000/admin/login) | Soft Lavender / Rose Gold 👑 | Email: `admin@bonekaku.test`<br>Password: `password123` | Hak akses penuh: kelola produk, kategori, supplier, user management, batalkan transaksi, & laporan keuangan. |
-
-> [!NOTE]
-> Sistem secara otomatis menolak dan memblokir login jika pengguna mencoba masuk ke portal yang tidak sesuai dengan role hak aksesnya (misalnya customer mencoba login di portal admin).
+Aplikasi dapat langsung diakses melalui browser pada alamat: **`http://127.0.0.1:8000`**
 
 ---
 
 ## 4. Entity Relationship Diagram (ERD) & Penjelasan Relasi Database
 
 ### Diagram ERD (Mermaid)
-Berikut adalah visualisasi skema database relasional aplikasi BonekaKu:
 
 ```mermaid
 erDiagram
@@ -179,7 +149,6 @@ erDiagram
     SUPPLIERS {
         bigint id PK
         string name
-        string contact_person
         string phone
         string email
         text address
@@ -194,6 +163,7 @@ erDiagram
         string name
         string size
         string material
+        string image_url
         decimal purchase_price
         decimal selling_price
         int stock
@@ -209,9 +179,9 @@ erDiagram
         bigint user_id FK
         string purchase_number UK
         decimal total
-        enum status "completed, cancelled"
+        string status
         text notes
-        timestamp purchased_at
+        dateTime purchased_at
         timestamp created_at
         timestamp updated_at
     }
@@ -234,9 +204,11 @@ erDiagram
         string customer_name
         string sale_number UK
         decimal total
-        enum status "completed, cancelled"
+        string status
+        string payment_method
+        string payment_status
         text notes
-        timestamp sold_at
+        dateTime sold_at
         timestamp created_at
         timestamp updated_at
     }
@@ -253,26 +225,15 @@ erDiagram
     }
 ```
 
-### Penjelasan Konsep Relasi Eloquent
-
-#### 1. Perbedaan Fundamental Antara `hasMany()` dan `belongsTo()`
-- **`hasMany()` (Sisi Parent / 1-to-N)**:
-  - Menyatakan bahwa satu entitas induk memiliki keterkaitan dengan banyak entitas anak.
-  - Model induk **tidak menyimpan** kolom foreign key anak.
-  - *Contoh di kode*: Pada model `Category`, didefinisikan relasi `public function products(): HasMany { return $this->hasMany(Product::class); }`. Satu kategori boneka (misal: *Teddy Bear Classic*) menaungi banyak produk boneka. Hal serupa berlaku pada `Sale::hasMany(SaleItem::class)`.
-- **`belongsTo()` (Sisi Child / N-to-1)**:
-  - Menyatakan bahwa entitas tersebut merujuk pada satu induk tertentu.
-  - Model anak adalah tempat di mana kolom foreign key fisik (`category_id`, `product_id`, `sale_id`) disimpan di tabel database.
-  - *Contoh di kode*: Pada model `Product`, didefinisikan `public function category(): BelongsTo { return $this->belongsTo(Category::class); }`. Setiap boneka terikat tepat pada satu kategori induk.
-
-#### 2. Alasan Mengapa Foreign Key Berada pada Tabel Detail (`purchase_items` & `sale_items`)
-Penempatan foreign key pada tabel detail merupakan implementasi prinsip **Normalisasi Database (1NF, 2NF, dan 3NF)**:
-1. **Dukungan Transaksi Multi-Item (Kardinalitas 1 ke Banyak)**:
-   Satu nota transaksi penjualan (`sales`) atau pesanan pembelian (`purchases`) dapat memuat $N$ ragam produk boneka yang berbeda dengan kuantitas dan harga satuan masing-masing.
-2. **Menghindari Perulangan Kolom (Atomicity & Eliminasi Redundansi)**:
-   Jika foreign key diletakkan di tabel header `sales`, maka kita akan dipaksa membuat kolom kaku berulang seperti `product_id_1`, `product_id_2`, ..., `product_id_n` yang melanggar Normalisasi Bentuk Pertama (1NF) dan membatasi fleksibilitas transaksi.
-3. **Pencatatan Historis Akurat**:
-   Tabel detail menyimpan snapshot harga historis (`unit_price` dan `unit_cost`) pada saat transaksi berlangsung. Dengan demikian, jika di masa depan harga master produk boneka berubah, seluruh laporan keuangan dan nilai nota transaksi masa lalu tetap valid dan tidak mengalami pergeseran nilai.
+### Penjelasan Relasi Database:
+1. **`hasMany()` vs `belongsTo()`**:
+   - `Category::hasMany(Product::class)`: Satu kategori menaungi banyak produk hijab.
+   - `Product::belongsTo(Category::class)`: Setiap produk hijab menyimpan `category_id` merujuk ke satu kategori.
+   - `Purchase::hasMany(PurchaseItem::class)` dan `Sale::hasMany(SaleItem::class)`: Satu nota transaksi memuat banyak rincian barang.
+2. **Foreign Key pada Tabel Detail (`purchase_items` & `sale_items`)**:
+   - Menerapkan kaidah Normalisasi Database (1NF, 2NF, 3NF).
+   - Memungkinkan transaksi multi-item tanpa batas baris produk.
+   - Mengunci harga satuan historis (`unit_price`, `unit_cost`) saat transaksi terjadi, sehingga perubahan harga di masa mendatang tidak merusak laporan keuangan masa lalu.
 
 ---
 
@@ -284,11 +245,11 @@ Aplikasi menerapkan sistem otorisasi berlapis menggunakan middleware server-side
 | :--- | :--- | :---: | :---: | :---: |
 | **Login, Logout, & Register** | `/login`, `/logout`, `/register` | ✅ Akses | ✅ Akses | ✅ Akses (Bisa Daftar Baru) |
 | **Dashboard Utama** | `GET /dashboard` | ✅ Full Metrik Omzet & Low-Stock | ✅ Metrik Operasional & Low-Stock | ✅ Ringkasan Belanja Mandiri |
-| **Kategori Boneka (Lihat)** | `GET /categories` | ✅ Akses | ✅ Akses | ❌ 403 Forbidden |
-| **Kategori Boneka (Tambah/Ubah/Hapus)** | `POST/PUT/DELETE /categories` | ✅ Hak Penuh | ❌ 403 Forbidden | ❌ 403 Forbidden |
-| **Pemasok Supplier (Lihat)** | `GET /suppliers` | ✅ Akses | ✅ Akses | ❌ 403 Forbidden |
-| **Pemasok Supplier (Mutasi)** | `POST/PUT/DELETE /suppliers` | ✅ Hak Penuh | ❌ 403 Forbidden | ❌ 403 Forbidden |
-| **Master Produk Boneka (Lihat/Katalog)** | `GET /products`, `/catalog` | ✅ Tabel Master | ✅ Tabel Master | ✅ Katalog Belanja (Tanpa Harga Modal) |
+| **Kategori Hijab (Lihat)** | `GET /categories` | ✅ Akses | ✅ Akses | ❌ 403 Forbidden |
+| **Kategori Hijab (Tambah/Ubah/Hapus)** | `POST/PUT/DELETE /categories` | ✅ Hak Penuh | ❌ 403 Forbidden | ❌ 403 Forbidden |
+| **Pemasok Tekstil (Lihat)** | `GET /suppliers` | ✅ Akses | ✅ Akses | ❌ 403 Forbidden |
+| **Pemasok Tekstil (Mutasi)** | `POST/PUT/DELETE /suppliers` | ✅ Hak Penuh | ❌ 403 Forbidden | ❌ 403 Forbidden |
+| **Master Produk Hijab (Lihat/Katalog)** | `GET /products`, `/catalog` | ✅ Tabel Master | ✅ Tabel Master | ✅ Katalog Belanja (Tanpa Harga Modal) |
 | **Master Produk (Tambah/Ubah/Hapus)** | `POST/PUT/DELETE /products` | ✅ Hak Penuh (Soft Delete) | ❌ 403 Forbidden | ❌ 403 Forbidden |
 | **Pengadaan Pembelian (Stock-In)** | `GET/POST /purchases`, `/create` | ✅ Akses | ✅ Akses | ❌ 403 Forbidden |
 | **Batalkan Transaksi Pembelian** | `POST /purchases/{id}/cancel` | ✅ Hak Penuh | ❌ 403 Forbidden | ❌ 403 Forbidden |
@@ -303,78 +264,27 @@ Aplikasi menerapkan sistem otorisasi berlapis menggunakan middleware server-side
 ## 6. Daftar Akun Demo Pengujian & Sistem Login 3 Role
 
 Aplikasi menyediakan **Sistem Portal Login 3 Role** di route `/login`:
-- **Portal Customer (Masuk Cepat Tanpa Password)**: Cukup memasukkan `Nama Lengkap` dan `Email`. Jika email telah terdaftar sebagai customer, sistem langsung melakukan login otomatis. Jika belum terdaftar, akun customer baru otomatis dibuatkan di belakang layar!
-- **Portal Staff**: Memerlukan `Email` dan `Password` dengan validasi server-side khusus role `staff`.
-- **Portal Administrator**: Memerlukan `Email` dan `Password` dengan validasi server-side khusus role `admin`.
-- **Keamanan Halaman Login**: Seluruh bocoran password/daftar akun demo telah dihilangkan dari tampilan layar `/login` agar aman dan rapi.
 
-Untuk keperluan pengujian dosen / demo, akun bawaan database seeder adalah:
-
-| Role | Nama Pengguna | Alamat Email | Password | Kegunaan / Skenario Pengujian |
-| :--- | :--- | :--- | :--- | :--- |
-| **Admin** | `Admin Owner Diza's Plushie` | `admin@bonekaku.test` | `password123` | Hak akses penuh: Master data, kelola user & role, pembatalan transaksi, dashboard omzet. |
-| **Staff** | `Siti Kasir & Gudang` | `staff@bonekaku.test` | `password123` | Operasional: Input pengadaan Stock-In, input kasir penjualan multi-item, monitor stok rendah. |
-| **Staff** | `Budi Staff Inventori` | `budi.staff@bonekaku.test` | `password123` | Pengujian akses bersama antar staff operasional toko. |
-| **Customer**| `Nadia Putri (Customer)` | `customer@bonekaku.test` | *Tanpa Password* (atau `password123`) | Pemesanan boneka mandiri, melihat riwayat pesanan pribadi, faktur nota belanja. |
-| **Customer**| `Rizky Pratama (Customer)`| `rizky@bonekaku.test` | *Tanpa Password* (atau `password123`) | Pengujian isolasi data: Memverifikasi Customer A tidak bisa membuka nota Customer B. |
-
-> **Catatan Pengujian Customer**: Pada tab Customer di `/login`, penguji cukup memasukkan email `customer@bonekaku.test` (atau email sembarang untuk registrasi instan otomatis) tanpa perlu mengetikkan password sama sekali.
+| Portal & Role | URL Halaman Login | Tema Visual | Kredensial Masuk | Skenario Pengujian |
+|---|---|---|---|---|
+| **Pelanggan (Customer)** | [`/login`](http://127.0.0.1:8000/login) | Soft Pink Pastel 🌸 | Cukup masukkan **Nama** & **Email** (`customer@hijabsociety.com` atau email baru tanpa password). | Belanja hijab di katalog, checkout mandiri, & pantau faktur belanja pribadi. |
+| **Staff Kasir & Toko** | [`/staff/login`](http://127.0.0.1:8000/staff/login) | Soft Mint / Sage Green 🌿 | Email: `staff@hijabsociety.com`<br>Password: `password123` | Buat transaksi kasir butik (Stock-Out POS), catat restock pengadaan (Stock-In), & pantau stok menipis. |
+| **Administrator & Owner** | [`/admin/login`](http://127.0.0.1:8000/admin/login) | Soft Lavender / Rose Gold 👑 | Email: `admin@hijabsociety.com`<br>Password: `password123` | Hak akses penuh: kelola produk, kategori, supplier, user management, pembatalan transaksi, & metrik omzet. |
 
 ---
 
 ## 7. Fitur Unggulan & Aturan Bisnis yang Diimplementasikan
 
-### 1. Kepatuhan Presisi terhadap Spesifikasi Dosen (Slide 16)
-Penyimpanan transaksi penjualan pada `SaleController@store` mengimplementasikan pola transaksi terdistribusi yang direkomendasikan pada slide kuliah:
-```php
-DB::transaction(function () use ($request, $customerId, $customerName) {
-    // 1. Buat Header Sale (total diinisialisasi 0)
-    $sale = Sale::create([...]);
-    $total = 0;
-
-    // 2. Looping Item dengan Concurrency Locking
-    foreach ($request->items as $item) {
-        $product = Product::lockForUpdate()->findOrFail($item['product_id']);
-        $qty = (int) $item['quantity'];
-
-        // Validasi Ketersediaan Stok Fisik
-        if ($qty < 1 || $product->stock < $qty) {
-            throw ValidationException::withMessages([
-                'items' => "Stok boneka '{$product->name}' tidak mencukupi (Stok tersedia: {$product->stock}, diminta: {$qty}). Transaksi dibatalkan secara otomatis.",
-            ]);
-        }
-
-        $subtotal = $product->selling_price * $qty;
-        $sale->items()->create([...]);
-
-        // Pengurangan Stok Atomik & Akumulasi Nilai
-        $product->decrement('stock', $qty);
-        $total += $subtotal;
-    }
-
-    // 3. Update Nilai Total Header Resmi dari Database
-    $sale->update(['total' => $total]);
-    return $sale;
-});
-```
-
-### 2. Penjaminan Integritas Atomik (All-or-Nothing Rollback)
-Jika pelanggan memesan boneka A (stok cukup) dan boneka B (stok kurang) dalam satu keranjang belanja, `ValidationException` akan memicu pembatalan total pada `DB::transaction`. Akibatnya:
-- Boneka A **sama sekali tidak berkurang** stoknya.
-- Header transaksi `Sale` dan item `SaleItem` **tidak tersimpan** di database.
-
-### 3. Otomasi Stock-In & Stock-Out Dua Arah
-- **Stock-In (`PurchaseController`)**: Transaksi pengadaan dari pabrik otomatis menambahkan stok boneka (`$product->increment('stock', $qty)`). Jika transaksi dibatalkan oleh Admin, sistem memverifikasi bahwa sisa stok saat ini masih mencukupi sebelum memotong kembali stok agar tidak bernilai negatif.
-- **Stock-Out (`SaleController`)**: Penjualan otomatis memotong stok fisik. Jika transaksi dibatalkan oleh Admin, sistem mengunci produk dan mengembalikan seluruh kuantitas ke inventori toko (`$product->increment('stock', $qty)`).
-
-### 4. Perlindungan Data Relasional dengan Soft Deletes
-Model `Product` mengimplementasikan trait `SoftDeletes` (`deleted_at`). Jika produk dinonaktifkan atau dihapus oleh Admin:
-- Produk tidak lagi muncul di pilihan transaksi baru.
-- Laporan transaksi penjualan dan pembelian masa lalu yang memuat produk tersebut **tetap utuh dan dapat dibuka tanpa error** (*relational integrity preserved*).
-- Penghapusan Kategori dan Supplier diproteksi secara relasional; Kategori tidak dapat dihapus jika masih menaungi produk boneka aktif.
-
-### 5. Keamanan Perhitungan Server-Side 100%
-Kalkulasi subtotal dan grand total dihitung 100% di server berdasarkan nilai `selling_price` resmi di database. Manipulasi harga pada request browser / payload HTTP tidak akan mempengaruhi nominal asli transaksi.
+1. **Atomic Concurrency Control (`DB::transaction` & `lockForUpdate`)**:
+   Setiap transaksi penjualan dan pembelian dibungkus dalam blok atomik database untuk menjamin integritas data dan mencegah kondisi balapan (*race condition*).
+2. **All-or-Nothing Rollback**:
+   Jika terdapat salah satu item yang stok fisiknya tidak mencukupi, sistem secara otomatis menggugurkan seluruh transaksi dan mengembalikan respon kesalahan yang ramah pengguna.
+3. **Pencatatan Otomatis Stock-In & Stock-Out**:
+   - Pembelian (`purchases`) otomatis menambahkan stok produk (`increment`).
+   - Penjualan (`sales`) otomatis memotong stok produk (`decrement`).
+   - Pembatalan transaksi penjualan oleh Admin mengembalikan stok ke kondisi semula secara otomatis.
+4. **Perlindungan Integritas Historis (Soft Deletes)**:
+   Penghapusan produk hijab menggunakan soft delete sehingga nota penjualan dan pembelian masa lalu tetap valid dan dapat diaudit.
 
 ---
 
@@ -388,96 +298,93 @@ Jalankan perintah berikut di terminal:
 php artisan test
 ```
 
-### Hasil Eksekusi Test:
+### Hasil Eksekusi Test (100% Passing):
 ```
    PASS  Tests\Unit\ExampleTest
-  ✓ that true is true
+  ✓ that true is true                                                              0.01s
 
-   PASS  Tests\Feature\AuthAndRoleTest (15 tests)
-  ✓ login screen can be rendered
-  ✓ staff and admin login screens can be rendered
-  ✓ register screen can be rendered
-  ✓ guest is redirected to login
-  ✓ admin can access dashboard and admin routes
-  ✓ staff cannot access admin only route
-  ✓ customer cannot access admin or staff routes
-  ✓ customer can access dashboard
-  ✓ user can login with valid credentials
-  ✓ user cannot login with invalid password
-  ✓ login with mismatched portal role is rejected
-  ✓ login with matching portal role succeeds
-  ✓ customer can login without password
-  ✓ staff and admin portals still require password
-  ✓ csrf token mismatch redirects back with friendly message
-
-   PASS  Tests\Feature\MasterDataTest (9 tests)
-  ✓ staff can view categories and suppliers but not create
-  ✓ customer cannot view categories or suppliers or users
-  ✓ admin can create category with validation
-  ✓ category cannot be deleted if has products
-  ✓ supplier cannot be deleted if has purchases
-  ✓ admin can create product with validation
-  ✓ admin can upload product photo
-  ✓ product soft delete preserves transaction integrity
-  ✓ admin cannot delete self in user management
-
-   PASS  Tests\Feature\PurchaseTest (7 tests)
-  ✓ staff and admin can access purchases index and create
-  ✓ customer cannot access purchases
-  ✓ store multi item purchase updates stock atomically
-  ✓ staff cannot cancel purchase
-  ✓ admin can cancel purchase and stock is deducted
-  ✓ admin cannot cancel purchase if stock would become negative
-  ✓ purchases create with product id preselects product for restock
-
-   PASS  Tests\Feature\SaleTest (6 tests)
-  ✓ all roles can access sales index and create
-  ✓ customer can create self order and stock is decremented
-  ✓ insufficient stock causes transaction rollback
-  ✓ customer cannot view other customers receipt
-  ✓ staff cannot cancel sale but admin can and stock is restored
-  ✓ sale persists payment method and payment status
+   PASS  Tests\Feature\AuthAndRoleTest (17 tests)
+  ✓ login screen can be rendered                                                   0.34s
+  ✓ staff and admin login screens can be rendered                                  0.03s
+  ✓ register screen can be rendered                                                0.02s
+  ✓ guest is redirected to login                                                   0.02s
+  ✓ admin can access dashboard and admin routes                                    0.04s
+  ✓ staff cannot access admin only route                                           0.02s
+  ✓ customer cannot access admin or staff routes                                   0.02s
+  ✓ customer can access dashboard                                                  0.02s
+  ✓ user can login with valid credentials                                          0.03s
+  ✓ user cannot login with invalid password                                        0.23s
+  ✓ login with mismatched portal role is rejected                                  0.04s
+  ✓ login with matching portal role succeeds                                       0.03s
+  ✓ customer login requires name                                                   0.02s
+  ✓ customer login with new name updates account and isolates orders               0.03s
+  ✓ customer can login without password                                            0.03s
+  ✓ staff and admin portals still require password                                 0.02s
+  ✓ csrf token mismatch redirects back with friendly message                       0.02s
 
    PASS  Tests\Feature\DashboardTest (3 tests)
-  ✓ admin dashboard displays aggregate metrics and low stock table
-  ✓ staff dashboard displays operational metrics and low stock monitoring
-  ✓ customer dashboard displays order history and doll recommendations
+  ✓ admin dashboard displays aggregate metrics and low stock table                 0.04s
+  ✓ staff dashboard displays operational metrics and low stock monitoring          0.03s
+  ✓ customer dashboard displays order history and doll recommendations             0.03s
 
    PASS  Tests\Feature\ExampleTest (1 test)
-  ✓ the application returns a successful response
+  ✓ the application returns a successful response                                  0.02s
 
-   PASS  Tests\Feature\UtsInventorySalesTest (7 tests - Slide 11 Compliance)
-  ✓ guest cannot access dashboard
-  ✓ admin cannot create product with duplicate sku or negative price
-  ✓ purchase transaction increases product stock
-  ✓ sale transaction decreases product stock
-  ✓ sale with insufficient stock is rejected and stock unchanged
-  ✓ sale atomicity rolls back all items if second item fails
-  ✓ authorization prevents staff and customer from accessing admin routes
+   PASS  Tests\Feature\MasterDataTest (9 tests)
+  ✓ staff can view categories and suppliers but not create                         0.04s
+  ✓ customer cannot view categories or suppliers or users                          0.02s
+  ✓ admin can create category with validation                                      0.02s
+  ✓ category cannot be deleted if has products                                     0.02s
+  ✓ supplier cannot be deleted if has purchases                                    0.02s
+  ✓ admin can create product with validation                                       0.02s
+  ✓ admin can upload product photo                                                 0.03s
+  ✓ product soft delete preserves transaction integrity                            0.03s
+  ✓ admin cannot delete self in user management                                    0.02s
 
-  Tests:    49 passed (245 assertions)
-  Duration: ~3.1s
-```
+   PASS  Tests\Feature\PurchaseTest (7 tests)
+  ✓ staff and admin can access purchases index and create                          0.04s
+  ✓ customer cannot access purchases                                               0.03s
+  ✓ store multi item purchase updates stock atomically                             0.03s
+  ✓ staff cannot cancel purchase                                                   0.02s
+  ✓ admin can cancel purchase and stock is deducted                                0.03s
+  ✓ admin cannot cancel purchase if stock would become negative                    0.02s
+  ✓ purchases create with product id preselects product for restock                0.02s
 
-### Menjalankan Pengujian Spesifik Slide 11 Dosen
-Untuk memverifikasi 7 skenario wajib dari dosen secara terisolasi:
-```bash
-php artisan test --filter=UtsInventorySalesTest
+   PASS  Tests\Feature\SaleTest (8 tests)
+  ✓ all roles can access sales index and create                                    0.04s
+  ✓ customer can create self order and stock is decremented                        0.03s
+  ✓ insufficient stock causes transaction rollback                                 0.03s
+  ✓ customer cannot view other customers receipt                                   0.03s
+  ✓ staff cannot cancel sale but admin can and stock is restored                   0.03s
+  ✓ sale persists payment method and payment status                                0.03s
+  ✓ customer sales index does not show new order button and syncs with dashboard   0.03s
+  ✓ sales create with product id preselects product in cart                        0.02s
+
+   PASS  Tests\Feature\UtsInventorySalesTest (7 tests)
+  ✓ guest cannot access dashboard                                                  0.03s
+  ✓ admin cannot create product with duplicate sku or negative price               0.03s
+  ✓ purchase transaction increases product stock                                   0.03s
+  ✓ sale transaction decreases product stock                                       0.03s
+  ✓ sale with insufficient stock is rejected and stock unchanged                   0.02s
+  ✓ sale atomicity rolls back all items if second item fails                       0.03s
+  ✓ authorization prevents staff and customer from accessing admin routes          0.04s
+
+  Tests:    53 passed (267 assertions)
+  Duration: 2.20s
 ```
 
 ---
 
 ## 9. Known Limitations & Pengembangan Selanjutnya
 
-Meskipun sistem telah memenuhi seluruh kriteria fungsional dan teknis tugas UTS Web Programming 2, terdapat beberapa peluang pengembangan di masa mendatang:
-1. **Payment Gateway Integration**: Menghubungkan pesanan online customer ke payment gateway otomatis (seperti Midtrans atau Xendit) untuk verifikasi pembayaran real-time via QRIS/Virtual Account.
-2. **Export Laporan (PDF / Excel)**: Penambahan generator PDF invoice cetak otomatis menggunakan package `barryvdh/laravel-dompdf` atau export spreadsheet `maatwebsite/excel`.
-3. **Penyimpanan Gambar Produk**: Menambahkan modul upload foto fisik boneka ke cloud storage (AWS S3) atau disk lokal publik.
+1. **Payment Gateway Realtime**: Integrasi webhook otomatis dengan Midtrans / Xendit untuk status konfirmasi instan.
+2. **Export Faktur PDF & Excel**: Penambahan tombol unduh invoice berformat PDF menggunakan `barryvdh/laravel-dompdf`.
+3. **Penyimpanan Cloud Storage**: Konfigurasi driver AWS S3 / Google Cloud Storage untuk penyimpanan aset gambar produk skala besar.
 
 ---
 
 ### Identitas Pengembang
-- **Nama Project**: Diza's Plushie Inventory & Sales Management System
-- **Repositori GitHub**: [https://github.com/zahrapradiza/Integrated-Laravel-Project](https://github.com/zahrapradiza/Integrated-Laravel-Project)
+- **Nama Project**: HijabSociety - Integrated Inventory & Sales Management System
+- **Tema Bisnis**: Butik Inventaris & Penjualan Hijab Modern & Syar'i
 - **Mata Kuliah**: Web Programming 2 (Ujian Tengah Semester)
 - **Tahun Akademik**: 2026

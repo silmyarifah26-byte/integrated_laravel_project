@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Ubah Data Produk Boneka'])
+@extends('layouts.app', ['title' => 'Ubah Data Produk Hijab'])
 
 @section('content')
 <div class="max-w-3xl mx-auto py-4">
@@ -11,7 +11,7 @@
     <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
         <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-                <h1 class="text-xl font-extrabold text-slate-900">Ubah Produk Boneka</h1>
+                <h1 class="text-xl font-extrabold text-slate-900">Ubah Produk Hijab</h1>
                 <p class="text-xs text-slate-500 mt-1">Perbarui data master, harga, dan spesifikasi boneka {{ $product->name }}.</p>
             </div>
             <!-- Current Stock Read-Only Badge -->
@@ -43,7 +43,7 @@
 
                 <div>
                     <label for="category_id" class="block text-sm font-bold text-slate-700 mb-1.5">
-                        Kategori Boneka <span class="text-rose-500">*</span>
+                        Kategori Hijab <span class="text-rose-500">*</span>
                     </label>
                     <select name="category_id" id="category_id" required
                         class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-plush-500 focus:border-plush-500 text-sm bg-slate-50/50 hover:bg-white focus:bg-white transition-all">
@@ -62,7 +62,7 @@
             <!-- Name -->
             <div>
                 <label for="name" class="block text-sm font-bold text-slate-700 mb-1.5">
-                    Nama Boneka / Produk <span class="text-rose-500">*</span>
+                    Nama Hijab / Produk <span class="text-rose-500">*</span>
                 </label>
                 <input type="text" name="name" id="name" required
                     value="{{ old('name', $product->name) }}"
@@ -76,7 +76,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label for="size" class="block text-sm font-bold text-slate-700 mb-1.5">
-                        Ukuran Boneka
+                        Ukuran Hijab
                     </label>
                     <input type="text" name="size" id="size"
                         value="{{ old('size', $product->size) }}"
@@ -141,17 +141,17 @@
             <!-- Image File & Preset Selection -->
             <div class="p-4 sm:p-5 rounded-2xl bg-pink-50/40 border border-pink-100 space-y-3">
                 <label class="block text-sm font-bold text-slate-800">
-                    <i class="fa-solid fa-camera mr-1 text-pink-500"></i> Foto Produk Boneka Asli
+                    <i class="fa-solid fa-camera mr-1 text-pink-500"></i> Foto Produk Hijab Asli
                 </label>
 
                 <div class="flex items-center space-x-4 mb-2">
-                    <img src="{{ asset($product->image_url ?? 'images/plushies/teddy-bear-pita.jpg') }}" 
+                    <img src="{{ asset($product->image_url ?? 'images/hijab/pashmina-ceruty.svg') }}" 
                          alt="{{ $product->name }}" 
                          id="current_image_preview"
                          class="w-16 h-16 object-cover rounded-2xl bg-pink-50 border border-pink-100 shadow-xs flex-shrink-0">
                     <div class="flex-1">
                         <label for="image_file" class="block text-xs font-bold text-slate-600 mb-1">
-                            Unggah Foto Boneka Baru dari Komputer
+                            Unggah Foto Hijab Baru dari Komputer
                         </label>
                         <input type="file" name="image_file" id="image_file" accept="image/*"
                             onchange="if(this.files && this.files[0]) { document.getElementById('current_image_preview').src = URL.createObjectURL(this.files[0]); }"
@@ -165,12 +165,12 @@
 
                 <div>
                     <label for="image_url" class="block text-xs font-bold text-slate-600 mb-1">
-                        Atau Gunakan Path / URL Foto Boneka
+                        Atau Gunakan Path / URL Foto Hijab
                     </label>
                     <input type="text" name="image_url" id="image_url"
                         value="{{ old('image_url', $product->image_url) }}"
-                        oninput="document.getElementById('current_image_preview').src = this.value || '{{ asset('images/plushies/teddy-bear-pita.jpg') }}'"
-                        placeholder="Contoh: images/plushies/teddy-bear-pita.jpg atau https://..."
+                        oninput="document.getElementById('current_image_preview').src = this.value || '{{ asset('images/hijab/pashmina-ceruty.svg') }}'"
+                        placeholder="Contoh: images/hijab/pashmina-ceruty.svg atau https://..."
                         class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-xs bg-white transition-all">
                     @error('image_url')
                         <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>
@@ -183,16 +183,16 @@
                         <span class="text-[11px] font-bold text-slate-500">Pilih Cepat Koleksi Asli:</span>
                         @php
                             $presets = [
-                                ['label' => '🧸 Teddy Pita', 'path' => 'images/plushies/teddy-bear-pita.jpg'],
-                                ['label' => '🧸 Teddy Sweater', 'path' => 'images/plushies/teddy-bear-mini.jpg'],
-                                ['label' => '🐰 Kelinci Pink', 'path' => 'images/plushies/kelinci-pink.jpg'],
-                                ['label' => '🐼 Panda Bambu', 'path' => 'images/plushies/panda-bambu.jpg'],
-                                ['label' => '🧋 Kucing Boba', 'path' => 'images/plushies/kucing-boba.jpg'],
-                                ['label' => '🎎 Chibi Idol', 'path' => 'images/plushies/chibi-idol.jpg'],
-                                ['label' => '🦊 Rubah Pastel', 'path' => 'images/plushies/rubah-pastel.jpg'],
-                                ['label' => '🎓 Beruang Wisuda', 'path' => 'images/plushies/beruang-wisuda.jpg'],
-                                ['label' => '🌸 Buket Boneka', 'path' => 'images/plushies/buket-boneka.jpg'],
-                                ['label' => '🐕 Bantal Shiba', 'path' => 'images/plushies/bantal-shiba.jpg'],
+                                ['label' => '🧸 Teddy Pita', 'path' => 'images/hijab/pashmina-ceruty.svg'],
+                                ['label' => '🧸 Teddy Sweater', 'path' => 'images/hijab/pashmina-silk.svg'],
+                                ['label' => '🐰 Kelinci Pink', 'path' => 'images/hijab/pashmina-rayon.svg'],
+                                ['label' => '🐼 Panda Bambu', 'path' => 'images/hijab/segiempat-voal.svg'],
+                                ['label' => '🧋 Kucing Boba', 'path' => 'images/hijab/segiempat-paris.svg'],
+                                ['label' => '🎎 Chibi Idol', 'path' => 'images/hijab/segiempat-motif.svg'],
+                                ['label' => '🦊 Rubah Pastel', 'path' => 'images/hijab/bergo-hamidah.svg'],
+                                ['label' => '🎓 Beruang Wisuda', 'path' => 'images/hijab/bergo-sport.svg'],
+                                ['label' => '🌸 Buket Boneka', 'path' => 'images/hijab/khimar-french.svg'],
+                                ['label' => '🐕 Bantal Shiba', 'path' => 'images/hijab/inner-ciput.svg'],
                             ];
                         @endphp
                         @foreach($presets as $pr)
@@ -212,7 +212,7 @@
                 </a>
                 <button type="submit" class="px-5 py-2.5 rounded-xl bg-plush-600 hover:bg-plush-700 text-white font-bold text-sm shadow-sm transition-colors flex items-center space-x-2">
                     <i class="fa-solid fa-check"></i>
-                    <span>Perbarui Data Boneka</span>
+                    <span>Perbarui Data Hijab</span>
                 </button>
             </div>
         </form>

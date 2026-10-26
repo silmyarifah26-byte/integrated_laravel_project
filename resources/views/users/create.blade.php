@@ -39,7 +39,7 @@
                     </label>
                     <input type="email" name="email" id="email" required
                         value="{{ old('email') }}"
-                        placeholder="user@bonekaku.test"
+                        placeholder="user@hijabsociety.com"
                         class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm bg-slate-50/50 hover:bg-white focus:bg-white transition-all">
                     @error('email')
                         <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>

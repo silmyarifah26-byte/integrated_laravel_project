@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => $user->isCustomer() ? "Buat Pesanan Boneka - Diza's Plushie" : "Form Penjualan Kasir - Diza's Plushie"])
+@extends('layouts.app', ['title' => $user->isCustomer() ? "Buat Pesanan Boneka - HijabSociety" : "Form Penjualan Kasir - HijabSociety"])
 
 @section('content')
 <div class="max-w-5xl mx-auto py-4 space-y-6">
@@ -13,10 +13,10 @@
             <div>
                 <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center">
                     <span class="mr-2">🌸</span>
-                    {{ $user->isCustomer() ? "Pemesanan Boneka Cantik Diza's Plushie" : "Transaksi Penjualan Kasir (Stock-Out)" }}
+                    {{ $user->isCustomer() ? "Pemesanan Hijab Cantik HijabSociety" : "Transaksi Penjualan Kasir (Stock-Out)" }}
                 </h1>
                 <p class="text-xs text-slate-500 mt-1 font-medium">
-                    {{ $user->isCustomer() ? 'Pilih koleksi boneka kesayanganmu. Stok fisik akan terpotong secara otomatis setelah transaksi tersimpan.' : 'Catat transaksi penjualan kasir toko boneka dengan kalkulasi server-side dan validasi atomik.' }}
+                    {{ $user->isCustomer() ? 'Pilih koleksi hijab favorit Anda. Stok fisik akan terpotong secara otomatis setelah transaksi tersimpan.' : 'Catat transaksi penjualan kasir butik hijab dengan kalkulasi server-side dan validasi atomik.' }}
                 </p>
             </div>
             <span class="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-black bg-pink-50 text-rose-600 border border-pink-200">
@@ -71,7 +71,7 @@
                             </label>
                             <input type="text" name="customer_name" id="customer_name"
                                 value="{{ old('customer_name') }}"
-                                placeholder="Contoh: Kak Diza / Pelanggan Walk-In"
+                                placeholder="Contoh: Ukhti Nadia / Pelanggan Walk-In"
                                 class="w-full px-3.5 py-2.5 rounded-2xl border border-pink-200 text-sm focus:ring-2 focus:ring-rose-400 focus:border-rose-400 bg-white">
                             <p class="text-[11px] text-slate-400 mt-1">Diisi bila pembeli adalah pembeli umum tanpa akun member.</p>
                         </div>
@@ -86,7 +86,7 @@
                         </span>
                         <div>
                             <h3 class="text-sm font-black text-slate-800">Pilih Metode Pembayaran</h3>
-                            <p class="text-xs text-slate-400">Pilih saluran pembayaran resmi Diza's Plushie</p>
+                            <p class="text-xs text-slate-400">Pilih saluran pembayaran resmi HijabSociety</p>
                         </div>
                     </div>
 
@@ -150,13 +150,13 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-base font-black text-slate-900 flex items-center">
-                            <i class="fa-solid fa-basket-shopping text-rose-500 mr-2"></i> Keranjang Boneka yang Dibeli (Multi-Item)
+                            <i class="fa-solid fa-basket-shopping text-rose-500 mr-2"></i> Keranjang Hijab yang Dibeli (Multi-Item)
                         </h2>
-                        <p class="text-xs text-slate-500 font-medium">Pilih boneka dan masukkan kuantitas. Sistem akan memvalidasi ketersediaan stok fisik secara ketat.</p>
+                        <p class="text-xs text-slate-500 font-medium">Pilih produk hijab dan masukkan kuantitas. Sistem akan memvalidasi ketersediaan stok fisik secara ketat.</p>
                     </div>
 
                     <button type="button" id="addRowBtn" class="inline-flex items-center px-4 py-2 rounded-2xl bg-pink-100 hover:bg-pink-200 text-rose-700 border border-pink-300 text-xs font-black transition-colors shadow-sm">
-                        <i class="fa-solid fa-plus mr-1.5"></i> Tambah Baris Boneka
+                        <i class="fa-solid fa-plus mr-1.5"></i> Tambah Baris Hijab
                     </button>
                 </div>
 
@@ -173,7 +173,7 @@
                         <table class="w-full text-left text-xs sm:text-sm text-slate-600" id="itemsTable">
                             <thead class="bg-pink-50/60 text-[11px] uppercase font-black text-slate-600 border-b border-pink-100">
                                 <tr>
-                                    <th class="px-4 py-3 w-6/12 sm:w-5/12">Pilih Boneka</th>
+                                    <th class="px-4 py-3 w-6/12 sm:w-5/12">Pilih Hijab</th>
                                     <th class="px-3 py-3 w-2/12 text-center">Stok Gudang</th>
                                     <th class="px-3 py-3 w-2/12 text-center">Jumlah Beli</th>
                                     <th class="px-3 py-3 w-2/12 text-right">Harga Jual</th>
@@ -216,7 +216,7 @@
 <!-- JavaScript Multi-Item Row Logic with Plushie Thumbnails -->
 <script>
     const availableProducts = @json($products);
-    const defaultPlushieImg = "{{ asset('images/plushies/teddy-bear-pita.jpg') }}";
+    const defaultHijabImg = "{{ asset('images/hijab/pashmina-ceruty.svg') }}";
     let rowIndex = 0;
 
     function formatRupiah(number) {
@@ -230,7 +230,7 @@
         let optionsHtml = '<option value="">-- Pilih Koleksi Boneka --</option>';
         availableProducts.forEach(p => {
             const isSelected = String(p.id) === String(selectedProductId) ? 'selected' : '';
-            const imgPath = p.image_asset_url || (p.image_url ? ("{{ asset('') }}" + p.image_url.replace(/^\//, '')) : defaultPlushieImg);
+            const imgPath = p.image_asset_url || (p.image_url ? ("{{ asset('') }}" + p.image_url.replace(/^\//, '')) : defaultHijabImg);
             optionsHtml += `<option value="${p.id}" data-price="${p.selling_price}" data-stock="${p.stock}" data-image="${imgPath}" data-img="${imgPath}" ${isSelected}>
                 ${p.name} (${p.size || 'Standard'}) - Sisa: ${p.stock} pcs
             </option>`;
@@ -239,7 +239,7 @@
         tr.innerHTML = `
             <td class="px-4 py-3">
                 <div class="flex items-center space-x-2.5">
-                    <img src="${defaultPlushieImg}" onerror="this.onerror=null; this.src='${defaultPlushieImg}';" class="row-thumb w-12 h-12 rounded-xl object-cover object-center bg-pink-50 border border-pink-100 shrink-0 shadow-xs" alt="Thumb">
+                    <img src="${defaultHijabImg}" onerror="this.onerror=null; this.src='${defaultHijabImg}';" class="row-thumb w-12 h-12 rounded-xl object-cover object-center bg-pink-50 border border-pink-100 shrink-0 shadow-xs" alt="Thumb">
                     <div class="flex-1">
                         <select name="items[${rowIndex}][product_id]" required
                             class="product-select w-full px-3 py-2 rounded-xl border border-pink-200 text-xs sm:text-sm font-bold focus:ring-2 focus:ring-rose-400 focus:border-rose-400 bg-white">
@@ -281,7 +281,7 @@
             if (selectedOpt && selectedOpt.value) {
                 const stock = parseInt(selectedOpt.getAttribute('data-stock')) || 0;
                 const price = parseFloat(selectedOpt.getAttribute('data-price')) || 0;
-                const img = selectedOpt.getAttribute('data-image') || selectedOpt.getAttribute('data-img') || defaultPlushieImg;
+                const img = selectedOpt.getAttribute('data-image') || selectedOpt.getAttribute('data-img') || defaultHijabImg;
                 tr.querySelector('.stock-cell').textContent = `${stock} pcs`;
                 tr.querySelector('.price-display').textContent = formatRupiah(price);
                 thumb.src = img;
@@ -289,7 +289,7 @@
             } else {
                 tr.querySelector('.stock-cell').textContent = '-';
                 tr.querySelector('.price-display').textContent = 'Rp 0';
-                thumb.src = defaultPlushieImg;
+                thumb.src = defaultHijabImg;
             }
             validateAndCalculateRow(tr);
             calculateGrandTotal();
@@ -301,7 +301,7 @@
         removeBtn.addEventListener('click', () => {
             const allRows = document.querySelectorAll('.item-row');
             if (allRows.length <= 1) {
-                alert('Minimal harus ada 1 baris boneka dalam pesanan.');
+                alert('Minimal harus ada 1 baris produk hijab dalam pesanan.');
                 return;
             }
             tr.remove();

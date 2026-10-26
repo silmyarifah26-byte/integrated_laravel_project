@@ -6,7 +6,7 @@
     <!-- Top Greeting Banner -->
     <div class="bg-gradient-to-r from-plush-600 via-rose-500 to-pink-500 rounded-3xl p-6 sm:p-8 text-white shadow-xl shadow-plush-500/10 relative overflow-hidden">
         <div class="absolute -right-8 -bottom-8 text-white/10 text-9xl pointer-events-none">
-            <i class="fa-solid fa-paw"></i>
+            <i class="fa-solid fa-ribbon"></i>
         </div>
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
@@ -24,11 +24,11 @@
                 </h1>
                 <p class="text-white/90 text-sm mt-1 max-w-2xl">
                     @if($user->isAdmin())
-                        Pantau performa penjualan harian, omzet bulanan, pengadaan stok supplier, serta amankan stok boneka melalui alert low-stock.
+                        Pantau performa penjualan harian, omzet bulanan, pengadaan stok supplier, serta amankan stok hijab melalui alert low-stock.
                     @elseif($user->isStaff())
-                        Kelola alur transaksi Stock-In dari supplier, catat transaksi kasir toko harian, dan pantau ketersediaan stok boneka secara real-time.
+                        Kelola alur transaksi Stock-In dari supplier, catat transaksi kasir toko harian, dan pantau ketersediaan stok hijab secara real-time.
                     @else
-                        Selamat datang di Diza's Plushie! Temukan beragam boneka lucu, teddy bear klasik, dan plushie impor berkualitas premium untuk kado maupun koleksi terbaik Anda.
+                        Selamat datang di HijabSociety! Temukan beragam koleksi pashmina elegan, segi empat voal premium, bergo daily instan, dan khimar syar'i untuk penampilan anggun Anda.
                     @endif
                 </p>
             </div>
@@ -116,7 +116,7 @@
                     </span>
                 </div>
                 <div class="mt-3">
-                    <p class="text-xl font-black text-rose-600 tracking-tight">{{ $totalLowStock }} <span class="text-xs font-semibold text-rose-400">Boneka</span></p>
+                    <p class="text-xl font-black text-rose-600 tracking-tight">{{ $totalLowStock }} <span class="text-xs font-semibold text-rose-400">Item</span></p>
                     <p class="text-xs text-rose-600 font-semibold mt-1">Stok &le; Batas Minimum</p>
                 </div>
             </div>
@@ -124,14 +124,14 @@
             <!-- Card 5: Total Products -->
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Boneka</span>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Produk Hijab</span>
                     <span class="w-9 h-9 rounded-xl bg-plush-100 text-plush-600 flex items-center justify-center text-sm">
                         <i class="fa-solid fa-boxes-stacked"></i>
                     </span>
                 </div>
                 <div class="mt-3">
                     <p class="text-xl font-black text-slate-900 tracking-tight">{{ $totalProducts }} <span class="text-xs font-semibold text-slate-500">Item</span></p>
-                    <p class="text-xs text-slate-500 font-semibold mt-1">{{ $totalCategories }} Kategori Boneka</p>
+                    <p class="text-xs text-slate-500 font-semibold mt-1">{{ $totalCategories }} Kategori Hijab</p>
                 </div>
             </div>
 
@@ -158,7 +158,7 @@
         </div>
 
         <!-- ================================================================= -->
-        <!-- Low-Stock Alert Table (Daftar Boneka Stok Rendah) -->
+        <!-- Low-Stock Alert Table (Daftar Hijab Stok Rendah) -->
         <!-- ================================================================= -->
         <div class="bg-white rounded-3xl border {{ $lowStockProducts->count() > 0 ? 'border-rose-200' : 'border-slate-200' }} shadow-sm overflow-hidden">
             <div class="p-5 {{ $lowStockProducts->count() > 0 ? 'bg-rose-50/70 border-b border-rose-200' : 'bg-slate-50 border-b border-slate-200' }} flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -171,14 +171,14 @@
                             Monitoring Peringatan Stok Rendah (Low-Stock Alert)
                         </h2>
                         <p class="text-xs {{ $lowStockProducts->count() > 0 ? 'text-rose-600' : 'text-slate-500' }} font-medium">
-                            Daftar boneka dengan sisa stok fisik di bawah atau sama dengan batas minimum toko (stock &le; minimum_stock).
+                            Daftar hijab dengan sisa stok fisik di bawah atau sama dengan batas minimum toko (stock &le; minimum_stock).
                         </p>
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-2">
                     <span class="px-3 py-1 rounded-full text-xs font-extrabold {{ $lowStockProducts->count() > 0 ? 'bg-rose-100 text-rose-700 border border-rose-300' : 'bg-emerald-100 text-emerald-800 border border-emerald-300' }}">
-                        {{ $lowStockProducts->count() }} Boneka Perlu Restock
+                        {{ $lowStockProducts->count() }} Item Perlu Restock
                     </span>
                     <a href="{{ route('purchases.create') }}" class="px-3.5 py-1.5 rounded-xl bg-plush-600 hover:bg-plush-700 text-white text-xs font-bold shadow-sm transition-all inline-flex items-center">
                         <i class="fa-solid fa-truck-ramp-box mr-1.5"></i> Form Pembelian (Stock-In)
@@ -192,7 +192,7 @@
                         <thead class="bg-slate-50 text-[11px] uppercase font-extrabold text-slate-500 border-b border-slate-200">
                             <tr>
                                 <th class="px-6 py-3.5 w-12 text-center">No</th>
-                                <th class="px-6 py-3.5">SKU & Nama Boneka</th>
+                                <th class="px-6 py-3.5">SKU & Nama Hijab</th>
                                 <th class="px-6 py-3.5">Kategori</th>
                                 <th class="px-6 py-3.5 text-center">Stok Saat Ini</th>
                                 <th class="px-6 py-3.5 text-center">Batas Minimum</th>
@@ -225,7 +225,7 @@
                                         Rp {{ number_format($prod->selling_price, 0, ',', '.') }}
                                     </td>
                                     <td class="px-6 py-4 text-center">
-                                        <a href="{{ route('purchases.create', ['product_id' => $prod->id]) }}" class="inline-flex items-center px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-xs border border-blue-200 shadow-sm transition-all" title="Buka form Stock-In untuk restock boneka ini">
+                                        <a href="{{ route('purchases.create', ['product_id' => $prod->id]) }}" class="inline-flex items-center px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-xs border border-blue-200 shadow-sm transition-all" title="Buka form Stock-In untuk restock hijab ini">
                                             <i class="fa-solid fa-cart-plus mr-1.5 text-blue-600"></i> Restock / Buat Purchase
                                         </a>
                                     </td>
@@ -239,8 +239,8 @@
                     <span class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-500 inline-flex items-center justify-center text-xl">
                         <i class="fa-solid fa-check-double"></i>
                     </span>
-                    <p class="text-sm font-bold text-slate-700">Semua Stok Boneka Aman!</p>
-                    <p class="text-xs text-slate-400">Seluruh produk boneka di gudang saat ini memiliki sisa stok di atas batas minimum stok.</p>
+                    <p class="text-sm font-bold text-slate-700">Semua Stok Hijab Aman!</p>
+                    <p class="text-xs text-slate-400">Seluruh produk hijab di gudang saat ini memiliki sisa stok di atas batas minimum stok.</p>
                 </div>
             @endif
         </div>
@@ -342,7 +342,7 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="p-8 text-center text-sm text-slate-400">Belum ada transaksi pembelian pengadaan boneka.</div>
+                            <div class="p-8 text-center text-sm text-slate-400">Belum ada transaksi pembelian pengadaan hijab.</div>
                         @endforelse
                     </div>
                 </div>
@@ -390,9 +390,9 @@
             <!-- Quick Action: Order Doll -->
             <div class="bg-gradient-to-br from-plush-50 to-pink-50 p-6 rounded-2xl border border-rose-200 shadow-sm flex items-center justify-between">
                 <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Ingin Boneka Baru?</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Ingin Koleksi Hijab Baru?</span>
                     <h3 class="text-base font-extrabold text-slate-900 mt-0.5">Pesan Langsung di Sini</h3>
-                    <p class="text-xs text-slate-500">Pilih boneka favorit Anda sekarang.</p>
+                    <p class="text-xs text-slate-500">Pilih hijab favorit Anda sekarang.</p>
                 </div>
                 <a href="{{ route('sales.create') }}" class="px-4 py-2.5 rounded-xl bg-plush-600 hover:bg-plush-700 text-white font-extrabold text-xs shadow-md shadow-plush-500/20 transition-all flex items-center">
                     <i class="fa-solid fa-cart-plus mr-1.5"></i> Buat Pesanan
@@ -407,7 +407,7 @@
                     <h2 class="text-lg font-extrabold text-slate-900 flex items-center">
                         <i class="fa-solid fa-clock-rotate-left mr-2 text-rose-500"></i> 5 Riwayat Pesanan Terbaru Saya
                     </h2>
-                    <p class="text-xs text-slate-500 mt-0.5">Daftar boneka yang baru saja Anda pesan di Diza's Plushie.</p>
+                    <p class="text-xs text-slate-500 mt-0.5">Daftar pesanan hijab yang baru saja Anda pesan di HijabSociety.</p>
                 </div>
                 <a href="{{ route('sales.index') }}" class="text-xs font-bold text-rose-600 hover:text-rose-700 inline-flex items-center">
                     Lihat Seluruh Riwayat Pesanan <i class="fa-solid fa-arrow-right ml-1"></i>
@@ -435,7 +435,7 @@
                         <div class="flex flex-wrap items-center gap-2 text-xs">
                             @foreach($order->items as $it)
                                 <span class="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-700 font-medium border border-slate-200">
-                                    {{ $it->product->name ?? 'Boneka' }} &times; <strong>{{ $it->quantity }}</strong>
+                                    {{ $it->product->name ?? 'Hijab' }} &times; <strong>{{ $it->quantity }}</strong>
                                 </span>
                             @endforeach
                         </div>
@@ -454,7 +454,7 @@
                     <div class="p-8 text-center text-slate-400">
                         <i class="fa-solid fa-basket-shopping text-4xl mb-3 text-slate-300"></i>
                         <p class="text-sm font-semibold">Anda belum memiliki riwayat pesanan.</p>
-                        <p class="text-xs text-slate-400 mt-1">Jelajahi koleksi boneka kami dan buat pesanan pertama Anda!</p>
+                        <p class="text-xs text-slate-400 mt-1">Jelajahi koleksi hijab kami dan buat pesanan pertama Anda!</p>
                     </div>
                 @endforelse
             </div>
@@ -465,9 +465,9 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h2 class="text-lg font-extrabold text-slate-900 flex items-center">
-                        <i class="fa-solid fa-heart mr-2 text-pink-500"></i> Rekomendasi Boneka Tersedia &bull; Diza's Plushie
+                        <i class="fa-solid fa-heart mr-2 text-pink-500"></i> Rekomendasi Hijab Pilihan &bull; HijabSociety
                     </h2>
-                    <p class="text-xs text-slate-500">Pilihan boneka lucu dan empuk berstandar kualitas terbaik yang siap dipesan.</p>
+                    <p class="text-xs text-slate-500">Pilihan hijab cantik, nyaman, dan anggun berstandar kualitas terbaik yang siap dipesan.</p>
                 </div>
                 <div class="flex items-center space-x-3">
                     <a href="{{ route('products.catalog') }}" class="text-xs font-bold text-pink-600 hover:text-pink-700 inline-flex items-center">
@@ -482,13 +482,13 @@
                         <div>
                             <!-- Real Plushie Photo -->
                             <div class="w-full h-52 rounded-2xl overflow-hidden mb-3 relative group-hover:scale-[1.02] transition-transform duration-200 bg-slate-100 border border-pink-100">
-                                <img src="{{ asset($item->image_url ?? 'images/plushies/teddy-bear-pita.jpg') }}" 
+                                <img src="{{ asset($item->image_url ?? 'images/hijab/pashmina-ceruty.svg') }}" 
                                      alt="{{ $item->name }}" 
                                      class="object-cover object-center w-full h-52 rounded-2xl">
                                 
                                 <div class="absolute top-2 left-2">
                                     <span class="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-white/90 text-pink-600 border border-pink-200 shadow-xs">
-                                        {{ $item->category->name ?? 'Boneka' }}
+                                        {{ $item->category->name ?? 'Hijab' }}
                                     </span>
                                 </div>
                                 <div class="absolute top-2 right-2">
@@ -500,7 +500,7 @@
 
                             <h3 class="font-extrabold text-slate-900 text-base line-clamp-1 group-hover:text-pink-600 transition-colors">{{ $item->name }}</h3>
                             <p class="text-xs text-slate-500 mt-1">Ukuran: <strong class="text-slate-700">{{ $item->size ?? 'Standar' }}</strong></p>
-                            <p class="text-xs text-slate-400 line-clamp-1">Bahan: {{ $item->material ?? 'Kain Plush Halus' }}</p>
+                            <p class="text-xs text-slate-400 line-clamp-1">Bahan: {{ $item->material ?? 'Ceruty / Voal Premium' }}</p>
                         </div>
                         <div class="mt-4 pt-3 border-t border-pink-50 flex items-center justify-between">
                             <div>
@@ -511,7 +511,7 @@
                                 <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-200">
                                     Stok: {{ $item->stock }}
                                 </span>
-                                <a href="{{ route('sales.create', ['product_id' => $item->id]) }}" class="px-3 py-1.5 rounded-xl bg-pink-500 hover:bg-pink-600 text-white text-xs font-bold shadow-sm transition-all flex items-center" title="Pesan boneka ini">
+                                <a href="{{ route('sales.create', ['product_id' => $item->id]) }}" class="px-3 py-1.5 rounded-xl bg-pink-500 hover:bg-pink-600 text-white text-xs font-bold shadow-sm transition-all flex items-center" title="Pesan hijab ini">
                                     <i class="fa-solid fa-cart-shopping mr-1"></i> Pesan
                                 </a>
                             </div>

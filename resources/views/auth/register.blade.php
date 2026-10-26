@@ -7,8 +7,8 @@
             <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 mb-4 shadow-sm">
                 <i class="fa-solid fa-user-plus text-xl"></i>
             </div>
-            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Daftar Akun Pembeli Diza's Plushie</h1>
-            <p class="text-slate-500 text-sm mt-1">Buat akun customer untuk mulai memesan boneka dan melihat riwayat belanja Anda.</p>
+            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Daftar Akun Pembeli HijabSociety</h1>
+            <p class="text-slate-500 text-sm mt-1">Buat akun customer untuk mulai memesan koleksi hijab dan melihat riwayat belanja Anda.</p>
         </div>
 
         <form action="{{ route('register') }}" method="POST" class="space-y-5">
@@ -101,7 +101,7 @@
                     Alamat Lengkap Pengiriman
                 </label>
                 <textarea name="address" id="address" rows="3"
-                    placeholder="Alamat rumah atau alamat pengiriman boneka..."
+                    placeholder="Alamat rumah atau alamat pengiriman pesanan hijab..."
                     class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-plush-500 focus:border-plush-500 text-sm transition-all bg-slate-50/50 hover:bg-white focus:bg-white">{{ old('address') }}</textarea>
             </div>
 

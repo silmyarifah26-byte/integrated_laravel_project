@@ -14,28 +14,28 @@ class SupplierSeeder extends Seeder
     {
         $suppliers = [
             [
-                'name' => 'PT Kreasi Boneka Nusantara (Bandung)',
+                'name' => 'PT Hijab Mandiri Tekstil (Bandung)',
                 'phone' => '022-7654321',
-                'email' => 'order@kreasiboneka.co.id',
-                'address' => 'Kawasan Industri Cimahi Selatan Kav. 12, Bandung, Jawa Barat',
+                'email' => 'order@hijabmandiri.co.id',
+                'address' => 'Kawasan Industri Tekstil Majalaya Kav. 18, Bandung, Jawa Barat',
             ],
             [
-                'name' => 'CV Cikampek Plushie Mandiri',
-                'phone' => '0267-891234',
-                'email' => 'sales@cikampekplushie.com',
-                'address' => 'Jl. Raya Cikampek No. 45, Karawang, Jawa Barat',
-            ],
-            [
-                'name' => 'Grosir Boneka Impor Surabaya',
-                'phone' => '031-5432198',
-                'email' => 'import@bonekasby.com',
-                'address' => 'Komplek Pergudangan Margomulyo Permai Blok B-8, Surabaya, Jawa Timur',
-            ],
-            [
-                'name' => 'Rumah Produksi Yelvo Lembut Jakarta',
+                'name' => 'CV Ceruty Silk Indonesia',
                 'phone' => '021-5876543',
-                'email' => 'halo@yelvolembut.id',
-                'address' => 'Jl. Kamal Muara Indah III No. 20, Penjaringan, Jakarta Utara',
+                'email' => 'sales@cerutysilk.com',
+                'address' => 'Pusat Grosir Tanah Abang Blok A Lt. 3 No. 45, Jakarta Pusat',
+            ],
+            [
+                'name' => 'Galeri Konveksi Voal Utama Surabaya',
+                'phone' => '031-5432198',
+                'email' => 'supply@voalutama.co.id',
+                'address' => 'Komplek Pergudangan Rungkut Industri Blok E-12, Surabaya, Jawa Timur',
+            ],
+            [
+                'name' => 'Pusat Aksesoris Muslimah Solo',
+                'phone' => '0271-891234',
+                'email' => 'halo@aksesorishijab.id',
+                'address' => 'Jl. Slamet Riyadi No. 120, Surakarta, Jawa Tengah',
             ],
         ];
 

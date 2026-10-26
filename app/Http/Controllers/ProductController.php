@@ -107,9 +107,9 @@ class ProductController extends Controller
             'stock' => ['nullable', 'integer', 'min:0'],
             'minimum_stock' => ['required', 'integer', 'min:0'],
         ], [
-            'sku.required' => 'SKU boneka wajib diisi.',
+            'sku.required' => 'SKU hijab wajib diisi.',
             'sku.unique' => 'SKU ini sudah terdaftar.',
-            'name.required' => 'Nama produk boneka wajib diisi.',
+            'name.required' => 'Nama produk hijab wajib diisi.',
             'category_id.required' => 'Kategori wajib dipilih.',
             'category_id.exists' => 'Kategori yang dipilih tidak valid.',
             'purchase_price.required' => 'Harga beli/modal wajib diisi.',
@@ -122,19 +122,19 @@ class ProductController extends Controller
         if ($request->hasFile('image_file') && $request->file('image_file')->isValid()) {
             $file = $request->file('image_file');
             $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/plushies'), $filename);
-            $validated['image_url'] = '/images/plushies/' . $filename;
+            $file->move(public_path('images/hijab'), $filename);
+            $validated['image_url'] = '/images/hijab/' . $filename;
         }
 
         $validated['stock'] = $validated['stock'] ?? 0;
         if (empty($validated['image_url'])) {
-            $validated['image_url'] = '/images/plushies/teddy-bear-pita.jpg';
+            $validated['image_url'] = '/images/hijab/pashmina-ceruty.svg';
         }
 
         Product::create($validated);
 
         return redirect()->route('products.index')
-            ->with('success', "Produk boneka '{$validated['name']}' ({$validated['sku']}) berhasil ditambahkan.");
+            ->with('success', "produk hijab '{$validated['name']}' ({$validated['sku']}) berhasil ditambahkan.");
     }
 
     /**
@@ -177,9 +177,9 @@ class ProductController extends Controller
             'selling_price' => ['required', 'numeric', 'min:0'],
             'minimum_stock' => ['required', 'integer', 'min:0'],
         ], [
-            'sku.required' => 'SKU boneka wajib diisi.',
+            'sku.required' => 'SKU hijab wajib diisi.',
             'sku.unique' => 'SKU ini sudah digunakan produk lain.',
-            'name.required' => 'Nama produk boneka wajib diisi.',
+            'name.required' => 'Nama produk hijab wajib diisi.',
             'category_id.required' => 'Kategori wajib dipilih.',
             'purchase_price.required' => 'Harga beli wajib diisi.',
             'selling_price.required' => 'Harga jual wajib diisi.',
@@ -191,18 +191,18 @@ class ProductController extends Controller
         if ($request->hasFile('image_file') && $request->file('image_file')->isValid()) {
             $file = $request->file('image_file');
             $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/plushies'), $filename);
-            $validated['image_url'] = '/images/plushies/' . $filename;
+            $file->move(public_path('images/hijab'), $filename);
+            $validated['image_url'] = '/images/hijab/' . $filename;
         }
 
         if (empty($validated['image_url'])) {
-            $validated['image_url'] = $product->image_url ?: '/images/plushies/teddy-bear-pita.jpg';
+            $validated['image_url'] = $product->image_url ?: '/images/hijab/pashmina-ceruty.svg';
         }
 
         $product->update($validated);
 
         return redirect()->route('products.index')
-            ->with('success', "Data produk boneka '{$product->name}' berhasil diperbarui.");
+            ->with('success', "Data produk hijab '{$product->name}' berhasil diperbarui.");
     }
 
     /**
@@ -219,10 +219,10 @@ class ProductController extends Controller
 
         if ($hasTransactions) {
             return redirect()->route('products.index')
-                ->with('success', "Produk boneka '{$name}' telah dinonaktifkan (soft delete) karena memiliki riwayat transaksi, sehingga integritas data laporan keuangan tetap terjaga.");
+                ->with('success', "produk hijab '{$name}' telah dinonaktifkan (soft delete) karena memiliki riwayat transaksi, sehingga integritas data laporan keuangan tetap terjaga.");
         }
 
         return redirect()->route('products.index')
-            ->with('success', "Produk boneka '{$name}' berhasil dihapus.");
+            ->with('success', "produk hijab '{$name}' berhasil dihapus.");
     }
 }

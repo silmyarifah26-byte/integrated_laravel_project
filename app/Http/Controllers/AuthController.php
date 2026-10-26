@@ -105,7 +105,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             return redirect()->intended(route('dashboard'))
-                ->with('success', "Halo {$user->name}! 💕 Selamat datang di Diza's Plushie, silakan jelajahi koleksi boneka gemas kami!");
+                ->with('success', "Halo {$user->name}! 💕 Selamat datang di HijabSociety, silakan jelajahi koleksi hijab cantik kami!");
         }
 
         // 2. Standard Password Login Flow (Staff, Admin, or Automated Tests without portal_role)
@@ -170,7 +170,7 @@ class AuthController extends Controller
             }
 
             return redirect()->intended(route('dashboard'))
-                ->with('success', "Selamat datang di Diza's Plushie, {$user->name}! Silakan jelajahi koleksi boneka kami.");
+                ->with('success', "Selamat datang di HijabSociety, {$user->name}! Silakan jelajahi koleksi hijab kami.");
         }
 
         return back()->withErrors([
@@ -223,7 +223,7 @@ class AuthController extends Controller
         $request->session()->regenerate();
 
         return redirect()->route('dashboard')
-            ->with('success', "Pendaftaran berhasil! Selamat datang di Diza's Plushie, {$user->name}.");
+            ->with('success', "Pendaftaran berhasil! Selamat datang di HijabSociety, {$user->name}.");
     }
 
     /**
@@ -237,6 +237,6 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login')
-            ->with('success', "Anda telah berhasil keluar (logout) dari sistem Diza's Plushie.");
+            ->with('success', "Anda telah berhasil keluar (logout) dari sistem HijabSociety.");
     }
 }

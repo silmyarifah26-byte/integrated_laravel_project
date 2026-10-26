@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => "Portal Staff Toko - Diza's Plushie"])
+@extends('layouts.app', ['title' => "Portal Staff Toko - HijabSociety"])
 
 @section('content')
 <div class="max-w-md mx-auto py-8 sm:py-12 px-4">
@@ -37,7 +37,7 @@
                         </span>
                         <input type="email" name="email" id="email" required autofocus
                             value="{{ old('email') }}"
-                            placeholder="staff@dizasplushie.com"
+                            placeholder="staff@hijabsociety.com"
                             class="w-full pl-11 pr-4 py-3 rounded-2xl border border-emerald-200 text-sm transition-all bg-emerald-50/30 hover:bg-white focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 font-medium">
                     </div>
                 </div>
@@ -86,7 +86,7 @@
 
     <!-- Security Note & Discreet Portal Links for Evaluator / Testing -->
     <div class="mt-8 text-center text-xs text-slate-400 font-medium">
-        <p>🌿 Portal Internal Staf &bull; Diza's Plushie Store</p>
+        <p>🌿 Portal Internal Staf &bull; HijabSociety</p>
         <div class="mt-3 text-[11px] text-slate-400/50 flex items-center justify-center space-x-3">
             <span>Akses Pengujian Dosen:</span>
             <a href="{{ route('login') }}" class="text-slate-400/70 hover:text-rose-500 transition-colors">Portal Pelanggan</a>

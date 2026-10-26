@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Tambah Kategori Boneka'])
+@extends('layouts.app', ['title' => 'Tambah Kategori Hijab'])
 
 @section('content')
 <div class="max-w-xl mx-auto py-4">
@@ -11,7 +11,7 @@
     <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
         <div class="mb-6">
             <h1 class="text-xl font-extrabold text-slate-900">Tambah Kategori Baru</h1>
-            <p class="text-xs text-slate-500 mt-1">Buat nama kategori baru untuk mengorganisasi produk boneka.</p>
+            <p class="text-xs text-slate-500 mt-1">Buat nama kategori baru untuk mengorganisasi koleksi hijab.</p>
         </div>
 
         <form action="{{ route('categories.store') }}" method="POST" class="space-y-5">
@@ -24,7 +24,7 @@
                 </label>
                 <input type="text" name="name" id="name" required autofocus
                     value="{{ old('name') }}"
-                    placeholder="Contoh: Boneka Wisuda & Buket"
+                    placeholder="Contoh: Pashmina Cantik"
                     class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-plush-500 focus:border-plush-500 text-sm bg-slate-50/50 hover:bg-white focus:bg-white transition-all">
                 @error('name')
                     <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>
@@ -37,7 +37,7 @@
                     Deskripsi Kategori (Opsional)
                 </label>
                 <textarea name="description" id="description" rows="3"
-                    placeholder="Penjelasan singkat mengenai kategori boneka ini..."
+                    placeholder="Penjelasan singkat mengenai Kategori Hijab ini..."
                     class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-plush-500 focus:border-plush-500 text-sm bg-slate-50/50 hover:bg-white focus:bg-white transition-all">{{ old('description') }}</textarea>
                 @error('description')
                     <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>

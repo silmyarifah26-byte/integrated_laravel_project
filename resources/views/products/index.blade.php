@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Manajemen Data Produk Boneka'])
+@extends('layouts.app', ['title' => 'Manajemen Data Produk Hijab'])
 
 @section('content')
 <div class="space-y-6">
@@ -10,7 +10,7 @@
                 <span class="w-8 h-8 rounded-lg bg-plush-100 text-plush-600 flex items-center justify-center text-sm">
                     <i class="fa-solid fa-boxes-stacked"></i>
                 </span>
-                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Master Produk Boneka</h1>
+                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Master Produk Hijab</h1>
             </div>
             <p class="text-slate-500 text-xs sm:text-sm mt-1">Data inventori boneka, penentuan harga beli (modal), harga jual, dan kontrol stok minimum.</p>
         </div>
@@ -18,7 +18,7 @@
         <div class="flex items-center space-x-2">
             @if(auth()->user()->isAdmin())
                 <a href="{{ route('products.create') }}" class="inline-flex items-center px-4 py-2.5 rounded-xl bg-plush-600 hover:bg-plush-700 text-white font-bold text-sm shadow-sm transition-all duration-200">
-                    <i class="fa-solid fa-plus mr-1.5"></i> Tambah Boneka Baru
+                    <i class="fa-solid fa-plus mr-1.5"></i> Tambah Hijab Baru
                 </a>
             @else
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">
@@ -75,7 +75,7 @@
         </form>
 
         <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-            <span>Menampilkan <strong>{{ $products->count() }}</strong> dari total <strong>{{ $products->total() }}</strong> produk boneka</span>
+            <span>Menampilkan <strong>{{ $products->count() }}</strong> dari total <strong>{{ $products->total() }}</strong> Produk Hijab</span>
             @if($lowStock === '1')
                 <span class="text-rose-600 font-bold bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
                     <i class="fa-solid fa-filter mr-1"></i> Mode Filter Low Stock Aktif
@@ -91,7 +91,7 @@
                 <thead class="bg-slate-50 text-xs uppercase font-extrabold text-slate-500 border-b border-slate-200">
                     <tr>
                         <th class="px-6 py-4 w-12 text-center">No</th>
-                        <th class="px-6 py-4">SKU & Boneka</th>
+                        <th class="px-6 py-4">SKU & Hijab</th>
                         <th class="px-6 py-4">Kategori</th>
                         <th class="px-6 py-4">Spesifikasi</th>
                         <th class="px-6 py-4 text-right">Harga Beli</th>
@@ -108,7 +108,7 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
-                                    <img src="{{ asset($prod->image_url ?? 'images/plushies/teddy-bear-pita.jpg') }}" 
+                                    <img src="{{ asset($prod->image_url ?? 'images/hijab/pashmina-ceruty.svg') }}" 
                                          alt="{{ $prod->name }}" 
                                          class="w-14 h-14 object-cover object-center rounded-2xl border border-pink-100 flex-shrink-0 shadow-xs">
                                     <div>
@@ -145,7 +145,7 @@
                                         <span class="text-[10px] text-rose-500 font-bold mt-0.5">Min: {{ $prod->minimum_stock }} (Kritis)</span>
                                         <a href="{{ route('purchases.create', ['product_id' => $prod->id]) }}" 
                                            class="mt-1 px-2 py-0.5 rounded-lg text-[10px] font-black bg-blue-100 hover:bg-blue-200 text-blue-800 border border-blue-300 inline-flex items-center transition-colors shadow-2xs" 
-                                           title="Restock Boneka Ini">
+                                           title="Restock Hijab Ini">
                                             <i class="fa-solid fa-cart-plus mr-1"></i> Restock
                                         </a>
                                     </div>
@@ -185,7 +185,7 @@
                         <tr>
                             <td colspan="8" class="px-6 py-12 text-center text-slate-400">
                                 <i class="fa-solid fa-boxes-stacked text-4xl mb-2 text-slate-300"></i>
-                                <p class="font-semibold">Tidak ada produk boneka yang sesuai dengan kriteria.</p>
+                                <p class="font-semibold">Tidak ada Produk Hijab yang sesuai dengan kriteria.</p>
                                 @if($search || $categoryId || $lowStock)
                                     <p class="text-xs text-slate-400 mt-1">Coba sesuaikan filter atau bersihkan kotak pencarian.</p>
                                 @endif

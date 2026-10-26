@@ -14,24 +14,24 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Teddy Bear Classic',
-                'description' => 'Koleksi beruang teddy klasik berbagai ukuran, berbulu lembut dan cocok untuk kado romantis maupun koleksi premium.',
+                'name' => 'Pashmina Cantik',
+                'description' => 'Koleksi pashmina modern berbahan ceruty, shimmer silk, dan kaos modal yang flowy serta mudah dikreasikan.',
             ],
             [
-                'name' => 'Boneka Karakter Hewan',
-                'description' => 'Boneka karakter fauna menggemaskan seperti panda, kelinci, kucing, rubah, dan hewan lainnya.',
+                'name' => 'Segi Empat (Square)',
+                'description' => 'Hijab segi empat voal ultrafine, paris premium, dan voal motif eksklusif yang tegak di dahi dan nyaman seharian.',
             ],
             [
-                'name' => 'Plushie Anime & K-Pop',
-                'description' => 'Koleksi boneka plushie chibi edisi khusus bertema anime jepang dan idol grup pop terfavorit.',
+                'name' => 'Bergo & Hijab Instan',
+                'description' => 'Hijab instan praktis dan bergo daily wear berbahan jersey adem untuk aktivitas harian, rumah, dan olahraga.',
             ],
             [
-                'name' => 'Boneka Wisuda & Buket',
-                'description' => 'Boneka beruang ber-toga wisuda lengkap dengan selempang custom serta buket mini boneka kelulusan.',
+                'name' => 'Khimar & Syar\'i Series',
+                'description' => 'Koleksi khimar syar\'i 2 layer dan French Khimar berpotongan anggun, panjang, dan menutup aurat dengan sempurna.',
             ],
             [
-                'name' => 'Bantal Boneka (Plush Pillow)',
-                'description' => 'Bantal multifungsi empuk berbentuk karakter boneka untuk relaksasi leher, sofa, maupun traveling.',
+                'name' => 'Inner & Aksesoris Hijab',
+                'description' => 'Ciput ninja anti-pusing, bandana rajut stretch, scrunchie bervolume, dan tuspin mutiara pelengkap gaya hijab.',
             ],
         ];
 

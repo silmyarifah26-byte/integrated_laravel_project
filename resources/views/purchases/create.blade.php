@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Catat Pembelian Boneka (Stock-In)'])
+@extends('layouts.app', ['title' => 'Catat Pengadaan Hijab (Stock-In)'])
 
 @section('content')
 <div class="max-w-5xl mx-auto py-4 space-y-6">
@@ -11,8 +11,8 @@
     <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
         <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
             <div>
-                <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Form Pembelian Boneka (Stock-In)</h1>
-                <p class="text-xs text-slate-500 mt-1">Catat pengadaan multi-item boneka dari pabrik/supplier untuk menambah saldo stok fisik secara otomatis.</p>
+                <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Form Pengadaan Hijab (Stock-In)</h1>
+                <p class="text-xs text-slate-500 mt-1">Catat pengadaan multi-item hijab & tekstil dari pabrik/supplier untuk menambah saldo stok fisik secara otomatis.</p>
             </div>
             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-300">
                 <i class="fa-solid fa-boxes-packing mr-1.5"></i> Stock-In Otomatis
@@ -27,7 +27,7 @@
                     </span>
                     <div>
                         <h2 class="font-extrabold text-sm text-amber-900">
-                            Mode Restock Cepat: Boneka {{ $selectedProduct->name }} telah dipilih otomatis untuk penambahan stok.
+                            Mode Restock Cepat: Produk {{ $selectedProduct->name }} telah dipilih otomatis untuk penambahan stok.
                         </h2>
                         <p class="text-xs text-amber-700 mt-0.5">
                             Stok Saat Ini: <strong>{{ $selectedProduct->stock }} pcs</strong> &bull; Batas Minimum: <strong>{{ $selectedProduct->minimum_stock }} pcs</strong> &bull; Estimasi Harga Beli: <strong>Rp {{ number_format($selectedProduct->purchase_price, 0, ',', '.') }}</strong>
@@ -48,7 +48,7 @@
                 <!-- Supplier Selection -->
                 <div class="sm:col-span-6">
                     <label for="supplier_id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                        Pemasok / Pabrik Boneka <span class="text-rose-500">*</span>
+                        Pemasok Tekstil / Produsen Hijab <span class="text-rose-500">*</span>
                     </label>
                     <select name="supplier_id" id="supplier_id" required
                         class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white font-medium">
@@ -84,7 +84,7 @@
                     </label>
                     <input type="text" name="notes" id="notes"
                         value="{{ old('notes') }}"
-                        placeholder="Contoh: Pengadaan batch boneka teddy bear untuk musim liburan akhir tahun..."
+                        placeholder="Contoh: Pengadaan batch bahan ceruty babydoll & voal ultrafine..."
                         class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
                     @error('notes')
                         <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>
@@ -97,13 +97,13 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-base font-extrabold text-slate-900 flex items-center">
-                            <i class="fa-solid fa-list-check text-blue-600 mr-2"></i> Daftar Boneka yang Dibeli (Multi-Item)
+                            <i class="fa-solid fa-list-check text-blue-600 mr-2"></i> Daftar Hijab yang Dibeli (Multi-Item)
                         </h2>
-                        <p class="text-xs text-slate-500">Pilih boneka, tentukan kuantitas masuk, dan verifikasi harga beli per unit.</p>
+                        <p class="text-xs text-slate-500">Pilih produk hijab, tentukan kuantitas masuk, dan verifikasi harga beli per unit.</p>
                     </div>
 
                     <button type="button" id="addRowBtn" class="inline-flex items-center px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition-colors">
-                        <i class="fa-solid fa-plus mr-1.5"></i> Tambah Baris Boneka
+                        <i class="fa-solid fa-plus mr-1.5"></i> Tambah Baris Hijab
                     </button>
                 </div>
 
@@ -119,7 +119,7 @@
                         <table class="w-full text-left text-xs sm:text-sm text-slate-600" id="itemsTable">
                             <thead class="bg-slate-50 text-[11px] uppercase font-extrabold text-slate-500 border-b border-slate-200">
                                 <tr>
-                                    <th class="px-4 py-3 w-7/12 sm:w-5/12">Pilih Produk Boneka</th>
+                                    <th class="px-4 py-3 w-7/12 sm:w-5/12">Pilih Produk Hijab</th>
                                     <th class="px-3 py-3 w-2/12 sm:w-2/12 text-center">Stok Saat Ini</th>
                                     <th class="px-3 py-3 w-2/12 sm:w-2/12 text-center">Jumlah Masuk</th>
                                     <th class="px-3 py-3 w-3/12 sm:w-3/12 text-right">Harga Beli Satuan (Rp)</th>
@@ -153,7 +153,7 @@
                 </a>
                 <button type="submit" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-sm shadow-md transition-all flex items-center space-x-2">
                     <i class="fa-solid fa-check"></i>
-                    <span>Simpan & Tambah Stok Boneka</span>
+                    <span>Simpan & Tambah Stok Hijab</span>
                 </button>
             </div>
         </form>
@@ -177,7 +177,7 @@
         const quantity = item ? item.quantity : 1;
         const unitCost = item ? item.unit_cost : 0;
 
-        let optionsHtml = '<option value="">-- Pilih Boneka --</option>';
+        let optionsHtml = '<option value="">-- Pilih Produk Hijab --</option>';
         productsData.forEach(p => {
             const isSelected = selectedProductId == p.id ? 'selected' : '';
             optionsHtml += `<option value="${p.id}" data-cost="${p.purchase_price}" data-stock="${p.stock}" data-sku="${p.sku}" data-size="${p.size || ''}" ${isSelected}>
@@ -241,7 +241,7 @@
         removeBtn.addEventListener('click', () => {
             const allRows = document.querySelectorAll('.item-row');
             if (allRows.length <= 1) {
-                alert('Minimal harus ada 1 baris boneka dalam transaksi.');
+                alert('Minimal harus ada 1 baris produk hijab dalam transaksi.');
                 return;
             }
             tr.remove();

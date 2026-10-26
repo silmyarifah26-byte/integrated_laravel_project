@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => "Masuk Pelanggan - Diza's Plushie"])
+@extends('layouts.app', ['title' => "Masuk Pelanggan - HijabSociety"])
 
 @section('content')
 <div class="max-w-md mx-auto py-8 sm:py-12 px-4">
@@ -10,11 +10,11 @@
         <div class="p-6 sm:p-8 border-b border-pink-100/60 bg-gradient-to-br from-pink-50 via-rose-50/40 to-white text-slate-800">
             <!-- Title & Subtitle -->
             <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900">
-                Masuk Pelanggan Diza's Plushie
+                Masuk Pelanggan HijabSociety
             </h1>
 
             <p class="text-xs sm:text-sm mt-1.5 text-slate-500 font-medium">
-                Belanja boneka favoritmu dan pantau pesanan dengan mudah tanpa perlu mengingat kata sandi.
+                Belanja hijab cantik favoritmu dan pantau pesanan dengan mudah tanpa perlu mengingat kata sandi.
             </p>
         </div>
 
@@ -89,7 +89,7 @@
 
     <!-- Security Note & Discreet Portal Links for Evaluator / Testing -->
     <div class="mt-8 text-center text-xs text-slate-400 font-medium">
-        <p>🌸 Diza's Plushie Store &bull; Sistem Inventori & Kasir Boneka Cantik</p>
+        <p>🌸 HijabSociety Store &bull; Sistem Inventaris & Penjualan Hijab Modern & Syar'i</p>
         <div class="mt-3 text-[11px] text-slate-400/50 flex items-center justify-center space-x-3">
             <span>Akses Pengujian Dosen:</span>
             <a href="{{ route('login.staff') }}" class="text-slate-400/70 hover:text-emerald-600 transition-colors">Portal Staff Toko</a>

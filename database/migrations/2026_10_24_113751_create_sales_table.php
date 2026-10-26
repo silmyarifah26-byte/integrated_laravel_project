@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('sale_number')->unique()->index();
             $table->decimal('total', 15, 2)->default(0);
             $table->string('status', 20)->default('completed')->index();
+            $table->string('payment_method', 50)->default('QRIS');
+            $table->string('payment_status', 30)->default('paid');
             $table->text('notes')->nullable();
             $table->dateTime('sold_at')->index();
             $table->timestamps();

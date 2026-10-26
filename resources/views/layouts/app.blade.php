@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? 'Dashboard' }} - {{ config('app.name', "Diza's Plushie") }}</title>
+    <title>{{ $title ?? 'Dashboard' }} - {{ config('app.name', 'HijabSociety') }}</title>
 
     <!-- Google Fonts: Plus Jakarta Sans & Quicksand -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,11 +65,11 @@
             <div class="flex items-center justify-between h-16">
                 <!-- Brand Logo -->
                 <div class="flex items-center space-x-3">
-                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 text-rose-500 font-extrabold text-xl tracking-tight group">
-                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-2xl bg-pink-100 text-rose-500 group-hover:scale-105 transition-transform duration-200 shadow-sm">
-                            <i class="fa-solid fa-paw text-xl"></i>
+                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-2.5 text-rose-600 font-extrabold text-xl tracking-tight group">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-2xl bg-pink-100 text-rose-600 group-hover:scale-105 transition-transform duration-200 shadow-sm">
+                            <i class="fa-solid fa-ribbon text-xl"></i>
                         </span>
-                        <span class="font-black">Diza's <span class="text-slate-800">Plushie</span></span>
+                        <span class="font-black">Hijab<span class="text-slate-800">Society</span></span>
                     </a>
                 </div>
 
@@ -83,7 +83,7 @@
                     @if(auth()->user()->isAdmin() || auth()->user()->isStaff())
                         <!-- Admin & Staff Navigation -->
                         <a href="{{ route('products.index') }}" class="px-3 py-2 rounded-xl text-sm font-bold transition-colors {{ request()->routeIs('products.*') ? 'bg-pink-100/70 text-rose-700' : 'text-slate-600 hover:text-rose-600 hover:bg-pink-50/50' }}">
-                            <i class="fa-solid fa-boxes-stacked mr-1.5 text-xs"></i> Koleksi Boneka
+                            <i class="fa-solid fa-boxes-stacked mr-1.5 text-xs"></i> Koleksi Hijab
                         </a>
                         <a href="{{ route('categories.index') }}" class="px-3 py-2 rounded-xl text-sm font-bold transition-colors {{ request()->routeIs('categories.*') ? 'bg-pink-100/70 text-rose-700' : 'text-slate-600 hover:text-rose-600 hover:bg-pink-50/50' }}">
                             <i class="fa-solid fa-tags mr-1.5 text-xs"></i> Kategori
@@ -106,13 +106,13 @@
                     @else
                         <!-- Customer Navigation -->
                         <a href="{{ route('products.catalog') }}" class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors {{ request()->routeIs('products.catalog') ? 'bg-pink-100/80 text-rose-700' : 'text-slate-600 hover:text-rose-600 hover:bg-pink-50/50' }}">
-                            <i class="fa-solid fa-store mr-1.5 text-xs"></i> Katalog Boneka
+                            <i class="fa-solid fa-store mr-1.5 text-xs"></i> Katalog Hijab
                         </a>
                         <a href="{{ route('sales.index') }}" class="px-3.5 py-2 rounded-xl text-sm font-bold transition-colors {{ request()->routeIs('sales.*') ? 'bg-emerald-100/80 text-emerald-800' : 'text-slate-600 hover:text-emerald-700 hover:bg-emerald-50/50' }}">
                             <i class="fa-solid fa-bag-shopping mr-1.5 text-xs"></i> Riwayat Pesanan Saya
                         </a>
                         <a href="{{ route('sales.create') }}" class="px-3.5 py-2 rounded-xl text-sm font-bold bg-rose-500 hover:bg-rose-600 text-white shadow-sm transition-all">
-                            <i class="fa-solid fa-cart-plus mr-1.5 text-xs"></i> Pesan Boneka
+                            <i class="fa-solid fa-cart-plus mr-1.5 text-xs"></i> Pesan Hijab
                         </a>
                     @endif
                 </nav>
@@ -212,9 +212,9 @@
     <footer class="mt-auto border-t border-pink-100 bg-white py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
             <div class="flex items-center space-x-2">
-                <span class="font-black text-rose-500">Diza's Plushie</span>
+                <span class="font-black text-rose-600">HijabSociety</span>
                 <span>&bull;</span>
-                <span>Sistem Manajemen Inventori & Penjualan Boneka Pastel</span>
+                <span>Sistem Manajemen Inventaris & Penjualan Hijab Modern & Syar'i</span>
             </div>
             <div>
                 <span>Tugas UTS Web Programming 2 &copy; {{ date('Y') }}</span>

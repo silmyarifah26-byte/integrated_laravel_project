@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => "Portal Administrator - Diza's Plushie"])
+@extends('layouts.app', ['title' => "Portal Administrator - HijabSociety"])
 
 @section('content')
 <div class="max-w-md mx-auto py-8 sm:py-12 px-4">
@@ -37,7 +37,7 @@
                         </span>
                         <input type="email" name="email" id="email" required autofocus
                             value="{{ old('email') }}"
-                            placeholder="admin@dizasplushie.com"
+                            placeholder="admin@hijabsociety.com"
                             class="w-full pl-11 pr-4 py-3 rounded-2xl border border-purple-200 text-sm transition-all bg-purple-50/30 hover:bg-white focus:bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500 font-medium">
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                 <!-- Authorization Notice -->
                 <div class="pt-4 border-t border-purple-100 text-center text-xs text-slate-500 flex items-center justify-center space-x-2 font-medium">
                     <i class="fa-solid fa-lock text-purple-500 text-sm"></i>
-                    <span>Akses terbatas Pemilik & Administrator Diza's Plushie dengan otorisasi penuh server-side.</span>
+                    <span>Akses terbatas Pemilik & Administrator HijabSociety dengan otorisasi penuh server-side.</span>
                 </div>
             </form>
         </div>
@@ -86,7 +86,7 @@
 
     <!-- Security Note & Discreet Portal Links for Evaluator / Testing -->
     <div class="mt-8 text-center text-xs text-slate-400 font-medium">
-        <p>👑 Portal Manajemen Administrator &bull; Diza's Plushie Store</p>
+        <p>👑 Portal Manajemen Administrator &bull; HijabSociety</p>
         <div class="mt-3 text-[11px] text-slate-400/50 flex items-center justify-center space-x-3">
             <span>Akses Pengujian Dosen:</span>
             <a href="{{ route('login') }}" class="text-slate-400/70 hover:text-rose-500 transition-colors">Portal Pelanggan</a>

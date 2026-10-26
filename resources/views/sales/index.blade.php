@@ -15,7 +15,7 @@
                 </h1>
             </div>
             <p class="text-slate-500 text-xs sm:text-sm mt-1">
-                {{ $user->isCustomer() ? "Daftar transaksi pembelian boneka Anda di Diza's Plushie beserta status pembayaran dan faktur belanja." : 'Pencatatan kasir toko dan alur stock-out pengurangan stok fisik boneka.' }}
+                {{ $user->isCustomer() ? "Daftar transaksi pembelian hijab Anda di HijabSociety beserta status pembayaran dan faktur belanja." : 'Pencatatan kasir toko dan alur stock-out pengurangan stok fisik hijab.' }}
             </p>
         </div>
 
@@ -177,7 +177,7 @@
                                     </a>
 
                                     @if(auth()->user()->isAdmin() && $sale->status === 'completed')
-                                        <form action="{{ route('sales.cancel', $sale) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin MEMBATALKAN penjualan {{ $sale->sale_number }}? Stok boneka akan dikembalikan ke inventori secara otomatis.');">
+                                        <form action="{{ route('sales.cancel', $sale) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin MEMBATALKAN penjualan {{ $sale->sale_number }}? Stok hijab akan dikembalikan ke inventori secara otomatis.');">
                                             @csrf
                                             <button type="submit" class="p-2 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition-colors" title="Batalkan Penjualan">
                                                 <i class="fa-solid fa-ban text-xs"></i>
