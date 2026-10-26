@@ -85,6 +85,8 @@ class ProductController extends Controller
      */
     public function create(): View
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak menambah produk hijab.');
+
         $categories = Category::orderBy('name', 'asc')->get();
         return view('products.create', compact('categories'));
     }
@@ -94,6 +96,8 @@ class ProductController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak menambah produk hijab.');
+
         $validated = $request->validate([
             'sku' => ['required', 'string', 'max:50', 'unique:products,sku'],
             'name' => ['required', 'string', 'max:150'],
@@ -162,6 +166,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product): View
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengubah produk hijab.');
+
         $categories = Category::orderBy('name', 'asc')->get();
         return view('products.edit', compact('product', 'categories'));
     }
@@ -171,6 +177,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengubah produk hijab.');
+
         $validated = $request->validate([
             'sku' => [
                 'required',
@@ -231,6 +239,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak menghapus produk hijab.');
+
         $hasTransactions = $product->purchaseItems()->exists() || $product->saleItems()->exists();
         $name = $product->name;
 

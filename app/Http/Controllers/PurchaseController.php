@@ -22,6 +22,8 @@ class PurchaseController extends Controller
      */
     public function index(Request $request): View
     {
+        abort_if(! Auth::check() || (! Auth::user()->isAdmin() && ! Auth::user()->isStaff()), 403, 'Akses Ditolak: Hanya Admin dan Staff yang berhak mengakses transaksi pengadaan barang.');
+
         $search = $request->query('search');
         $supplierId = $request->query('supplier_id');
         $status = $request->query('status');
@@ -61,6 +63,8 @@ class PurchaseController extends Controller
      */
     public function create(Request $request): View
     {
+        abort_if(! Auth::check() || (! Auth::user()->isAdmin() && ! Auth::user()->isStaff()), 403, 'Akses Ditolak: Hanya Admin dan Staff yang berhak mengakses transaksi pengadaan barang.');
+
         $suppliers = Supplier::orderBy('name', 'asc')->get();
         $products = Product::orderBy('name', 'asc')->get(['id', 'sku', 'name', 'size', 'purchase_price', 'stock', 'minimum_stock']);
         $selectedProductId = $request->query('product_id');
@@ -74,6 +78,8 @@ class PurchaseController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        abort_if(! Auth::check() || (! Auth::user()->isAdmin() && ! Auth::user()->isStaff()), 403, 'Akses Ditolak: Hanya Admin dan Staff yang berhak mengakses transaksi pengadaan barang.');
+
         $validated = $request->validate([
             'supplier_id' => ['required', 'exists:suppliers,id'],
             'purchased_at' => ['required', 'date'],
@@ -81,7 +87,7 @@ class PurchaseController extends Controller
             'items' => ['required', 'array', 'min:1'],
             'items.*.product_id' => ['required', 'distinct', 'exists:products,id'],
             'items.*.quantity' => ['required', 'integer', 'min:1'],
-            'items.*.unit_cost' => ['required', 'numeric', 'min:0'],
+            'items.*.unit_cost' => ['nullable', 'numeric', 'min:0'],
         ], [
             'supplier_id.required' => 'Pemasok / produsen hijab wajib dipilih.',
             'supplier_id.exists' => 'Pemasok yang dipilih tidak valid.',
@@ -132,7 +138,10 @@ class PurchaseController extends Controller
                 $product = Product::lockForUpdate()->findOrFail($itemData['product_id']);
 
                 $qty = (int) $itemData['quantity'];
-                $unitCost = (float) $itemData['unit_cost'];
+                // Pull purchase price directly from database if unit_cost is not provided or <= 0
+                $unitCost = (isset($itemData['unit_cost']) && is_numeric($itemData['unit_cost']) && (float) $itemData['unit_cost'] > 0)
+                    ? (float) $itemData['unit_cost']
+                    : (float) $product->purchase_price;
                 $subtotal = $qty * $unitCost;
 
                 // Save Purchase Item
@@ -166,6 +175,8 @@ class PurchaseController extends Controller
      */
     public function show(Purchase $purchase): View
     {
+        abort_if(! Auth::check() || (! Auth::user()->isAdmin() && ! Auth::user()->isStaff()), 403, 'Akses Ditolak: Hanya Admin dan Staff yang berhak melihat nota pengadaan barang.');
+
         $purchase->load(['supplier', 'user', 'items.product.category']);
         return view('purchases.show', compact('purchase'));
     }

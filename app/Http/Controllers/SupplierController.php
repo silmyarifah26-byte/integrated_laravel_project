@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Supplier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class SupplierController extends Controller
@@ -14,6 +15,8 @@ class SupplierController extends Controller
      */
     public function index(Request $request): View
     {
+        abort_if(! Auth::check() || (! Auth::user()->isAdmin() && ! Auth::user()->isStaff()), 403, 'Akses Ditolak: Hanya Admin dan Staff yang berhak melihat data pemasok.');
+
         $search = $request->query('search');
 
         $suppliers = Supplier::withCount('purchases')
@@ -35,6 +38,8 @@ class SupplierController extends Controller
      */
     public function create(): View
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak menambah pemasok.');
+
         return view('suppliers.create');
     }
 
@@ -43,6 +48,8 @@ class SupplierController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak menambah pemasok.');
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:150'],
             'phone' => ['required', 'string', 'max:30'],
@@ -65,6 +72,8 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengelola data pemasok.');
+
         return redirect()->route('suppliers.edit', $supplier);
     }
 
@@ -73,6 +82,8 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier): View
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengubah data pemasok.');
+
         return view('suppliers.edit', compact('supplier'));
     }
 
@@ -81,6 +92,8 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengubah data pemasok.');
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:150'],
             'phone' => ['required', 'string', 'max:30'],
@@ -103,6 +116,8 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak menghapus data pemasok.');
+
         if ($supplier->purchases()->exists()) {
             $count = $supplier->purchases()->count();
             return back()->with('error', "Pemasok '{$supplier->name}' tidak dapat dihapus karena sudah memiliki riwayat {$count} transaksi pembelian (Stock-In).");

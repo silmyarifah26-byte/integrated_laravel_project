@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -15,6 +16,8 @@ class CategoryController extends Controller
      */
     public function index(Request $request): View
     {
+        abort_if(! Auth::check() || (! Auth::user()->isAdmin() && ! Auth::user()->isStaff()), 403, 'Akses Ditolak: Hanya Admin dan Staff yang berhak melihat data kategori.');
+
         $search = $request->query('search');
 
         $categories = Category::withCount('products')
@@ -34,6 +37,8 @@ class CategoryController extends Controller
      */
     public function create(): View
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak menambah kategori.');
+
         return view('categories.create');
     }
 
@@ -42,6 +47,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak menambah kategori.');
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:100', 'unique:categories,name'],
             'description' => ['nullable', 'string', 'max:500'],
@@ -62,6 +69,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengelola kategori.');
+
         return redirect()->route('categories.edit', $category);
     }
 
@@ -70,6 +79,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category): View
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengubah kategori.');
+
         return view('categories.edit', compact('category'));
     }
 
@@ -78,6 +89,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengubah kategori.');
+
         $validated = $request->validate([
             'name' => [
                 'required',
@@ -103,6 +116,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak menghapus kategori.');
+
         if ($category->products()->exists()) {
             $count = $category->products()->count();
             return back()->with('error', "Kategori '{$category->name}' tidak dapat dihapus karena masih memuat {$count} produk hijab terkait. Hapus atau pindahkan produk terlebih dahulu.");

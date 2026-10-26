@@ -17,6 +17,8 @@ class UserManagementController extends Controller
      */
     public function index(Request $request): View
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengelola data pengguna sistem.');
+
         $search = $request->query('search');
         $role = $request->query('role');
 
@@ -43,6 +45,8 @@ class UserManagementController extends Controller
      */
     public function create(): View
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengelola data pengguna sistem.');
+
         return view('users.create');
     }
 
@@ -51,6 +55,8 @@ class UserManagementController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengelola data pengguna sistem.');
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:150'],
             'email' => ['required', 'string', 'email', 'max:150', 'unique:users,email'],
@@ -92,6 +98,8 @@ class UserManagementController extends Controller
      */
     public function show(User $user): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengelola data pengguna sistem.');
+
         return redirect()->route('users.edit', $user);
     }
 
@@ -100,6 +108,8 @@ class UserManagementController extends Controller
      */
     public function edit(User $user): View
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengelola data pengguna sistem.');
+
         return view('users.edit', compact('user'));
     }
 
@@ -108,6 +118,8 @@ class UserManagementController extends Controller
      */
     public function update(Request $request, User $user): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengelola data pengguna sistem.');
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:150'],
             'email' => [
@@ -151,6 +163,8 @@ class UserManagementController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
+        abort_if(! Auth::check() || ! Auth::user()->isAdmin(), 403, 'Akses Ditolak: Hanya Administrator yang berhak mengelola data pengguna sistem.');
+
         // 1. Prevent Admin from deleting their own active account
         if ($user->id === Auth::id()) {
             return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri yang sedang aktif digunakan.');

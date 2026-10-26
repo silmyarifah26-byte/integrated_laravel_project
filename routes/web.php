@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
 
     // Products View (All authenticated users can view, controller renders appropriate view)
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-    Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+    Route::get('/products/{product}', [ProductController::class, 'show'])->whereNumber('product')->name('products.show');
 
     // Shopping Cart & Variation Selection Routes
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -93,8 +93,9 @@ Route::middleware('auth')->group(function () {
         Route::put('/suppliers/{supplier}', [SupplierController::class, 'update'])->name('suppliers.update');
         Route::delete('/suppliers/{supplier}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 
-        // Products Mutation
-        Route::get('/products-create/create', [ProductController::class, 'create'])->name('products.create');
+        // Products Mutation (Strictly Admin Only)
+        Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+        Route::get('/products-create/create', [ProductController::class, 'create']); // Backwards-compatible alias
         Route::post('/products', [ProductController::class, 'store'])->name('products.store');
         Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
         Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
