@@ -26,39 +26,39 @@ class SaleTest extends TestCase
         parent::setUp();
 
         $this->admin = User::create([
-            'name' => 'Admin Test',
-            'email' => 'admin@bonekaku.test',
+            'name' => 'Admin HijabSociety',
+            'email' => 'admin@hijabsociety.test',
             'password' => Hash::make('password123'),
             'role' => 'admin',
         ]);
 
         $this->staff = User::create([
-            'name' => 'Staff Test',
-            'email' => 'staff@bonekaku.test',
+            'name' => 'Staff Kasir Hijab',
+            'email' => 'staff@hijabsociety.test',
             'password' => Hash::make('password123'),
             'role' => 'staff',
         ]);
 
         $this->customer1 = User::create([
             'name' => 'Nadia Customer',
-            'email' => 'nadia@bonekaku.test',
+            'email' => 'nadia@hijabsociety.test',
             'password' => Hash::make('password123'),
             'role' => 'customer',
         ]);
 
         $this->customer2 = User::create([
             'name' => 'Rizky Customer',
-            'email' => 'rizky@bonekaku.test',
+            'email' => 'rizky@hijabsociety.test',
             'password' => Hash::make('password123'),
             'role' => 'customer',
         ]);
 
-        $category = Category::create(['name' => 'Teddy Bear']);
+        $category = Category::create(['name' => 'Pashmina & Segi Empat Voal']);
 
         $this->product1 = Product::create([
             'category_id' => $category->id,
-            'sku' => 'BNK-S1-001',
-            'name' => 'Teddy Bear Cream',
+            'sku' => 'HJB-PSH-S1',
+            'name' => 'Pashmina Ceruty Baby Doll Sage Green',
             'purchase_price' => 50000,
             'selling_price' => 90000,
             'stock' => 10,
@@ -67,8 +67,8 @@ class SaleTest extends TestCase
 
         $this->product2 = Product::create([
             'category_id' => $category->id,
-            'sku' => 'BNK-S2-002',
-            'name' => 'Panda Lucu',
+            'sku' => 'HJB-VOAL-S2',
+            'name' => 'Segi Empat Voal Ultrafine Dusty Pink',
             'purchase_price' => 45000,
             'selling_price' => 75000,
             'stock' => 4,
@@ -97,7 +97,7 @@ class SaleTest extends TestCase
                     'quantity' => 2, // 2 * 90000 = 180,000
                 ],
             ],
-            'notes' => 'Pesanan boneka saya',
+            'notes' => 'Pesanan hijab cantik saya',
         ]);
 
         $response->assertRedirect();
@@ -251,5 +251,65 @@ class SaleTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Keranjang Hijab yang Dibeli');
         $response->assertSee($this->product1->name);
+    }
+
+    /**
+     * Requirement: Ambil harga jual langsung dari database, bukan mempercayai input browser.
+     */
+    public function test_server_enforces_selling_price_from_database_ignoring_browser_input(): void
+    {
+        // Malicious browser payload attempts to buy a 90,000 hijab for 100 rupiah
+        $response = $this->actingAs($this->customer1)->post('/sales', [
+            'items' => [
+                [
+                    'product_id' => $this->product1->id,
+                    'quantity' => 2,
+                    'unit_price' => 100, // Spoofed / hacked price from client
+                ],
+            ],
+        ]);
+
+        $response->assertRedirect();
+        $sale = Sale::latest()->first();
+
+        // Server MUST use DB selling_price (90,000 * 2 = 180,000), not the spoofed 100
+        $this->assertEquals(180000, $sale->total);
+        $item = $sale->items->first();
+        $this->assertEquals(90000, $item->unit_price);
+        $this->assertEquals(180000, $item->subtotal);
+    }
+
+    /**
+     * Requirement: Jika kuantitas kurang dari 1, tolak transaksi dengan pesan error.
+     */
+    public function test_reject_sale_when_quantity_is_less_than_one(): void
+    {
+        $initialStock = $this->product1->stock;
+
+        // 1. Quantity 0
+        $resZero = $this->actingAs($this->customer1)->post('/sales', [
+            'items' => [
+                [
+                    'product_id' => $this->product1->id,
+                    'quantity' => 0,
+                ],
+            ],
+        ]);
+        $resZero->assertSessionHasErrors('items.0.quantity');
+
+        // 2. Quantity negative
+        $resNegative = $this->actingAs($this->customer1)->post('/sales', [
+            'items' => [
+                [
+                    'product_id' => $this->product1->id,
+                    'quantity' => -3,
+                ],
+            ],
+        ]);
+        $resNegative->assertSessionHasErrors('items.0.quantity');
+
+        // Verify stock is untouched
+        $this->assertEquals($initialStock, $this->product1->fresh()->stock);
+        $this->assertEquals(0, Sale::count());
     }
 }

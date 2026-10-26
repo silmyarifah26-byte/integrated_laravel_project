@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => $user->isCustomer() ? "Buat Pesanan Boneka - HijabSociety" : "Form Penjualan Kasir - HijabSociety"])
+@extends('layouts.app', ['title' => $user->isCustomer() ? "Buat Pesanan Hijab - HijabSociety" : "Form Penjualan Kasir - HijabSociety"])
 
 @section('content')
 <div class="max-w-5xl mx-auto py-4 space-y-6">
@@ -227,7 +227,7 @@
         const tr = document.createElement('tr');
         tr.className = 'item-row hover:bg-pink-50/20 transition-colors';
 
-        let optionsHtml = '<option value="">-- Pilih Koleksi Boneka --</option>';
+        let optionsHtml = '<option value="">-- Pilih Koleksi Hijab --</option>';
         availableProducts.forEach(p => {
             const isSelected = String(p.id) === String(selectedProductId) ? 'selected' : '';
             const imgPath = p.image_asset_url || (p.image_url ? ("{{ asset('') }}" + p.image_url.replace(/^\//, '')) : defaultHijabImg);

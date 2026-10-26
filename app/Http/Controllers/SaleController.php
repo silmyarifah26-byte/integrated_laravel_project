@@ -81,7 +81,7 @@ class SaleController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        // Load doll products with stock > 0
+        // Load hijab products with stock > 0
         $products = Product::with('category')
             ->where('stock', '>', 0)
             ->orderBy('name', 'asc')
